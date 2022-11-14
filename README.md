@@ -1,6 +1,6 @@
 <div style="display: grid; place-items: center;">
 
-[![logo](public/favicon.png)](/)
+[![logo](public/favicon.png)](https://github.com/alanrsoares/wallet-keeper)
 
 # Wallet Keeper
 
