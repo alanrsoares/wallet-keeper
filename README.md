@@ -1,4 +1,4 @@
-<center>
+<div style="display: grid; place-items: center;">
 
 ![logo](public/favicon.png)
 
@@ -6,7 +6,7 @@
 
 A minimalistic web3 wallet built for educational purposes
 
-</center>
+</div>
 
 ## Getting Started
 
