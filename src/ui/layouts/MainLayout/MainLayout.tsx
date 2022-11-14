@@ -10,7 +10,9 @@ const MainLayout = ({ children }: Props) => {
     <div className="min-h-screen flex flex-col gap-4">
       <Header />
       <WalletKeeperProvider>
-        <main className="flex-1 container-4xl mx-auto">{children}</main>
+        <main className="flex-1 container-4xl mx-auto px-2 lg:px-0">
+          {children}
+        </main>
       </WalletKeeperProvider>
       <Footer />
     </div>

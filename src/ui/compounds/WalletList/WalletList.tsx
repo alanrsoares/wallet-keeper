@@ -22,7 +22,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   if (!walletCount) {
     return (
       <>
-        <div className="p-8 w-full grid place-items-center gap-4 xl:gap-8 group text-white/60">
+        <div className="p-8 w-full grid place-items-center gap-4 xl:gap-8 group text-white/60 text-center">
           <div className="font-display text-2xl xl:text-4xl">
             Oh noes, no wallet yet?
           </div>
