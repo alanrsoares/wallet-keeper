@@ -73,7 +73,7 @@ const WalletDetails = (props: Props) => {
               </Tooltip>
             </div>
           </div>
-          <CopyToClipboard className="flex badge font-mono">
+          <CopyToClipboard className="flex badge font-mono" content={address}>
             {maskAddress(address)}
           </CopyToClipboard>
         </div>
