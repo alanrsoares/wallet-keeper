@@ -2,7 +2,11 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 const Document = () => (
   <Html>
-    <Head>
+    <Head lang="en">
+      <meta
+        name="description"
+        content="Walletkeeper, your secure wallet manager"
+      />
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       <link rel="icon" type="image/png" href="/favicon.png" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />

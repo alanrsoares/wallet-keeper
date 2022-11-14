@@ -95,6 +95,7 @@ const GenerateWallet: FC<Props> = (props) => {
         shape="circle"
         size="sm"
         className="absolute top-4 right-4"
+        aria-label="Close"
         onClick={handleReset}
       >
         <XMarkIcon className="h-4 w-4" />
