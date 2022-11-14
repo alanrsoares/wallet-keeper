@@ -19,17 +19,20 @@ export const NETWORKS = {
 
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
 
+export type AccountEntry = {
+  address: string;
+  encryptedJson: string;
+  displayName: string;
+}
+
+
 export type WalletKeeperState = {
   /**
    * Accounts, indexed by address
    */
   accountsByAddress: Record<
     string,
-    {
-      encryptedJson: string;
-      address: string;
-      displayName: string;
-    }
+    AccountEntry
   >;
   /**
    * Selected network

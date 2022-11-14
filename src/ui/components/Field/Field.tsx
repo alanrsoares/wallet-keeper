@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Alert from "../Alert";
 import Input from "../Input";
 
 type Props = {
@@ -7,6 +8,10 @@ type Props = {
   name: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  validation?: {
+    message: string;
+    status: "error" | "warning" | "info" | "success";
+  };
 };
 
 const Field: FC<Props> = (props) => (
@@ -19,6 +24,14 @@ const Field: FC<Props> = (props) => (
       placeholder={props.label}
       onChange={props.onChange}
     />
+    {props.validation && (
+      <Alert variant={props.validation.status} className="mt-1">
+        <span className="font-bold mr-2">
+          {props.validation.status === "error" ? "Error:" : "Warning:"}
+        </span>
+        {props.validation.message}
+      </Alert>
+    )}
   </label>
 );
 

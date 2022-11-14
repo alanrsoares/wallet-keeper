@@ -5,39 +5,20 @@ import { FC, useCallback, useMemo, useState } from "react";
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
-import Input from "~/ui/components/Input";
-
-const Field: FC<{
-  label?: string;
-  type?: "text" | "password";
-  name: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}> = (props) => {
-  return (
-    <div className="">
-      <label className="grid gap-2">
-        <span className="opacity-80">{props.label}</span>
-        <Input
-          type={props.type}
-          name={props.name}
-          value={props.value}
-          placeholder={props.label}
-          onChange={props.onChange}
-        />
-      </label>
-    </div>
-  );
-};
+import Field from "~/ui/components/Field";
 
 type Props = {
   className?: string;
 };
 
-const GenerateWallet = (props: Props) => {
+const GenerateWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
-  const [isExpanded, setIsExpanded] = useState(false);
 
+  const defaultExpanded = useMemo(() => {
+    return !Object.keys(walletKeeper.state.accountsByAddress).length;
+  }, [walletKeeper.state.accountsByAddress]);
+
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -61,46 +42,47 @@ const GenerateWallet = (props: Props) => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const formData = new FormData(event.currentTarget);
-
       await createWallet({
-        displayName: formData.get("displayName") as string,
-        password: formData.get("password") as string,
+        displayName,
+        password,
         onProgress: setProgress,
       });
     },
     []
   );
 
-  const validationMessage = useMemo(() => {
+  const validationError = useMemo(() => {
     if (displayName.length === 0) {
-      return "Display name is required";
+      return { message: "Display name is required", field: "displayName" };
     }
 
     if (displayName.length < 3) {
-      return "Display name must be at least 3 characters";
+      return { message: "Display name is too short", field: "displayName" };
     }
 
     if (displayName.length > 32) {
-      return "Display name is too long";
+      return { message: "Display name is too long", field: "displayName" };
     }
 
     if (password !== passwordConfirm) {
-      return "Passwords do not match";
+      return { message: "Passwords do not match", field: "passwordConfirm" };
     }
 
     if (password.length < 8) {
-      return "Password must be at least 8 characters";
+      return { message: "Password is too short", field: "password" };
     }
 
     return null;
-  }, [password, passwordConfirm]);
+  }, [displayName, password, passwordConfirm]);
 
-  const isValid = !validationMessage;
+  const isValid = !validationError;
 
   if (!isExpanded) {
     return (
-      <Button onClick={() => setIsExpanded(true)}>
+      <Button
+        onClick={() => setIsExpanded(true)}
+        data-testid="generate-wallet-button-collapsed"
+      >
         <PlusIcon className="w-4 h-4 mr-2" />
         Generate new wallet
       </Button>
@@ -124,12 +106,20 @@ const GenerateWallet = (props: Props) => {
             {(error as Error).message}
           </Alert>
         )}
-        <h2>Generate new wallet</h2>
+        <h2 className="card-title">Generate new wallet</h2>
         <Field
           label="Display Name"
           name="displayName"
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
+          validation={
+            validationError?.field === "displayName"
+              ? {
+                  message: validationError.message,
+                  status: "error",
+                }
+              : undefined
+          }
         />
         <Field
           label="Password"
@@ -137,6 +127,14 @@ const GenerateWallet = (props: Props) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          validation={
+            validationError?.field === "password"
+              ? {
+                  message: validationError.message,
+                  status: "error",
+                }
+              : undefined
+          }
         />
         <Field
           label="Confirm Password"
@@ -144,16 +142,24 @@ const GenerateWallet = (props: Props) => {
           type="password"
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
+          validation={
+            validationError?.field === "passwordConfirm"
+              ? {
+                  message: validationError.message,
+                  status: "error",
+                }
+              : undefined
+          }
         />
         <Button
-          data-test-id="generate-wallet-button"
+          data-testid="generate-wallet-button-expanded"
           variant="primary"
           disabled={!isValid}
           loading={isLoading}
           progress={progress}
           type="submit"
         >
-          {isLoading ? "Generating wallet..." : "Generate wallet"}
+          {isLoading ? "Generating wallet..." : "Generate new wallet"}
         </Button>
       </form>
     </section>
