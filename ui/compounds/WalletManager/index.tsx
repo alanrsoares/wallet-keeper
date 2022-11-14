@@ -11,3 +11,12 @@ const WalletManager = (props: Props) => {
 };
 
 export default WalletManager;
+
+export function useWalletManager() {
+  return {
+    wallets: [],
+    createWallet: () => {},
+    deleteWallet: () => {},
+    importWallet: () => {},
+  };
+}
