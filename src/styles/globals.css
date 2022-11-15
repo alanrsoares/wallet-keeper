@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .container-4xl {
+    @apply container mx-auto max-w-4xl;
+  }
+}
