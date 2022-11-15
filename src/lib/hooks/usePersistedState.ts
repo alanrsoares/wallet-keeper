@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { Maybe } from "~/lib/monads";
+
 export default function usePersistedState<T extends NonNullable<any>>(
   /**
    * @param key - The key to use for local storage
@@ -13,7 +15,7 @@ export default function usePersistedState<T extends NonNullable<any>>(
   const [state, setState] = useState<T>(() => {
     const stored = localStorage.getItem(key);
 
-    return stored ? JSON.parse(stored) : initialState;
+    return Maybe.of(stored).mapOr(initialState, (stored) => JSON.parse(stored));
   });
 
   useEffect(() => {
