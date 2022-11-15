@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        cursiva: ["Architects Daughter", "cursive"],
         sans: ["'Nunito Sans'", "sans-serif"],
+        cursive: ["Architects Daughter", "cursive"],
       },
     },
   },
