@@ -3,7 +3,7 @@
  *
  * Loosely based on https://github.com/patrickmichalina/typescript-monads/blob/master/src/maybe/maybe.ts
  */
-export class Maybe<T> {
+export default class Maybe<T> {
   private _value: T | undefined | null;
 
   private _isNone = false;
