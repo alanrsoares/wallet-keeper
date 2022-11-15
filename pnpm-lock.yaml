@@ -34,6 +34,7 @@ specifiers:
   tailwindcss: ^3.2.4
   tsconfig-paths-webpack-plugin: ^4.0.0
   typescript: 4.8.4
+  unstated-next: ^1.1.0
   wagmi: ^0.8.3
 
 dependencies:
@@ -47,6 +48,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   typescript: 4.8.4
+  unstated-next: 1.1.0
 
 devDependencies:
   '@babel/core': 7.20.2
@@ -12562,6 +12564,10 @@ packages:
       has-value: 0.3.1
       isobject: 3.0.1
     dev: true
+
+  /unstated-next/1.1.0:
+    resolution: {integrity: sha512-AAn47ZncPvgBGOvMcn8tSRxsrqwf2VdAPxLASTuLJvZt4rhKfDvUkmYZLGfclImSfTVMv7tF4ynaVxin0JjDCA==}
+    dev: false
 
   /untildify/2.1.0:
     resolution: {integrity: sha512-sJjbDp2GodvkB0FZZcn7k6afVisqX5BZD7Yq3xp4nN2O15BBK0cLm3Vwn2vQaF7UDS0UUsrQMkkplmDI5fskig==}
