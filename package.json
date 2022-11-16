@@ -13,6 +13,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@ethersproject/json-wallets": "^5.7.0",
+    "@ethersproject/wallet": "^5.7.0",
     "@heroicons/react": "^2.0.13",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
