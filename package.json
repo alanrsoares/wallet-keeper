@@ -15,6 +15,7 @@
   "dependencies": {
     "@ethersproject/json-wallets": "^5.7.0",
     "@ethersproject/networks": "^5.7.1",
+    "@ethersproject/providers": "^5.7.2",
     "@ethersproject/wallet": "^5.7.0",
     "@heroicons/react": "^2.0.13",
     "@types/node": "18.11.9",

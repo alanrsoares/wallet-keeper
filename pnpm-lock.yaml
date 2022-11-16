@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.20.2
   '@ethersproject/json-wallets': ^5.7.0
   '@ethersproject/networks': ^5.7.1
+  '@ethersproject/providers': ^5.7.2
   '@ethersproject/wallet': ^5.7.0
   '@headlessui/react': ^1.7.4
   '@heroicons/react': ^2.0.13
@@ -45,6 +46,7 @@ specifiers:
 dependencies:
   '@ethersproject/json-wallets': 5.7.0
   '@ethersproject/networks': 5.7.1
+  '@ethersproject/providers': 5.7.2
   '@ethersproject/wallet': 5.7.0
   '@heroicons/react': 2.0.13_react@18.2.0
   '@types/node': 18.11.9
@@ -1826,7 +1828,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: true
 
   /@ethersproject/random/5.7.0:
     resolution: {integrity: sha512-19WjScqRA8IIeWclFme75VMXSBvi4e6InrUNuaR4s5pTF2qNhcGdCUwdxUVGtDDqC00sDLCO93jPQoDUH4HVmQ==}
@@ -4976,7 +4977,6 @@ packages:
 
   /bech32/1.1.4:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
-    dev: true
 
   /better-opn/2.1.1:
     resolution: {integrity: sha512-kIPXZS5qwyKiX/HcRvDYfmBQUa8XP17I0mYZZ0y4UhpYOSvtsLHDYqmomS+Mj20aDvD3knEiQ0ecQy2nhio3yA==}
@@ -12620,7 +12620,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /ws/8.11.0:
     resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
