@@ -8,9 +8,6 @@ A minimalistic web3 wallet built for educational purposes
 
 </div>
 
-This is a Nextjs 13 application, routes are located under [`/src/app`](/src/app/).
-For more information, check out the [docs](https://nextjs.org/blog/next-13#new-app-directory-beta).
-
 ## Getting Started
 
 1. Clone this repo
@@ -49,10 +46,12 @@ pnpm lint
 
 ## Built with
 
-- [Next](https://nextjs.org) - Nextjs 13 for 100 lighthouse score
-- [ethers](https://ethers.io) - ethereum sdk
-- [tailwindcss](https://tailwindcss.com) - utility first css library
+- [ethers](https://ethers.io) - Ethereum sdk
+- [nextjs](https://nextjs.org) - Nextjs 13 for 100 lighthouse score
 - [react-query](https://tanstack.com/query) - query / mutation / cache abstraction
+- [tailwindcss](https://tailwindcss.com) - utility first css library
+- [daisyui](https://daisyui.com/) - tailwindcss component & theming primitives
+- [unstated-next](https://github.com/jamiebuilds/unstated-next) - Tiny wrapper around `react context` for shared state.
 
 ---
 
