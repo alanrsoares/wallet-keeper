@@ -4,7 +4,6 @@ import { getDefaultProvider, type Provider } from "@ethersproject/providers";
 import { formatEther } from "@ethersproject/units";
 import { Wallet } from "@ethersproject/wallet";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { assocPath } from "rambda";
 import { useMemo } from "react";
 import { createContainer } from "unstated-next";
 
@@ -78,13 +77,16 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
               input.onProgress
             );
 
-            setState(
-              assocPath(["accountsByAddress", wallet.address], {
-                encryptedJson,
-                address: wallet.address,
-                displayName: input.displayName,
-              })
-            );
+            setState((state) => ({
+              ...state,
+              accountsByAddress: {
+                ...state.accountsByAddress,
+                [wallet.address]: {
+                  address: wallet.address,
+                  encryptedJson,
+                  displayName: input.displayName,
+                },
+            }}));
 
             return wallet;
           }

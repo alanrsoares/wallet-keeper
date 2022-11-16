@@ -4,7 +4,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
@@ -14,9 +14,18 @@ import WalletDetails from "../WalletDetails";
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
   const walletKeeper = useWalletKeeper();
+
+  const walletCount = useMemo(
+    () => Object.keys(walletKeeper.state.accountsByAddress).length,
+    [walletKeeper.state.accountsByAddress]
+  );
+
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const walletCount = Object.keys(walletKeeper.state.accountsByAddress).length;
+  useEffect(() => {
+    // wallet list should be expanded by default if there are wallets
+    setIsExpanded(walletCount > 0 && walletCount < 10);
+  }, [walletCount]);
 
   if (!walletCount) {
     return (
