@@ -1,4 +1,4 @@
-import { PlusIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { FC, useCallback, useMemo, useState } from "react";
 
@@ -44,7 +44,7 @@ const GenerateWallet = (props: Props) => {
   const [progress, setProgress] = useState(0);
 
   const {
-    mutate: createWallet,
+    mutateAsync: createWallet,
     isLoading,
     error,
   } = walletKeeper.mutations.createWallet();
@@ -58,12 +58,12 @@ const GenerateWallet = (props: Props) => {
   }, []);
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       const formData = new FormData(event.currentTarget);
 
-      createWallet({
+      await createWallet({
         displayName: formData.get("displayName") as string,
         password: formData.get("password") as string,
         onProgress: setProgress,
