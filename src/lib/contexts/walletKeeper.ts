@@ -38,14 +38,18 @@ export type WalletKeeperState = {
   selectedNetwork?: Networkish
 };
 
+const DEFAULT_STATE: WalletKeeperState = {
+  accountsByAddress: {},
+  selectedNetwork: NETWORKS.goerli,
+};
+
 const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
-  createContainer(() => {
+  createContainer((
+    initialState: WalletKeeperState = DEFAULT_STATE
+  ) => {
     const [state, setState] = usePersistedState<WalletKeeperState>(
       STORAGE_KEY,
-      {
-        selectedNetwork: NETWORKS.goerli,
-        accountsByAddress: {},
-      }
+      initialState
     );
 
     const mutations = {
