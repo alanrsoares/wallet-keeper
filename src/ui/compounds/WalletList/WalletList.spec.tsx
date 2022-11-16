@@ -17,7 +17,7 @@ describe("WalletList", () => {
       </QueryClientProvider>
     );
 
-    // get button by test-id
+    // basic render test
     expect(container).toMatchSnapshot();
   });
 });
