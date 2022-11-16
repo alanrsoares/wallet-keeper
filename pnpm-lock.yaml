@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.20.2
   '@ethersproject/json-wallets': ^5.7.0
+  '@ethersproject/networks': ^5.7.1
   '@ethersproject/wallet': ^5.7.0
   '@headlessui/react': ^1.7.4
   '@heroicons/react': ^2.0.13
@@ -43,6 +44,7 @@ specifiers:
 
 dependencies:
   '@ethersproject/json-wallets': 5.7.0
+  '@ethersproject/networks': 5.7.1
   '@ethersproject/wallet': 5.7.0
   '@heroicons/react': 2.0.13_react@18.2.0
   '@types/node': 18.11.9
