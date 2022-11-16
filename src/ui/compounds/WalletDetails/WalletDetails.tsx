@@ -40,13 +40,6 @@ const WalletDetails = (props: Props) => {
 
   const account = walletKeeper.state.accountsByAddress[props.address];
 
-  const handleReset = useCallback(() => {
-    setProgress(0);
-    setAction(null);
-    setPassword("");
-    setMnemonic("");
-  }, []);
-
   const handleUnlock = useCallback(async () => {
     const wallet = await unlockWallet({
       address,
@@ -64,14 +57,6 @@ const WalletDetails = (props: Props) => {
       setTooltip(TOOLTIPS.copyAddress);
     }, 1000);
   }, [props.address]);
-
-  const handleCopyMnemoic = useCallback(() => {
-    navigator.clipboard.writeText(address);
-    setTooltip(TOOLTIPS.copied);
-    setTimeout(() => {
-      setTooltip(TOOLTIPS.copyAddress);
-    }, 1000);
-  }, []);
 
   if (!account) {
     return <div>Wallet not found: {props.address}</div>;
