@@ -4,6 +4,7 @@ import { FC, PropsWithChildren, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
+
 import GenerateWallet from "../GenerateWallet";
 import WalletDetails from "../WalletDetails";
 

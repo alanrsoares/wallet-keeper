@@ -1,0 +1,26 @@
+// Vitest Snapshot v1
+
+exports[`WalletList > should render 1`] = `
+<div>
+  <button
+    class="btn btn-md"
+  >
+    <svg
+      aria-hidden="true"
+      class="w-4 h-4 mr-2"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4.5v15m7.5-7.5h-15"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    Generate new wallet
+  </button>
+</div>
+`;

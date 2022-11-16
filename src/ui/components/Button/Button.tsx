@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
-import tw from "tailwind-styled-components";
 
 import { formatPercentage } from "~/lib/utils";
 
@@ -36,8 +35,6 @@ export type Props = JSX.IntrinsicElements["button"] & {
   progress?: number;
 };
 
-const BaseButton = tw.button`btn`;
-
 const Button = ({
   className,
   children,
@@ -58,8 +55,8 @@ const Button = ({
     );
 
   return (
-    <BaseButton
-      className={clsx(className, {
+    <button
+      className={clsx("btn", className, {
         // variants
         "btn-primary": props.variant === "primary",
         "btn-secondary": props.variant === "secondary",
@@ -87,7 +84,7 @@ const Button = ({
       {...props}
     >
       {content}
-    </BaseButton>
+    </button>
   );
 };
 

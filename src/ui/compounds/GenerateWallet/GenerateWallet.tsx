@@ -146,6 +146,7 @@ const GenerateWallet = (props: Props) => {
           onChange={(e) => setPasswordConfirm(e.target.value)}
         />
         <Button
+          data-test-id="generate-wallet-button"
           variant="primary"
           disabled={!isValid}
           loading={isLoading}
