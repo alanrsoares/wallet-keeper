@@ -21,7 +21,6 @@
     "@types/react-dom": "18.0.9",
     "clsx": "^1.2.1",
     "next": "^13.0.3",
-    "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-jazzicon": "^1.0.4",
@@ -54,7 +53,6 @@
     "tailwind-styled-components": "^2.2.0",
     "tailwindcss": "^3.2.4",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "vitest": "^0.25.2",
-    "wagmi": "^0.8.3"
+    "vitest": "^0.25.2"
   }
 }
