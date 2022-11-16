@@ -15,19 +15,19 @@ A minimalistic web3 wallet built for educational purposes
 
 ## Getting Started  :rocket:
 
-1. Clone this repo 📇
+📇 Clone this repo
 
 ```bash
 git clone git@github.com:alanrsoares/wallet-keeper.git
 ```
 
-2. Install dependencies 🏗️
+🏗️ Install dependencies
 
 ```bash 
 pnpm i
 ```
 
-3. Run it locally 🔨
+🔨 Run it locally
 
 ```bash
 pnpm dev
