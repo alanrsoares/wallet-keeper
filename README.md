@@ -11,6 +11,7 @@ A minimalistic web3 wallet built for educational purposes
 This is a Nextjs 13 application, routes are located under [`/src/app`](/src/app/).
 For more information, check out the [docs](https://nextjs.org/blog/next-13#new-app-directory-beta).
 
+
 ## Getting Started
 
 1. Clone this repo
@@ -30,6 +31,12 @@ pnpm i
 ```bash
 pnpm dev
 ```
+
+...
+
+## Built with
+
+- Nextjs
 
 ---
 
