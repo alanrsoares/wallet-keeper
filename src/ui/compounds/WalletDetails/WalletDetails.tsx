@@ -94,15 +94,18 @@ const WalletDetails = (props: Props) => {
       {isExpanded && (
         <form onSubmit={handleUnlock} className="grid gap-4">
           {Boolean(unlockError) && (
-            <Alert variant="error">{(unlockError as Error).message}</Alert>
+            <Alert variant="error">
+              <span className="font-bold">Error:</span>
+              {(unlockError as Error).message}
+            </Alert>
           )}
 
           {privateKey ? (
             <Alert variant="success">
-              Private Key:
-              <code>
-                <CopyToClipboard>{privateKey}</CopyToClipboard>
-              </code>
+              <span className="font-bold">Private Key:</span>
+              <CopyToClipboard className="text-sm">
+                {privateKey}
+              </CopyToClipboard>
             </Alert>
           ) : (
             <>

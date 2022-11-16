@@ -119,7 +119,10 @@ const GenerateWallet = (props: Props) => {
       </Button>
       <form className="grid gap-4 card-body" onSubmit={handleSubmit}>
         {Boolean(error) && (
-          <Alert variant="error">Error! {(error as Error).message}</Alert>
+          <Alert variant="error">
+            <span className="font-bold">Error:</span>
+            {(error as Error).message}
+          </Alert>
         )}
         <h2>Generate new wallet</h2>
         <Field
