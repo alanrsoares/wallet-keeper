@@ -31,7 +31,7 @@ export type Props = JSX.IntrinsicElements["button"] & {
   shape?: ButtonShape;
 };
 
-const BaseButton = tw.button`border p-4 btn`;
+const BaseButton = tw.button`btn`;
 
 const Button = ({ className, ...props }: Props) => {
   return (
@@ -67,7 +67,6 @@ const Button = ({ className, ...props }: Props) => {
 };
 
 Button.defaultProps = {
-  variant: "primary",
   size: "md",
 };
 

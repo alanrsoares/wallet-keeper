@@ -1,11 +1,9 @@
-import "../styles/globals.css";
-import Footer from "./_components/Footer";
-import Header from "./_components/Header";
+import { Html, Head, Main, NextScript } from "next/document";
 
-export default function RootLayout({ children }: React.PropsWithChildren) {
+export default function Document() {
   return (
-    <html>
-      <head>
+    <Html>
+      <Head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,12 +17,11 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           rel="stylesheet"
         />
         <title>WalletKeeper</title>
-      </head>
-      <body className="min-h-screen flex flex-col md:gap-6 gap-4">
-        <Header />
-        <main className="flex-1 container-4xl mx-auto">{children}</main>
-        <Footer />
+      </Head>
+      <body className="dark antialiased">
+        <Main />
+        <NextScript />
       </body>
-    </html>
+    </Html>
   );
 }

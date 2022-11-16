@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 import { Maybe } from "~/lib/monads";
+import { isFunction } from "~/lib/utils";
 
 export default function usePersistedState<T extends NonNullable<any>>(
   /**
@@ -12,15 +13,31 @@ export default function usePersistedState<T extends NonNullable<any>>(
    */
   initialState: T
 ) {
-  const [state, setState] = useState<T>(() => {
-    const stored = localStorage.getItem(key);
-
-    return Maybe.of(stored).mapOr(initialState, (stored) => JSON.parse(stored));
-  });
+  const [state, _setState] = useState<T>(initialState);
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
-  }, [key, state]);
+    const stored = localStorage.getItem(key);
 
-  return [state, setState];
+    Maybe.of(stored).map((stored) => {
+      const parsed = JSON.parse(stored);
+
+      _setState(parsed);
+    });
+  }, []);
+
+  const setState = (payload: SetStateAction<T>) => {
+    const stored = localStorage.getItem(key);
+
+    const nextState = isFunction(payload) ? payload(state) : payload;
+
+    if (!nextState && stored) {
+      return;
+    }
+
+    localStorage.setItem(key, JSON.stringify(nextState ?? initialState));
+
+    _setState(nextState);
+  };
+
+  return [state, setState] as const;
 }
