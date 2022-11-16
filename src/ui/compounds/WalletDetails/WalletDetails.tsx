@@ -10,18 +10,13 @@ import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
 import Field from "~/ui/components/Field";
-import Tooltip from "~/ui/components/Tooltip";
+import Identicon from "~/ui/components/Identicon";
 
 type Props = {
   address: string;
 };
 
-const TOOLTIPS = {
-  copyAddress: "Copy address to clipboard",
-  copied: "Copied to clipboard!",
-};
-
-type WalletAction = "VIEW_MEMONIC_PHRASE" | "VIEW_QR_CODE" | "COPY_ADDRESS";
+type WalletAction = "VIEW_PRIVATE_KEY" | "VIEW_QR_CODE" | "COPY_ADDRESS";
 
 const WalletDetails = (props: Props) => {
   const walletKeeper = useWalletKeeper();
@@ -31,12 +26,16 @@ const WalletDetails = (props: Props) => {
     error,
   } = walletKeeper.mutations.unlockWallet();
 
+  const { data: balance } = walletKeeper.queries.getBalance({
+    address: props.address,
+    network: "goerli",
+  });
+
   const [progress, setProgress] = useState(0);
 
-  const [tooltip, setTooltip] = useState(TOOLTIPS.copyAddress);
   const [action, setAction] = useState<WalletAction | null>(null);
   const [password, setPassword] = useState("");
-  const [mnemonic, setMnemonic] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
 
   const account = walletKeeper.state.accountsByAddress[props.address];
 
@@ -47,16 +46,8 @@ const WalletDetails = (props: Props) => {
       onProgress: setProgress,
     });
 
-    setMnemonic(wallet.mnemonic.phrase);
+    setPrivateKey(wallet.privateKey);
   }, [props.address, password]);
-
-  const handleCopyAddress = useCallback(() => {
-    navigator.clipboard.writeText(address);
-    setTooltip(TOOLTIPS.copied);
-    setTimeout(() => {
-      setTooltip(TOOLTIPS.copyAddress);
-    }, 1000);
-  }, [props.address]);
 
   if (!account) {
     return <div>Wallet not found: {props.address}</div>;
@@ -66,22 +57,25 @@ const WalletDetails = (props: Props) => {
 
   return (
     <div className="card-body">
-      <div className="card-title justify-between items-center">
-        <h3>
-          {displayName} -{" "}
-          <Tooltip tip={tooltip}>
-            <button className="badge badge-outline" onClick={handleCopyAddress}>
-              {address.slice(0, 6)}...{address.slice(-4)}{" "}
-              <DocumentDuplicateIcon className="h-4 w-4 ml-2" />
-            </button>
-          </Tooltip>
-        </h3>
-        <Button onClick={setAction.bind(null, "VIEW_MEMONIC_PHRASE")}>
+      <div className="card-title grid md:flex justify-between items-center">
+        <div className="flex gap-4 items-center bg-base-300 p-2 px-4 rounded-full">
+          <Identicon address={address} diameter={36} />
+          <div className="grid">
+            <span className="font-semibold font-mono pl-2">{displayName}</span>
+            <div>
+              <CopyToClipboard className="flex badge font-mono">
+                {address.slice(0, 6)}...{address.slice(-4)}
+              </CopyToClipboard>
+            </div>
+            <div className="badge font-mono">{balance} ETH</div>
+          </div>
+        </div>
+        <Button onClick={setAction.bind(null, "VIEW_PRIVATE_KEY")}>
           <EyeIcon className="h-5 w-5 mr-2" />
-          View mnemonic phrase
+          View private key
         </Button>
       </div>
-      {action === "VIEW_MEMONIC_PHRASE" && (
+      {action === "VIEW_PRIVATE_KEY" && (
         <>
           <div className="">
             <Field
@@ -92,9 +86,9 @@ const WalletDetails = (props: Props) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {mnemonic ? (
+          {privateKey ? (
             <Alert variant="success">
-              <CopyToClipboard>{mnemonic}</CopyToClipboard>
+              <CopyToClipboard>{privateKey}</CopyToClipboard>
             </Alert>
           ) : (
             <div className="card-actions">

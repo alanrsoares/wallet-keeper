@@ -9,19 +9,17 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Field: FC<Props> = (props) => {
-  return (
-    <label className="grid gap-2">
-      <span className="opacity-80">{props.label}</span>
-      <Input
-        type={props.type}
-        name={props.name}
-        value={props.value}
-        placeholder={props.label}
-        onChange={props.onChange}
-      />
-    </label>
-  );
-};
+const Field: FC<Props> = (props) => (
+  <label className="grid gap-2">
+    <span className="opacity-80">{props.label}</span>
+    <Input
+      type={props.type}
+      name={props.name}
+      value={props.value}
+      placeholder={props.label}
+      onChange={props.onChange}
+    />
+  </label>
+);
 
 export default Field;

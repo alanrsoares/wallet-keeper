@@ -1,13 +1,23 @@
+import type { ProgressCallback } from "@ethersproject/json-wallets";
+import type { Networkish } from "@ethersproject/networks";
+import { getDefaultProvider, type Provider } from "@ethersproject/providers";
+import { formatEther } from "@ethersproject/units";
 import { Wallet } from "@ethersproject/wallet";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { assocPath } from "rambda";
 import { useMemo } from "react";
 import { createContainer } from "unstated-next";
-import type { ProgressCallback } from "@ethersproject/json-wallets";
 
 import usePersistedState from "~/lib/hooks/usePersistedState";
 
 export const STORAGE_KEY = "@walletkeeper/state/v1";
+
+export const NETWORKS = {
+  mainnet: "homestead",
+  ropsten: "ropsten",
+}
+
+const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
 
 export type WalletKeeperState = {
   /**
@@ -90,6 +100,23 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
         ),
     };
 
+    const queries = {
+      getBalance: (input: { address: string; provider?: Provider; network: Networkish }) =>
+        useQuery(
+          ["eth-balance", input.address],
+          async () => {
+            const provider = input.provider ?? getDefaultProvider(input.network, {
+              alchemy: ALCHEMY_API_KEY,
+            });
+            const balance = await provider.getBalance(input.address);
+            return formatEther(balance);
+          },
+          {
+            enabled: !!input.address,
+          }
+        ),
+    };
+
     const accountList = useMemo(
       () => Object.values(state.accountsByAddress),
       [state.accountsByAddress]
@@ -102,6 +129,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
     return {
       mutations,
+      queries,
       state: derivedState,
     };
   });

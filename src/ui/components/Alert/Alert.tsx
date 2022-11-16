@@ -7,9 +7,9 @@ import {
 import clsx from "clsx";
 import { FC, PropsWithChildren } from "react";
 
-type AlertVariant = "success" | "error" | "warning" | "info";
+export type AlertVariant = "success" | "error" | "warning" | "info";
 
-type Props = PropsWithChildren<{
+export type Props = PropsWithChildren<{
   className?: string;
   variant?: AlertVariant;
   hideIcon?: boolean;
