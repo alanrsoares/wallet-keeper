@@ -36,7 +36,10 @@ pnpm dev
 
 ## Built with
 
-- Nextjs
+- [Next](https://nextjs.org) - Nextjs 13 for 100 lighthouse score
+- [ethers](https://ethers.io) - ethereum sdk
+- [tailwindcss](https://tailwindcss.com) - utility first css library
+- [react-query](https://tanstack.com/query) - query / mutation / cache abstraction
 
 ---
 
