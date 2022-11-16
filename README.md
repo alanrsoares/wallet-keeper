@@ -8,31 +8,32 @@ A minimalistic web3 wallet built for educational purposes
 
 </div>
 
-## Lighthouse score
+## Lighthouse score 🤩
+
 
 [![lightouse-score](/lighthouse/full-100-score.png)](/lighthouse/walletkeeper-lighthouse-report.pdf)
 
-## Getting Started
+## Getting Started  :rocket:
 
-1. Clone this repo
+1. Clone this repo 📇
 
 ```bash
 git clone git@github.com:alanrsoares/wallet-keeper.git
 ```
 
-2. Install dependencies
+2. Install dependencies 🏗️
 
-```bash
+```bash 
 pnpm i
 ```
 
-3. Run it locally
+3. Run it locally 🔨
 
 ```bash
 pnpm dev
 ```
 
-## Running tests
+## Running tests 🧪
 
 ```bash
 pnpm test
