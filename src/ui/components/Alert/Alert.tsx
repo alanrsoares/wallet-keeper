@@ -13,6 +13,7 @@ export type Props = PropsWithChildren<{
   className?: string;
   variant?: AlertVariant;
   hideIcon?: boolean;
+  prefix?: string;
 }>;
 
 const VARIANT_ICONS = {
@@ -41,6 +42,7 @@ const Alert: FC<Props> = (props) => {
     >
       <div>
         {!props.hideIcon && <Icon className="h-6 w-6 mr-2" />}
+        {props.prefix && <strong className="font-bold">{props.prefix}</strong>}
         {props.children}
       </div>
     </div>

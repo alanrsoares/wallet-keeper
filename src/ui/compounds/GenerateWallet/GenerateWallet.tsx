@@ -25,7 +25,7 @@ const GenerateWallet: FC<Props> = (props) => {
   const [progress, setProgress] = useState(0);
 
   const {
-    mutateAsync: createWallet,
+    mutateAsync: generateWalletAsync,
     isLoading,
     error,
   } = walletKeeper.mutations.createWallet();
@@ -42,17 +42,25 @@ const GenerateWallet: FC<Props> = (props) => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      await createWallet({
-        displayName,
-        password,
-        onProgress: setProgress,
-      });
+      try {
+        await generateWalletAsync({
+          displayName,
+          password,
+          onProgress: setProgress,
+        });
+      } catch (error) {
+        if (error instanceof Error) {
+          console.warn({
+            message: "Failed to generate wallet",
+          });
+        }
+      }
     },
-    []
+    [displayName, password]
   );
 
   const validationError = useMemo(() => {
-    if (displayName.length === 0) {
+    if (!displayName) {
       return { message: "Display name is required", field: "displayName" };
     }
 

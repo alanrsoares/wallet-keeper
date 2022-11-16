@@ -19,13 +19,13 @@ type Props = {
 };
 
 const WalletDetails = (props: Props) => {
-  const walletKeeper = useWalletKeeper();
+  const { state, mutations, queries } = useWalletKeeper();
   const {
-    mutateAsync: unlockWallet,
+    mutateAsync: unlockWalletAsync,
     isLoading: isUnlocking,
     error: unlockError,
-  } = walletKeeper.mutations.unlockWallet();
-  const { data: balance } = walletKeeper.queries.getBalance({
+  } = mutations.unlockWallet();
+  const { data: balance } = queries.getBalance({
     address: props.address,
   });
 
@@ -34,25 +34,36 @@ const WalletDetails = (props: Props) => {
   const [privateKey, setPrivateKey] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const account = walletKeeper.state.accountsByAddress[props.address];
+  const account = state.accountsByAddress[props.address];
 
   const handleUnlock = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      try {
+        const wallet = await unlockWalletAsync({
+          address,
+          password,
+          onProgress: setProgress,
+        });
 
-      const wallet = await unlockWallet({
-        address,
-        password,
-        onProgress: setProgress,
-      });
-
-      setPrivateKey(wallet.privateKey);
+        setPrivateKey(wallet.privateKey);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.warn({
+            message: "Failed to unlock wallet",
+          });
+        }
+      }
     },
     [props.address, password]
   );
 
   if (!account) {
-    return <div>Wallet not found: {props.address}</div>;
+    return (
+      <Alert variant="error" prefix="Wallet not found:">
+        {props.address}
+      </Alert>
+    );
   }
 
   const { displayName, address } = account;
@@ -94,15 +105,12 @@ const WalletDetails = (props: Props) => {
       {isExpanded && (
         <form onSubmit={handleUnlock} className="grid gap-4">
           {Boolean(unlockError) && (
-            <Alert variant="error">
-              <span className="font-bold">Error:</span>
+            <Alert variant="error" prefix="Error:">
               {(unlockError as Error).message}
             </Alert>
           )}
-
           {privateKey ? (
-            <Alert variant="success">
-              <span className="font-bold">Private Key:</span>
+            <Alert variant="success" prefix="Private key:">
               <CopyToClipboard className="text-sm">
                 {privateKey}
               </CopyToClipboard>
