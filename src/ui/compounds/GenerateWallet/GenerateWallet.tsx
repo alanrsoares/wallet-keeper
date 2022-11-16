@@ -83,18 +83,18 @@ const GenerateWallet: FC<Props> = (props) => {
       return { message: "Display name is too long", field: "displayName" };
     }
 
-    if (password !== passwordConfirm) {
-      return { message: "Passwords do not match", field: "passwordConfirm" };
-    }
-
     if (password.length < 8) {
       return { message: "Password is too short", field: "password" };
+    }
+
+    if (password !== passwordConfirm) {
+      return { message: "Passwords do not match", field: "passwordConfirm" };
     }
 
     return null;
   }, [displayName, password, passwordConfirm, isDirty]);
 
-  const isValid = !validationError;
+  const isValid = !validationError && isDirty;
 
   if (!isExpanded) {
     return (
