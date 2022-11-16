@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded bg-gray-600;
+  }
+  ::-webkit-scrollbar-track {
+    @apply rounded bg-transparent;
+  }
+}
+
 @layer components {
   .container-4xl {
     @apply container mx-auto max-w-4xl;

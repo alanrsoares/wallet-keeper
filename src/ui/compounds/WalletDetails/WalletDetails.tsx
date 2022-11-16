@@ -1,4 +1,8 @@
-import { EyeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
@@ -14,8 +18,6 @@ type Props = {
   address: string;
 };
 
-type WalletAction = "VIEW_PRIVATE_KEY" | "VIEW_QR_CODE" | "COPY_ADDRESS";
-
 const WalletDetails = (props: Props) => {
   const walletKeeper = useWalletKeeper();
   const {
@@ -28,9 +30,9 @@ const WalletDetails = (props: Props) => {
   });
 
   const [progress, setProgress] = useState(0);
-  const [action, setAction] = useState<WalletAction | null>(null);
   const [password, setPassword] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const account = walletKeeper.state.accountsByAddress[props.address];
 
@@ -76,42 +78,56 @@ const WalletDetails = (props: Props) => {
           </CopyToClipboard>
         </div>
 
-        <Button onClick={setAction.bind(null, "VIEW_PRIVATE_KEY")}>
-          <EyeIcon className="h-5 w-5 mr-2" />
-          View private key
+        <Button onClick={() => setIsExpanded(!isExpanded)} length="wide">
+          {isExpanded ? (
+            <>
+              <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
+            </>
+          ) : (
+            <>
+              <EyeIcon className="h-5 w-5 mr-2" /> Show
+            </>
+          )}{" "}
+          private key
         </Button>
       </div>
-      {action === "VIEW_PRIVATE_KEY" && (
+      {isExpanded && (
         <form onSubmit={handleUnlock} className="grid gap-4">
           {Boolean(unlockError) && (
             <Alert variant="error">{(unlockError as Error).message}</Alert>
           )}
-          <Field
-            name="password"
-            label="Wallet Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+
           {privateKey ? (
             <Alert variant="success">
-              <CopyToClipboard>{privateKey}</CopyToClipboard>
+              Private Key:
+              <code>
+                <CopyToClipboard>{privateKey}</CopyToClipboard>
+              </code>
             </Alert>
           ) : (
-            <Button
-              type="submit"
-              disabled={password.length < 3}
-              loading={isUnlocking}
-              progress={progress}
-            >
-              {isUnlocking ? (
-                "Unlocking..."
-              ) : (
-                <>
-                  <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
-                </>
-              )}
-            </Button>
+            <>
+              <Field
+                name="password"
+                label="Wallet Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type="submit"
+                disabled={password.length < 3}
+                loading={isUnlocking}
+                progress={progress}
+              >
+                {isUnlocking ? (
+                  "Unlocking..."
+                ) : (
+                  <>
+                    <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
+                  </>
+                )}
+              </Button>
+            </>
           )}
         </form>
       )}
