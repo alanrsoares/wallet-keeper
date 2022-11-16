@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 import tw from "tailwind-styled-components";
 
+import { formatPercentage } from "~/lib/utils";
+
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -48,9 +50,7 @@ const Button = ({
       <>
         {children}{" "}
         <span aria-label="progress" className="ml-2">
-          {progress.toLocaleString(undefined, {
-            style: "percent",
-          })}
+          {formatPercentage(progress)}
         </span>
       </>
     ) : (

@@ -107,10 +107,6 @@ const GenerateWallet = (props: Props) => {
     );
   }
 
-  const formattedProgress = progress.toLocaleString(undefined, {
-    style: "percent",
-  });
-
   return (
     <section className={clsx("card bg-base-300 relative", props.className)}>
       <Button

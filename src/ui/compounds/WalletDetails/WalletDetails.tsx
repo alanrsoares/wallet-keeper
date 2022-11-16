@@ -79,10 +79,6 @@ const WalletDetails = (props: Props) => {
 
   const { displayName, address } = account;
 
-  const formattedProgress = progress.toLocaleString(undefined, {
-    style: "percent",
-  });
-
   return (
     <div className="card-body">
       <div className="card-title justify-between items-center">
