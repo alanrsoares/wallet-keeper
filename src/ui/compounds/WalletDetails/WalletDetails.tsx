@@ -1,8 +1,4 @@
-import {
-  DocumentDuplicateIcon,
-  EyeIcon,
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
+import { EyeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
@@ -24,31 +20,34 @@ const WalletDetails = (props: Props) => {
   const walletKeeper = useWalletKeeper();
   const {
     mutateAsync: unlockWallet,
-    isLoading,
-    error,
+    isLoading: isUnlocking,
+    error: unlockError,
   } = walletKeeper.mutations.unlockWallet();
-
   const { data: balance } = walletKeeper.queries.getBalance({
     address: props.address,
   });
 
   const [progress, setProgress] = useState(0);
-
   const [action, setAction] = useState<WalletAction | null>(null);
   const [password, setPassword] = useState("");
   const [privateKey, setPrivateKey] = useState("");
 
   const account = walletKeeper.state.accountsByAddress[props.address];
 
-  const handleUnlock = useCallback(async () => {
-    const wallet = await unlockWallet({
-      address,
-      password,
-      onProgress: setProgress,
-    });
+  const handleUnlock = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    setPrivateKey(wallet.privateKey);
-  }, [props.address, password]);
+      const wallet = await unlockWallet({
+        address,
+        password,
+        onProgress: setProgress,
+      });
+
+      setPrivateKey(wallet.privateKey);
+    },
+    [props.address, password]
+  );
 
   if (!account) {
     return <div>Wallet not found: {props.address}</div>;
@@ -83,40 +82,38 @@ const WalletDetails = (props: Props) => {
         </Button>
       </div>
       {action === "VIEW_PRIVATE_KEY" && (
-        <>
-          <div className="">
-            <Field
-              name="password"
-              label="Wallet Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+        <form onSubmit={handleUnlock} className="grid gap-4">
+          {Boolean(unlockError) && (
+            <Alert variant="error">{(unlockError as Error).message}</Alert>
+          )}
+          <Field
+            name="password"
+            label="Wallet Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           {privateKey ? (
             <Alert variant="success">
               <CopyToClipboard>{privateKey}</CopyToClipboard>
             </Alert>
           ) : (
-            <div className="card-actions">
-              <Button
-                disabled={password.length < 3}
-                onClick={handleUnlock}
-                loading={isLoading}
-                progress={progress}
-                length="block"
-              >
-                {isLoading ? (
-                  "Unlocking..."
-                ) : (
-                  <>
-                    <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
-                  </>
-                )}
-              </Button>
-            </div>
+            <Button
+              type="submit"
+              disabled={password.length < 3}
+              loading={isUnlocking}
+              progress={progress}
+            >
+              {isUnlocking ? (
+                "Unlocking..."
+              ) : (
+                <>
+                  <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
+                </>
+              )}
+            </Button>
           )}
-        </>
+        </form>
       )}
     </div>
   );
