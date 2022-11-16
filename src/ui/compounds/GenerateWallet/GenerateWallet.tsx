@@ -148,12 +148,12 @@ const GenerateWallet = (props: Props) => {
         />
         <Button
           variant="primary"
-          disabled={!isValid || isLoading}
+          disabled={!isValid}
+          loading={isLoading}
+          progress={progress}
           type="submit"
         >
-          {isLoading
-            ? `Generating wallet... ${formattedProgress}%`
-            : "Generate wallet"}
+          {isLoading ? "Generating wallet..." : "Generate wallet"}
         </Button>
       </form>
     </section>

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ReactNode } from "react";
 import tw from "tailwind-styled-components";
 
 export type ButtonVariant =
@@ -29,11 +30,33 @@ export type Props = JSX.IntrinsicElements["button"] & {
    */
   length?: ButtonLength;
   shape?: ButtonShape;
+  loading?: boolean;
+  progress?: number;
 };
 
 const BaseButton = tw.button`btn`;
 
-const Button = ({ className, ...props }: Props) => {
+const Button = ({
+  className,
+  children,
+  loading,
+  progress,
+  ...props
+}: Props) => {
+  const content: ReactNode =
+    progress && loading ? (
+      <>
+        {children}{" "}
+        <span aria-label="progress" className="ml-2">
+          {progress.toLocaleString(undefined, {
+            style: "percent",
+          })}
+        </span>
+      </>
+    ) : (
+      children
+    );
+
   return (
     <BaseButton
       className={clsx(className, {
@@ -58,10 +81,12 @@ const Button = ({ className, ...props }: Props) => {
         // shapes
         "btn-circle": props.shape === "circle",
         "btn-square": props.shape === "square",
+        // loading
+        loading: loading,
       })}
       {...props}
     >
-      {props.children}
+      {content}
     </BaseButton>
   );
 };

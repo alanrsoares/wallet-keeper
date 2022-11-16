@@ -117,11 +117,20 @@ const WalletDetails = (props: Props) => {
             </Alert>
           ) : (
             <div className="card-actions">
-              <Button disabled={password.length < 3} onClick={handleUnlock}>
-                <EyeIcon className="h-6 w-6 mr-2" />{" "}
-                {isLoading
-                  ? `Unlocking... ${formattedProgress}`
-                  : "VIEW_MEMONIC_PHRASE"}
+              <Button
+                disabled={password.length < 3}
+                onClick={handleUnlock}
+                loading={isLoading}
+                progress={progress}
+                length="block"
+              >
+                {isLoading ? (
+                  "Unlocking..."
+                ) : (
+                  <>
+                    <EyeIcon className="h-6 w-6 mr-2" /> Unlock
+                  </>
+                )}
               </Button>
             </div>
           )}
