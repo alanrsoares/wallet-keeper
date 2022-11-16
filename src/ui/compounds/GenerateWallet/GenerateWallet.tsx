@@ -1,6 +1,6 @@
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Alert from "~/ui/components/Alert";
@@ -23,6 +23,13 @@ const GenerateWallet: FC<Props> = (props) => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [progress, setProgress] = useState(0);
+  const [isDirty, setIsDirty] = useState(false);
+
+  useEffect(() => {
+    if (!isDirty && (displayName || password || passwordConfirm)) {
+      setIsDirty(true);
+    }
+  }, [displayName, password, passwordConfirm, isDirty]);
 
   const {
     mutateAsync: generateWalletAsync,
@@ -60,6 +67,10 @@ const GenerateWallet: FC<Props> = (props) => {
   );
 
   const validationError = useMemo(() => {
+    if (!isDirty) {
+      return null;
+    }
+
     if (!displayName) {
       return { message: "Display name is required", field: "displayName" };
     }
@@ -81,7 +92,7 @@ const GenerateWallet: FC<Props> = (props) => {
     }
 
     return null;
-  }, [displayName, password, passwordConfirm]);
+  }, [displayName, password, passwordConfirm, isDirty]);
 
   const isValid = !validationError;
 
