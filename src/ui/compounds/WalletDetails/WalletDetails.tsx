@@ -6,11 +6,13 @@ import {
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { maskAddress } from "~/lib/utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
 import Field from "~/ui/components/Field";
 import Identicon from "~/ui/components/Identicon";
+import Tooltip from "~/ui/components/Tooltip";
 
 type Props = {
   address: string;
@@ -28,7 +30,6 @@ const WalletDetails = (props: Props) => {
 
   const { data: balance } = walletKeeper.queries.getBalance({
     address: props.address,
-    network: "goerli",
   });
 
   const [progress, setProgress] = useState(0);
@@ -58,18 +59,24 @@ const WalletDetails = (props: Props) => {
   return (
     <div className="card-body">
       <div className="card-title grid md:flex justify-between items-center">
-        <div className="flex gap-4 items-center bg-base-300 p-2 px-4 rounded-full">
-          <Identicon address={address} diameter={36} />
-          <div className="grid">
-            <span className="font-semibold font-mono pl-2">{displayName}</span>
-            <div>
-              <CopyToClipboard className="flex badge font-mono">
-                {address.slice(0, 6)}...{address.slice(-4)}
-              </CopyToClipboard>
+        <div className="grid gap-4">
+          <div className="flex gap-4 items-center">
+            <Identicon address={address} diameter={48} />
+            <div className="grid gap-1">
+              <span className="font-semibold font-mono">{displayName}</span>
+              <Tooltip
+                tip="ETH balance"
+                className="font-mono text-sm text-left"
+              >
+                {balance ?? "..."} ETH
+              </Tooltip>
             </div>
-            <div className="badge font-mono">{balance} ETH</div>
           </div>
+          <CopyToClipboard className="flex badge font-mono">
+            {maskAddress(address)}
+          </CopyToClipboard>
         </div>
+
         <Button onClick={setAction.bind(null, "VIEW_PRIVATE_KEY")}>
           <EyeIcon className="h-5 w-5 mr-2" />
           View private key

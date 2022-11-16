@@ -1,15 +1,13 @@
-import { PropsWithChildren } from "react";
+import clsx from "clsx";
 
-type Props = PropsWithChildren<{
+type Props = JSX.IntrinsicElements["div"] & {
   tip: string;
-}>;
-
-const Tooltip = (props: Props) => {
-  return (
-    <div className="tooltip" data-tip={props.tip}>
-      {props.children}
-    </div>
-  );
 };
+
+const Tooltip = ({ tip, className, ...props }: Props) => (
+  <div className={clsx("tooltip", className)} data-tip={tip} {...props}>
+    {props.children}
+  </div>
+);
 
 export default Tooltip;

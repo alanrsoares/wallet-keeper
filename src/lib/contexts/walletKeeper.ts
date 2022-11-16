@@ -14,7 +14,7 @@ export const STORAGE_KEY = "@walletkeeper/state/v1";
 
 export const NETWORKS = {
   mainnet: "homestead",
-  ropsten: "ropsten",
+  goerli: "goerli",
 }
 
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
@@ -31,6 +31,11 @@ export type WalletKeeperState = {
       displayName: string;
     }
   >;
+  /**
+   * Selected network
+   * @default "goerli"
+   **/
+  selectedNetwork?: Networkish
 };
 
 const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
@@ -38,6 +43,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
     const [state, setState] = usePersistedState<WalletKeeperState>(
       STORAGE_KEY,
       {
+        selectedNetwork: NETWORKS.goerli,
         accountsByAddress: {},
       }
     );
@@ -101,11 +107,11 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
     };
 
     const queries = {
-      getBalance: (input: { address: string; provider?: Provider; network: Networkish }) =>
+      getBalance: (input: { address: string; provider?: Provider; }) =>
         useQuery(
           ["eth-balance", input.address],
           async () => {
-            const provider = input.provider ?? getDefaultProvider(input.network, {
+            const provider = input.provider ?? getDefaultProvider(state.selectedNetwork ?? NETWORKS.goerli, {
               alchemy: ALCHEMY_API_KEY,
             });
             const balance = await provider.getBalance(input.address);
