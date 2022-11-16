@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 const Document = () => (
   <Html>
-    <Head lang="en">
+    <Head>
       <meta
         name="description"
         content="Walletkeeper, your secure wallet manager"
