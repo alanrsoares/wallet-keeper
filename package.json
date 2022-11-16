@@ -48,7 +48,7 @@
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.0",
-    "daisyui": "^2.40.1",
+    "daisyui": "^2.41.0",
     "happy-dom": "^7.7.0",
     "postcss": "^8.4.19",
     "require-from-string": "^2.0.2",
