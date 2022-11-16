@@ -92,7 +92,7 @@ const WalletDetails = (props: Props) => {
           </Tooltip>
         </h3>
         <Button onClick={setAction.bind(null, "VIEW_MEMONIC_PHRASE")}>
-          <LockClosedIcon className="h-5 w-5 mr-2" />
+          <EyeIcon className="h-5 w-5 mr-2" />
           View mnemonic phrase
         </Button>
       </div>
@@ -124,7 +124,7 @@ const WalletDetails = (props: Props) => {
                   "Unlocking..."
                 ) : (
                   <>
-                    <EyeIcon className="h-6 w-6 mr-2" /> Unlock
+                    <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
                   </>
                 )}
               </Button>

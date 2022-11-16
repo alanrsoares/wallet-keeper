@@ -50,7 +50,7 @@ const Button = ({
       <>
         {children}{" "}
         <span aria-label="progress" className="ml-2">
-          {formatPercentage(progress)}
+          {formatPercentage(progress, 0)}
         </span>
       </>
     ) : (
