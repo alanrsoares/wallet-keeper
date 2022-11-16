@@ -8,6 +8,10 @@ A minimalistic web3 wallet built for educational purposes
 
 </div>
 
+## Lighthouse score
+
+[![lightouse-score](/lighthouse/full-100-score.png)](/lighthouse/walletkeeper-lighthouse-report.pdf)
+
 ## Getting Started
 
 1. Clone this repo
