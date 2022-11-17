@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@headlessui/react": "^1.7.4",
+    "@playwright/test": "^1.28.0",
     "@storybook/addon-actions": "^6.5.13",
     "@storybook/addon-essentials": "^6.5.13",
     "@storybook/addon-interactions": "^6.5.13",

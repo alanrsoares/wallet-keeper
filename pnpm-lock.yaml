@@ -9,6 +9,7 @@ specifiers:
   '@ethersproject/wallet': ^5.7.0
   '@headlessui/react': ^1.7.4
   '@heroicons/react': ^2.0.13
+  '@playwright/test': ^1.28.0
   '@storybook/addon-actions': ^6.5.13
   '@storybook/addon-essentials': ^6.5.13
   '@storybook/addon-interactions': ^6.5.13
@@ -66,6 +67,7 @@ dependencies:
 devDependencies:
   '@babel/core': 7.20.2
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
+  '@playwright/test': 1.28.0
   '@storybook/addon-actions': 6.5.13_biqbaboplfbrettd7655fr4n2y
   '@storybook/addon-essentials': 6.5.13_7d52lax5xva5qayyjbc5goylbm
   '@storybook/addon-interactions': 6.5.13_csuwq4w6z622uchlvxyt6q2kpy
@@ -2255,6 +2257,15 @@ packages:
     dependencies:
       mkdirp: 1.0.4
       rimraf: 3.0.2
+    dev: true
+
+  /@playwright/test/1.28.0:
+    resolution: {integrity: sha512-vrHs5DFTPwYox5SGKq/7TDn/S4q6RA1zArd7uhO6EyP9hj3XgZBBM12ktMbnDQNxh/fL1IUKsTNLxihmsU38lQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@types/node': 18.11.9
+      playwright-core: 1.28.0
     dev: true
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.9_ohj47mxwagpoxvu7nhhwxzphqm:
@@ -9820,6 +9831,12 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       find-up: 5.0.0
+    dev: true
+
+  /playwright-core/1.28.0:
+    resolution: {integrity: sha512-nJLknd28kPBiCNTbqpu6Wmkrh63OEqJSFw9xOfL9qxfNwody7h6/L3O2dZoWQ6Oxcm0VOHjWmGiCUGkc0X3VZA==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /pnp-webpack-plugin/1.6.4_typescript@4.8.4:
