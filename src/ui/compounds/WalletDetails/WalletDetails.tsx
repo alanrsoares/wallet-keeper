@@ -82,7 +82,9 @@ const WalletDetails = (props: Props) => {
                 tip="ETH balance"
                 className="font-mono text-sm text-left whitespace-nowrap"
               >
-                {balance ?? "..."} ETH
+                <span className="whitespace-nowrap">
+                  {balance ?? "..."} ETH
+                </span>
               </Tooltip>
             </div>
           </div>
@@ -120,7 +122,10 @@ const WalletDetails = (props: Props) => {
           )}
           {privateKey ? (
             <Alert variant="success" prefix="Private key:">
-              <CopyToClipboard className="text-sm lg:text-base max-w-[50vw] md:max-w-full ">
+              <CopyToClipboard
+                className="text-sm max-w-[50vw] md:max-w-full"
+                checkmarkClassname="text-green-800"
+              >
                 {privateKey}
               </CopyToClipboard>
             </Alert>

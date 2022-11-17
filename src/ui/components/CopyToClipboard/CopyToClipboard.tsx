@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import React, { FC, PropsWithChildren, useCallback, useState } from "react";
+
 import Tooltip from "../Tooltip";
 
-type Props = PropsWithChildren<{
+export type Props = PropsWithChildren<{
   className?: string;
   content?: string;
   tooltip?: string;
   dismissDelay?: number;
+  checkmarkClassname?: string;
 }>;
 
 const CopyToClipboard: FC<Props> = (props) => {
@@ -27,16 +29,21 @@ const CopyToClipboard: FC<Props> = (props) => {
     <Tooltip tip={copied ? "Copied to clipboard!" : props.tooltip ?? ""}>
       <button
         className={clsx(
-          "overflow-x-clip text-ellipsis whitespace-nowrap",
+          "text-ellipsis whitespace-nowrap relative",
           props.className
         )}
         onClick={handleCopy}
       >
         {props.children}{" "}
         {copied && (
-          <div className="-tracking-[5px] text-success text-sm ml-1">
+          <span
+            className={clsx(
+              "-tracking-[.4em] text-sm ml-1 text-success absolute -right-3.5",
+              props.checkmarkClassname
+            )}
+          >
             {"✓✓"}
-          </div>
+          </span>
         )}
       </button>
     </Tooltip>
