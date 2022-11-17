@@ -69,94 +69,96 @@ const WalletDetails = (props: Props) => {
   const { displayName, address } = account;
 
   return (
-    <div className="card-body">
-      <div className="card-title flex-col items-start md:flex-row justify-between">
-        <div className="grid gap-4">
-          <div className="flex gap-4 items-center">
-            <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
-              <Identicon address={address} diameter={48} />
+    <section className="card">
+      <div className="card-body">
+        <div className="card-title flex-col items-start md:flex-row justify-between">
+          <div className="grid gap-4">
+            <div className="flex gap-4 items-center">
+              <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
+                <Identicon address={address} diameter={48} />
+              </div>
+              <div className="grid gap-1">
+                <span className="font-semibold font-mono">{displayName}</span>
+                <Tooltip
+                  tip="ETH balance"
+                  className="font-mono text-sm text-left whitespace-nowrap"
+                >
+                  <span className="whitespace-nowrap">
+                    {balance ?? "..."} ETH
+                  </span>
+                </Tooltip>
+              </div>
             </div>
-            <div className="grid gap-1">
-              <span className="font-semibold font-mono">{displayName}</span>
-              <Tooltip
-                tip="ETH balance"
-                className="font-mono text-sm text-left whitespace-nowrap"
-              >
-                <span className="whitespace-nowrap">
-                  {balance ?? "..."} ETH
-                </span>
-              </Tooltip>
-            </div>
+            <CopyToClipboard
+              className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
+              content={address}
+            >
+              {maskAddress(address)}
+            </CopyToClipboard>
           </div>
-          <CopyToClipboard
-            className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
-            content={address}
-          >
-            {maskAddress(address)}
-          </CopyToClipboard>
+          <div className="w-full grid md:place-items-end md:justify-end-end">
+            <Button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="w-full md:w-auto"
+            >
+              {isExpanded ? (
+                <>
+                  <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
+                </>
+              ) : (
+                <>
+                  <EyeIcon className="h-5 w-5 mr-2" /> Show
+                </>
+              )}{" "}
+              private key
+            </Button>
+          </div>
         </div>
-        <div className="w-full grid md:place-items-end md:justify-end-end">
-          <Button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full md:w-auto"
-          >
-            {isExpanded ? (
-              <>
-                <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
-              </>
+        {isExpanded && (
+          <form onSubmit={handleUnlock} className="grid gap-4">
+            {Boolean(unlockError) && (
+              <Alert variant="error" prefix="Error:">
+                {(unlockError as Error).message}
+              </Alert>
+            )}
+            {privateKey ? (
+              <Alert variant="success" prefix="Private key:">
+                <CopyToClipboard
+                  className="text-sm max-w-[50vw] md:max-w-full"
+                  checkmarkClassname="text-green-800"
+                >
+                  {privateKey}
+                </CopyToClipboard>
+              </Alert>
             ) : (
               <>
-                <EyeIcon className="h-5 w-5 mr-2" /> Show
+                <Field
+                  name="password"
+                  label="Wallet Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  disabled={password.length < 3}
+                  loading={isUnlocking}
+                  progress={progress}
+                >
+                  {isUnlocking ? (
+                    "Unlocking..."
+                  ) : (
+                    <>
+                      <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
+                    </>
+                  )}
+                </Button>
               </>
-            )}{" "}
-            private key
-          </Button>
-        </div>
+            )}
+          </form>
+        )}
       </div>
-      {isExpanded && (
-        <form onSubmit={handleUnlock} className="grid gap-4">
-          {Boolean(unlockError) && (
-            <Alert variant="error" prefix="Error:">
-              {(unlockError as Error).message}
-            </Alert>
-          )}
-          {privateKey ? (
-            <Alert variant="success" prefix="Private key:">
-              <CopyToClipboard
-                className="text-sm max-w-[50vw] md:max-w-full"
-                checkmarkClassname="text-green-800"
-              >
-                {privateKey}
-              </CopyToClipboard>
-            </Alert>
-          ) : (
-            <>
-              <Field
-                name="password"
-                label="Wallet Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button
-                type="submit"
-                disabled={password.length < 3}
-                loading={isUnlocking}
-                progress={progress}
-              >
-                {isUnlocking ? (
-                  "Unlocking..."
-                ) : (
-                  <>
-                    <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
-                  </>
-                )}
-              </Button>
-            </>
-          )}
-        </form>
-      )}
-    </div>
+    </section>
   );
 };
 
