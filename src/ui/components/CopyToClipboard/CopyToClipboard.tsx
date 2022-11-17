@@ -26,7 +26,10 @@ const CopyToClipboard: FC<Props> = (props) => {
   return (
     <Tooltip tip={copied ? "Copied to clipboard!" : props.tooltip ?? ""}>
       <button
-        className={clsx("overflow-x-clip text-ellipsis", props.className)}
+        className={clsx(
+          "overflow-x-clip text-ellipsis whitespace-nowrap",
+          props.className
+        )}
         onClick={handleCopy}
       >
         {props.children} {copied ? "✓" : ""}

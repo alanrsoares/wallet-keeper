@@ -78,7 +78,7 @@ const WalletDetails = (props: Props) => {
               <span className="font-semibold font-mono">{displayName}</span>
               <Tooltip
                 tip="ETH balance"
-                className="font-mono text-sm text-left"
+                className="font-mono text-sm text-left whitespace-nowrap"
               >
                 {balance ?? "..."} ETH
               </Tooltip>
