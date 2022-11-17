@@ -3,6 +3,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 
 import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 
@@ -58,13 +59,13 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
             <Button
               size="sm"
               shape="circle"
+              className={clsx("swap swap-rotate", {
+                "swap-active": isExpanded,
+              })}
               onClick={() => setIsExpanded(!isExpanded)}
             >
-              {isExpanded ? (
-                <MinusIcon className="h-4 w-4" />
-              ) : (
-                <PlusIcon className="h-4 w-4" />
-              )}
+              <MinusIcon className="h-4 w-4 swap-on" />
+              <PlusIcon className="h-4 w-4 swap-off" />
             </Button>
           </h2>
           {isExpanded &&
