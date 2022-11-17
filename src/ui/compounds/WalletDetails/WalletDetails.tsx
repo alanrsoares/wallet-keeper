@@ -123,10 +123,7 @@ const WalletDetails = (props: Props) => {
             )}
             {privateKey ? (
               <Alert variant="success" prefix="Private key:">
-                <CopyToClipboard
-                  className="text-sm max-w-[50vw] md:max-w-full"
-                  checkmarkClassname="text-green-800"
-                >
+                <CopyToClipboard className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm">
                   {privateKey}
                 </CopyToClipboard>
               </Alert>

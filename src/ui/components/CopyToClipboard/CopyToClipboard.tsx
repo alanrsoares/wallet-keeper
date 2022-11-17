@@ -26,7 +26,7 @@ const CopyToClipboard: FC<Props> = (props) => {
   }, []);
 
   return (
-    <Tooltip tip={copied ? "Copied to clipboard!" : props.tooltip ?? ""}>
+    <Tooltip tip={copied ? "Copied to clipboard ✓" : props.tooltip ?? ""}>
       <button
         className={clsx(
           "text-ellipsis whitespace-nowrap relative",
@@ -35,17 +35,17 @@ const CopyToClipboard: FC<Props> = (props) => {
         onClick={handleCopy}
       >
         {props.children}{" "}
-        {copied && (
-          <span
-            className={clsx(
-              "-tracking-[.4em] text-sm ml-1 text-success absolute -right-3.5",
-              props.checkmarkClassname
-            )}
-          >
-            {"✓✓"}
-          </span>
-        )}
       </button>
+      {copied && (
+        <span
+          className={clsx(
+            "-tracking-[.4em] text-sm ml-1 text-success absolute -right-3.5 md:-right-8",
+            props.checkmarkClassname
+          )}
+        >
+          {"✓✓"}
+        </span>
+      )}
     </Tooltip>
   );
 };
