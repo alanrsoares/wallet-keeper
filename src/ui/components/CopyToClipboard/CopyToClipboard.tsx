@@ -32,7 +32,12 @@ const CopyToClipboard: FC<Props> = (props) => {
         )}
         onClick={handleCopy}
       >
-        {props.children} {copied ? "✓" : ""}
+        {props.children}{" "}
+        {copied && (
+          <div className="-tracking-[5px] text-success text-sm ml-1">
+            {"✓✓"}
+          </div>
+        )}
       </button>
     </Tooltip>
   );

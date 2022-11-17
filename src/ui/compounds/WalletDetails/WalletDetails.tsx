@@ -73,7 +73,9 @@ const WalletDetails = (props: Props) => {
       <div className="card-title flex-col items-start md:flex-row justify-between">
         <div className="grid gap-4">
           <div className="flex gap-4 items-center">
-            <Identicon address={address} diameter={48} />
+            <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
+              <Identicon address={address} diameter={48} />
+            </div>
             <div className="grid gap-1">
               <span className="font-semibold font-mono">{displayName}</span>
               <Tooltip
@@ -84,7 +86,10 @@ const WalletDetails = (props: Props) => {
               </Tooltip>
             </div>
           </div>
-          <CopyToClipboard className="flex badge font-mono" content={address}>
+          <CopyToClipboard
+            className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
+            content={address}
+          >
             {maskAddress(address)}
           </CopyToClipboard>
         </div>
