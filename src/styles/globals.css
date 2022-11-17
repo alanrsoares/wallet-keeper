@@ -15,7 +15,7 @@
 }
 
 @layer components {
-  .container-4xl {
-    @apply container mx-auto max-w-4xl;
+  .container-narrow {
+    @apply container mx-auto max-w-2xl;
   }
 }

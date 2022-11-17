@@ -4,7 +4,7 @@ import { WalletIcon } from "@heroicons/react/24/solid";
 const Header = () => {
   return (
     <header className="bg-base-200 text-base-content p-4">
-      <div className="container-4xl mx-auto">
+      <div className="container-narrow mx-auto">
         <h1 className="text-2xl">
           <Link href="/" className="flex gap-2 items-center group">
             <WalletIcon className="h-6 w-6 group-hover:opacity-60 group-hover:text-cyan-200 transition-all" />

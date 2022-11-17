@@ -99,8 +99,9 @@ const GenerateWallet: FC<Props> = (props) => {
   if (!isExpanded) {
     return (
       <Button
-        onClick={() => setIsExpanded(true)}
         data-testid="generate-wallet-button-collapsed"
+        variant="primary"
+        onClick={() => setIsExpanded(true)}
       >
         <PlusIcon className="w-4 h-4 mr-2" />
         Generate new wallet
@@ -109,7 +110,12 @@ const GenerateWallet: FC<Props> = (props) => {
   }
 
   return (
-    <section className={clsx("card bg-base-300 relative", props.className)}>
+    <section
+      className={clsx(
+        "card card-compact bg-base-300 relative",
+        props.className
+      )}
+    >
       <Button
         shape="circle"
         size="sm"

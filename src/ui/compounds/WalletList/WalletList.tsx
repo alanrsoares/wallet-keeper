@@ -46,8 +46,8 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   }
 
   return (
-    <div
-      className="card card-compact md:card-normal bg-base-300"
+    <section
+      className="card card-compact md:card-normal bg-base-200"
       data-testid="wallet-list-container"
     >
       <div className="card-body grid gap-4">
@@ -70,14 +70,14 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           </h2>
           {isExpanded &&
             walletKeeper.state.accountList.map(({ address }) => (
-              <li key={address} className="card bg-base-200">
+              <li key={address} className="card bg-base-300">
                 <WalletDetails address={address} />
               </li>
             ))}
         </ul>
-        <GenerateWallet className="bg-base-200!" />
+        <GenerateWallet className="bg-base-300!" />
       </div>
-    </div>
+    </section>
   );
 };
 
