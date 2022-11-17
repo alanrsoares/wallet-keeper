@@ -44,7 +44,7 @@ const Alert: FC<Props> = (props) => {
         {!props.hideIcon && <Icon className="h-6 w-6 mr-1 lg:mr-2" />}
         <span className="grid md:flex md:items-center">
           {props.prefix && (
-            <strong className="font-bold text-sm md:text-base whitespace-nowrap">
+            <strong className="font-bold text-sm md:text-base mr-1 lg:mr-2 whitespace-nowrap">
               {props.prefix}
             </strong>
           )}
