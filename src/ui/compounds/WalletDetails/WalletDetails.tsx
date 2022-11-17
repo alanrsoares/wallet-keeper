@@ -141,6 +141,7 @@ const WalletDetails = (props: Props) => {
                 />
                 <Button
                   type="submit"
+                  variant="primary"
                   disabled={password.length < 3}
                   loading={isUnlocking}
                   progress={progress}
