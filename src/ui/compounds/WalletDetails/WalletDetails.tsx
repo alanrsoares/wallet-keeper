@@ -70,7 +70,7 @@ const WalletDetails = (props: Props) => {
 
   return (
     <div className="card-body">
-      <div className="card-title grid md:flex justify-between items-center">
+      <div className="card-title flex-col items-start md:flex-row justify-between">
         <div className="grid gap-4">
           <div className="flex gap-4 items-center">
             <Identicon address={address} diameter={48} />
@@ -88,19 +88,23 @@ const WalletDetails = (props: Props) => {
             {maskAddress(address)}
           </CopyToClipboard>
         </div>
-
-        <Button onClick={() => setIsExpanded(!isExpanded)} length="wide">
-          {isExpanded ? (
-            <>
-              <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
-            </>
-          ) : (
-            <>
-              <EyeIcon className="h-5 w-5 mr-2" /> Show
-            </>
-          )}{" "}
-          private key
-        </Button>
+        <div className="w-full grid md:place-items-end md:justify-end-end">
+          <Button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full md:w-auto"
+          >
+            {isExpanded ? (
+              <>
+                <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
+              </>
+            ) : (
+              <>
+                <EyeIcon className="h-5 w-5 mr-2" /> Show
+              </>
+            )}{" "}
+            private key
+          </Button>
+        </div>
       </div>
       {isExpanded && (
         <form onSubmit={handleUnlock} className="grid gap-4">
@@ -111,7 +115,7 @@ const WalletDetails = (props: Props) => {
           )}
           {privateKey ? (
             <Alert variant="success" prefix="Private key:">
-              <CopyToClipboard className="text-sm">
+              <CopyToClipboard className="text-sm lg:text-base max-w-[50vw] md:max-w-full ">
                 {privateKey}
               </CopyToClipboard>
             </Alert>

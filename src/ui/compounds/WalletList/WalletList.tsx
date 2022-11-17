@@ -45,7 +45,10 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   }
 
   return (
-    <div className="card bg-base-300" data-testid="wallet-list-container">
+    <div
+      className="card card-compact md:card-normal bg-base-300"
+      data-testid="wallet-list-container"
+    >
       <div className="card-body grid gap-4">
         <ul className="grid gap-4">
           <h2 className="card-title flex justify-between">

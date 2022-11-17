@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { FC, PropsWithChildren, useCallback, useState } from "react";
 import Tooltip from "../Tooltip";
 
@@ -24,7 +25,10 @@ const CopyToClipboard: FC<Props> = (props) => {
 
   return (
     <Tooltip tip={copied ? "Copied to clipboard!" : props.tooltip ?? ""}>
-      <button className={props.className} onClick={handleCopy}>
+      <button
+        className={clsx("overflow-x-clip text-ellipsis", props.className)}
+        onClick={handleCopy}
+      >
         {props.children} {copied ? "✓" : ""}
       </button>
     </Tooltip>
