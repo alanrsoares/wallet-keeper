@@ -1,7 +1,6 @@
 import {
   render,
   findByTestId,
-  act,
   fireEvent,
   waitFor,
 } from "@testing-library/react";
