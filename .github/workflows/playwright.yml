@@ -38,12 +38,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install dependencies
-        run: pnpm install
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
       - name: Run Playwright tests
         run: pnpm dlx playwright test
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
