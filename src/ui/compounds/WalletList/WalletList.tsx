@@ -4,21 +4,20 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-
 import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
-
+import Card from "~/ui/components/Card";
 import GenerateWallet from "../GenerateWallet";
 import WalletDetails from "../WalletDetails";
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
-  const walletKeeper = useWalletKeeper();
+  const { state } = useWalletKeeper();
 
   const walletCount = useMemo(
-    () => Object.keys(walletKeeper.state.accountsByAddress).length,
-    [walletKeeper.state.accountsByAddress]
+    () => Object.keys(state.accountsByAddress).length,
+    [state.accountsByAddress]
   );
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,38 +45,38 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   }
 
   return (
-    <section
+    <Card
       className="card card-compact md:card-normal bg-base-200"
+      bodyClassName="grid gap-4"
       data-testid="wallet-list-container"
     >
-      <div className="card-body grid gap-4">
-        <ul className="grid gap-4">
-          <h2 className="card-title flex justify-between">
-            <span>
-              Wallets <span className="opacity-80">({walletCount})</span>
-            </span>
-            <Button
-              size="sm"
-              shape="circle"
-              className={clsx("swap swap-rotate", {
-                "swap-active": isExpanded,
-              })}
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              <MinusIcon className="h-4 w-4 swap-on" />
-              <PlusIcon className="h-4 w-4 swap-off" />
-            </Button>
-          </h2>
-          {isExpanded &&
-            walletKeeper.state.accountList.map(({ address }) => (
-              <li key={address} className="card bg-base-300">
-                <WalletDetails address={address} />
-              </li>
-            ))}
-        </ul>
-        <GenerateWallet className="bg-base-300!" />
-      </div>
-    </section>
+      <ul className="grid gap-4">
+        <h2 className="card-title flex justify-between">
+          <span>
+            Wallets <span className="opacity-80">({walletCount})</span>
+          </span>
+          <Button
+            size="sm"
+            shape="circle"
+            className={clsx("swap swap-rotate", {
+              "swap-active": isExpanded,
+            })}
+            onClick={() => setIsExpanded(!isExpanded)}
+            data-testid="wallet-list-toggle"
+          >
+            <MinusIcon className="h-4 w-4 swap-on" />
+            <PlusIcon className="h-4 w-4 swap-off" />
+          </Button>
+        </h2>
+        {isExpanded &&
+          state.accountList.map(({ address }) => (
+            <li key={address} className="card bg-base-300">
+              <WalletDetails address={address} />
+            </li>
+          ))}
+      </ul>
+      <GenerateWallet className="bg-base-300!" />
+    </Card>
   );
 };
 

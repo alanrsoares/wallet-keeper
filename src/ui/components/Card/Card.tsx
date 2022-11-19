@@ -1,15 +1,16 @@
 import clsx from "clsx";
-import { PropsWithChildren } from "react";
 
-type Props = PropsWithChildren<{
+type ElementKind = keyof JSX.IntrinsicElements;
+
+type Props<T extends ElementKind> = JSX.IntrinsicElements[T] & {
   className?: string;
   bodyClassName?: string;
   title?: string;
   titleClassName?: string;
-  as?: keyof JSX.IntrinsicElements;
-}>;
+  as?: ElementKind;
+};
 
-const Card = (props: Props) => {
+const Card = <T extends ElementKind = "div">(props: Props<T>) => {
   const Tag = props.as || "div";
 
   return (
