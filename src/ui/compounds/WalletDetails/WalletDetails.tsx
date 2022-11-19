@@ -9,6 +9,7 @@ import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { maskAddress } from "~/lib/utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
+import Card from "~/ui/components/Card";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
 import Field from "~/ui/components/Field";
 import Identicon from "~/ui/components/Identicon";
@@ -69,94 +70,92 @@ const WalletDetails = (props: Props) => {
   const { displayName, address } = account;
 
   return (
-    <section className="card">
-      <div className="card-body">
-        <div className="card-title flex-col items-start md:flex-row justify-between">
-          <div className="grid gap-4">
-            <div className="flex gap-4 items-center">
-              <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
-                <Identicon address={address} diameter={48} />
-              </div>
-              <div className="grid gap-1">
-                <span className="font-semibold font-mono">{displayName}</span>
-                <Tooltip
-                  tip="ETH balance"
-                  className="font-mono text-sm text-left whitespace-nowrap"
-                >
-                  <span className="whitespace-nowrap">
-                    {balance ?? "..."} ETH
-                  </span>
-                </Tooltip>
-              </div>
+    <Card>
+      <div className="card-title flex-col items-start md:flex-row justify-between">
+        <div className="grid gap-4">
+          <div className="flex gap-4 items-center">
+            <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
+              <Identicon address={address} diameter={48} />
             </div>
-            <CopyToClipboard
-              className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
-              content={address}
-            >
-              {maskAddress(address)}
-            </CopyToClipboard>
+            <div className="grid gap-1">
+              <span className="font-semibold font-mono">{displayName}</span>
+              <Tooltip
+                tip="ETH balance"
+                className="font-mono text-sm text-left whitespace-nowrap"
+              >
+                <span className="whitespace-nowrap">
+                  {balance ?? "..."} ETH
+                </span>
+              </Tooltip>
+            </div>
           </div>
-          <div className="w-full grid md:place-items-end md:justify-end-end">
-            <Button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full md:w-auto"
-            >
-              {isExpanded ? (
-                <>
-                  <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
-                </>
-              ) : (
-                <>
-                  <EyeIcon className="h-5 w-5 mr-2" /> Show
-                </>
-              )}{" "}
-              private key
-            </Button>
-          </div>
+          <CopyToClipboard
+            className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
+            content={address}
+          >
+            {maskAddress(address)}
+          </CopyToClipboard>
         </div>
-        {isExpanded && (
-          <form onSubmit={handleUnlock} className="grid gap-4">
-            {Boolean(unlockError) && (
-              <Alert variant="error" prefix="Error:">
-                {(unlockError as Error).message}
-              </Alert>
-            )}
-            {privateKey ? (
-              <Alert variant="success" prefix="Private key:">
-                <CopyToClipboard className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm">
-                  {privateKey}
-                </CopyToClipboard>
-              </Alert>
+        <div className="w-full grid md:place-items-end md:justify-end-end">
+          <Button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full md:w-auto"
+          >
+            {isExpanded ? (
+              <>
+                <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
+              </>
             ) : (
               <>
-                <Field
-                  name="password"
-                  label="Wallet Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                  type="submit"
-                  variant="primary"
-                  disabled={password.length < 3}
-                  loading={isUnlocking}
-                  progress={progress}
-                >
-                  {isUnlocking ? (
-                    "Unlocking..."
-                  ) : (
-                    <>
-                      <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
-                    </>
-                  )}
-                </Button>
+                <EyeIcon className="h-5 w-5 mr-2" /> Show
               </>
-            )}
-          </form>
-        )}
+            )}{" "}
+            private key
+          </Button>
+        </div>
       </div>
-    </section>
+      {isExpanded && (
+        <form onSubmit={handleUnlock} className="grid gap-4">
+          {Boolean(unlockError) && (
+            <Alert variant="error" prefix="Error:">
+              {(unlockError as Error).message}
+            </Alert>
+          )}
+          {privateKey ? (
+            <Alert variant="success" prefix="Private key:">
+              <CopyToClipboard className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm">
+                {privateKey}
+              </CopyToClipboard>
+            </Alert>
+          ) : (
+            <>
+              <Field
+                name="password"
+                label="Wallet Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={password.length < 3}
+                loading={isUnlocking}
+                progress={progress}
+              >
+                {isUnlocking ? (
+                  "Unlocking..."
+                ) : (
+                  <>
+                    <LockClosedIcon className="h-5 w-5 mr-2" /> Unlock
+                  </>
+                )}
+              </Button>
+            </>
+          )}
+        </form>
+      )}
+    </Card>
   );
 };
 
