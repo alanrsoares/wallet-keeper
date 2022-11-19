@@ -5,6 +5,7 @@ import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
+import Card from "~/ui/components/Card";
 import Field from "~/ui/components/Field";
 
 type Props = {
@@ -110,11 +111,8 @@ const GenerateWallet: FC<Props> = (props) => {
   }
 
   return (
-    <section
-      className={clsx(
-        "card card-compact bg-base-300 relative",
-        props.className
-      )}
+    <Card
+      className={clsx("card-compact bg-base-300 relative", props.className)}
     >
       <Button
         shape="circle"
@@ -125,7 +123,7 @@ const GenerateWallet: FC<Props> = (props) => {
       >
         <XMarkIcon className="h-4 w-4" />
       </Button>
-      <form className="grid gap-4 card-body" onSubmit={handleSubmit}>
+      <form className="grid gap-4" onSubmit={handleSubmit}>
         {Boolean(error) && (
           <Alert variant="error">
             <span className="font-bold">Error:</span>
@@ -188,7 +186,7 @@ const GenerateWallet: FC<Props> = (props) => {
           {isLoading ? "Generating wallet..." : "Generate new wallet"}
         </Button>
       </form>
-    </section>
+    </Card>
   );
 };
 
