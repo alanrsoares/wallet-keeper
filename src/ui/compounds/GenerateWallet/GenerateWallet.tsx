@@ -113,6 +113,7 @@ const GenerateWallet: FC<Props> = (props) => {
   return (
     <Card
       className={clsx("card-compact bg-base-300 relative", props.className)}
+      testId="generate-wallet-card"
     >
       <Button
         shape="circle"

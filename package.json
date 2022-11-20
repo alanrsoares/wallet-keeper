@@ -10,7 +10,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test": "vitest --run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e":"pnpm dlx playwright test"
   },
   "dependencies": {
     "@ethersproject/json-wallets": "^5.7.0",
