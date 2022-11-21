@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, ChangeEvent } from "react";
 import Alert from "../Alert";
 import Input from "../Input";
 
@@ -7,7 +7,7 @@ type Props = {
   type?: "text" | "password";
   name: string;
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   validation?: {
     message: string;
     status: "error" | "warning" | "info" | "success";

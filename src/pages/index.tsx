@@ -1,5 +1,3 @@
-import React from "react";
-
 import WalletList from "~/ui/compounds/WalletList";
 
 const Index = () => {
