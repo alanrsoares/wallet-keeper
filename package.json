@@ -10,7 +10,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test": "vitest --run src",
-    "test:watch": "vitest",
+    "test:watch": "vitest src",
     "test:e2e":"pnpm dlx playwright test"
   },
   "dependencies": {
