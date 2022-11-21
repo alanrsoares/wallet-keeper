@@ -35,8 +35,14 @@ pnpm dev
 
 ## Running tests 🧪
 
+- test - run ui / unit tests with [`vitest`](https://vitest.dev/)
 ```bash
 pnpm test
+```
+
+- test:e2e - run end to end tests with [`playwright`](https://playwright.dev/)
+```bash
+pnpm test:e2e
 ```
 
 ## Other commands
@@ -47,7 +53,7 @@ pnpm test
 pnpm lint
 ```
 
-...
+-------
 
 ## Built with
 
