@@ -9,7 +9,7 @@
     "lint": "rome check src",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test": "vitest --run",
+    "test": "vitest --run src/**/*.spec.ts",
     "test:watch": "vitest",
     "test:e2e":"pnpm dlx playwright test"
   },
