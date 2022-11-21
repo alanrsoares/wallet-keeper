@@ -169,7 +169,7 @@ describe("WalletList", () => {
 
         await waitFor(
           () => {
-            expect(submitButton.innerText).toContain("Generating");
+            expect(submitButton.innerText).toContain("Generating wallet...");
           },
           {
             timeout: 1000,
@@ -179,13 +179,19 @@ describe("WalletList", () => {
         await waitFor(
           () => {
             expect((submitButton as HTMLButtonElement)?.innerText).toContain(
-              "Generating"
+              "100%"
             );
           },
           {
-            timeout: 1000,
+            timeout: 9000,
           }
         );
+
+        const walletListContainer = await getters(
+          container
+        ).walletListContainer();
+
+        expect(walletListContainer).toBeTruthy();
       },
       {
         timeout: 10000,
