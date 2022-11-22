@@ -21,7 +21,7 @@ const Document = () => (
       />
       <title>WalletKeeper</title>
     </Head>
-    <body className="dark antialiased">
+    <body className="dark antialiased scroll-smooth">
       <Main />
       <NextScript />
     </body>

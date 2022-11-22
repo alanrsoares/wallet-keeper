@@ -13,13 +13,13 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <MainLayout>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <MainLayout>
         <Hydrate state={(pageProps as any)?.dehydratedState}>
           <Component {...pageProps} />
         </Hydrate>
-      </QueryClientProvider>
-    </MainLayout>
+      </MainLayout>
+    </QueryClientProvider>
   );
 };
 

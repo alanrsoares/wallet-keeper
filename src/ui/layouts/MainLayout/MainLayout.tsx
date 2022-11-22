@@ -7,15 +7,15 @@ type Props = PropsWithChildren<{}>;
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <div className="min-h-screen flex flex-col gap-4">
-      <Header />
-      <WalletKeeperProvider>
+    <WalletKeeperProvider>
+      <div className="min-h-screen flex flex-col gap-4">
+        <Header />
         <main className="flex-1 container-narrow mx-auto px-2 lg:px-0">
           {children}
         </main>
-      </WalletKeeperProvider>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </WalletKeeperProvider>
   );
 };
 
