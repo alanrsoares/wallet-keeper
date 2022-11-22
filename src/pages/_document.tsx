@@ -19,7 +19,6 @@ const Document = () => (
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Tourney&display=swap"
         rel="stylesheet"
       />
-      <title>WalletKeeper</title>
     </Head>
     <body className="dark antialiased scroll-smooth">
       <Main />

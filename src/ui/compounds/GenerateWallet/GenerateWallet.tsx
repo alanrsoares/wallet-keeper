@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { Maybe } from "~/lib/monads";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
@@ -107,7 +108,17 @@ const GenerateWallet: FC<Props> = (props) => {
       <Button
         data-testid="generate-wallet-button-collapsed"
         variant="primary"
-        onClick={setIsExpanded.bind(null, true)}
+        onClick={() => {
+          setIsExpanded(true);
+          // scroll to element:
+          setTimeout(() => {
+            Maybe.of(
+              document.querySelector("[data-testid=generate-wallet-card]")
+            ).map((element) => {
+              element.scrollIntoView({ behavior: "smooth" });
+            });
+          }, 16);
+        }}
       >
         <PlusIcon className="w-4 h-4 mr-2" />
         Generate new wallet

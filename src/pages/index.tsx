@@ -1,14 +1,21 @@
+import Head from "next/head";
+import { APP_NAME } from "~/lib/constants";
 import GenerateWallet from "~/ui/compounds/GenerateWallet";
 import ImportWallet from "~/ui/compounds/ImportWallet";
 import WalletList from "~/ui/compounds/WalletList";
 
 const Index = () => {
   return (
-    <div className="grid gap-4">
-      <WalletList />
-      <GenerateWallet />
-      <ImportWallet />
-    </div>
+    <>
+      <Head>
+        <title>{APP_NAME}</title>
+      </Head>
+      <div className="grid gap-4">
+        <WalletList />
+        <GenerateWallet />
+        <ImportWallet />
+      </div>
+    </>
   );
 };
 
