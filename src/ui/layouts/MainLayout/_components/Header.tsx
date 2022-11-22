@@ -2,22 +2,29 @@ import Link from "next/link";
 import { WalletIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+
 import { APP_NAME } from "~/lib/constants";
 
-const Header = () => {
+function useIsSticky(buffer = 0) {
   const [isSticky, setIsSticky] = useState(false);
 
-  const handleScroll = () => {
-    setIsSticky(window.scrollY > 0);
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > buffer);
+    };
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  return isSticky;
+}
+
+const Header = () => {
+  const isSticky = useIsSticky(32);
 
   return (
     <header
