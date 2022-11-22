@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .container-narrow {
+    @apply container mx-auto w-full max-w-2xl min-w-[300px];
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    @apply overflow-y-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
 @layer base {
   ::-webkit-scrollbar {
     width: 9px;
@@ -12,10 +29,8 @@
   ::-webkit-scrollbar-track {
     @apply rounded bg-transparent;
   }
-}
 
-@layer components {
-  .container-narrow {
-    @apply container mx-auto w-full max-w-2xl min-w-[300px];
+  body {
+    @apply no-scrollbar;
   }
 }
