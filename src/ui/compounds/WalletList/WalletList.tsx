@@ -26,19 +26,17 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
     setIsExpanded(walletCount > 0 && walletCount <= 5);
   }, [walletCount]);
 
-  if (!walletCount) {
+  if (!(walletCount || isExpanded)) {
     return (
-      <>
-        <div className="p-8 w-full grid place-items-center gap-4 xl:gap-8 group text-white/60 text-center">
-          <div className="font-display text-2xl xl:text-4xl">
-            Oh noes, no wallet yet?
-          </div>
-          <small className="text-lg opacity-90 -mt-2 xl:-mt-4">
-            Don't panic! You can create a new wallet below
-          </small>
-          <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
+      <div className="p-8 w-full grid place-items-center gap-4 xl:gap-8 group text-white/60 text-center">
+        <div className="font-display text-xl lg:text-2xl xl:text-4xl">
+          Oh noes, no wallet yet?
         </div>
-      </>
+        <small className="text-base lg:text-lg opacity-90 -mt-2 xl:-mt-4">
+          Don't panic! You can create a new wallet below
+        </small>
+        <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
+      </div>
     );
   }
 

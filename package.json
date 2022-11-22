@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "postbuild": "node ./scripts/postbuild.mjs",
+    "build": "next build && next export && node ./scripts/postbuild.mjs",
     "start": "next start",
     "lint": "rome check src",
     "storybook": "start-storybook -p 6006",
