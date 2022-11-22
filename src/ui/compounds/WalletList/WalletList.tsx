@@ -23,7 +23,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
 
   useEffect(() => {
     // wallet list should be expanded by default if there are wallets
-    setIsExpanded(walletCount > 0 && walletCount < 10);
+    setIsExpanded(walletCount > 0 && walletCount <= 5);
   }, [walletCount]);
 
   if (!walletCount) {
