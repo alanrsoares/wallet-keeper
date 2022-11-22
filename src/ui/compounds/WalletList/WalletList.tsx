@@ -42,7 +42,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
 
   return (
     <Card
-      className="card card-compact md:card-normal bg-base-200"
+      className="card card-compact md:card-normal md:bg-base-200 -mx-2"
       bodyClassName="grid gap-4"
       testId="wallet-list-container"
     >

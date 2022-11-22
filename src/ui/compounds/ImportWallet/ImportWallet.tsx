@@ -1,4 +1,4 @@
-import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ArrowDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -14,7 +14,7 @@ export type Props = {
 };
 
 const ImportWallet: FC<Props> = (props) => {
-  const walletKeeper = useWalletKeeper();
+  const { mutations } = useWalletKeeper();
 
   // form meta state:
   const [isExpanded, setIsExpanded] = useState(false);
@@ -39,7 +39,7 @@ const ImportWallet: FC<Props> = (props) => {
     mutateAsync: importWalletAsync,
     isLoading,
     error,
-  } = walletKeeper.mutations.importWallet();
+  } = mutations.importWallet();
 
   const handleReset = useCallback(() => {
     setDisplayName("");
@@ -112,7 +112,7 @@ const ImportWallet: FC<Props> = (props) => {
     return (
       <Button
         data-testid="import-wallet-button-collapsed"
-        variant="primary"
+        variant="accent"
         onClick={() => {
           setIsExpanded(true);
           // scroll to element:
@@ -129,8 +129,8 @@ const ImportWallet: FC<Props> = (props) => {
           }, 16);
         }}
       >
-        <PlusIcon className="w-4 h-4 mr-2" />
-        Import wallet
+        <ArrowDownIcon className="w-4 h-4 mr-2" />
+        Import existing wallet
       </Button>
     );
   }
@@ -218,13 +218,13 @@ const ImportWallet: FC<Props> = (props) => {
         />
         <Button
           data-testid="import-wallet-button-expanded"
-          variant="primary"
+          variant="accent"
           disabled={!isValid}
           loading={isLoading}
           progress={progress}
           type="submit"
         >
-          {isLoading ? "Importing wallet..." : "Import new wallet"}
+          {isLoading ? "Importing wallet..." : "Import existing wallet"}
         </Button>
       </form>
     </Card>
