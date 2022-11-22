@@ -55,7 +55,7 @@ pnpm lint
 
 -------
 
-## Built with
+## Built with :hammer:
 
 - [ethers](https://ethers.io) - Ethereum sdk
 - [nextjs](https://nextjs.org) - Nextjs 13 for 100 lighthouse score
@@ -63,6 +63,11 @@ pnpm lint
 - [tailwindcss](https://tailwindcss.com) - utility first css library
 - [daisyui](https://daisyui.com/) - tailwindcss component & theming primitives
 - [unstated-next](https://github.com/jamiebuilds/unstated-next) - Tiny wrapper around `react context` for shared state.
+
+## DX :rainbow:
+
+- [storybook](https://storybook.js.org/)
+- [rome](https://rome.tools)
 
 ---
 
