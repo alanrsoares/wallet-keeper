@@ -16,6 +16,6 @@
 
 @layer components {
   .container-narrow {
-    @apply container mx-auto w-full max-w-2xl;
+    @apply container mx-auto w-full max-w-2xl min-w-[300px];
   }
 }
