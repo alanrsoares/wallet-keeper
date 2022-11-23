@@ -115,7 +115,9 @@ const GenerateWallet: FC<Props> = (props) => {
             Maybe.of(
               document.querySelector("[data-testid=generate-wallet-card]")
             ).map((element) => {
-              element.scrollIntoView({ behavior: "smooth" });
+              if ("scrollIntoView" in element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
             });
           }, 16);
         }}
