@@ -15,18 +15,23 @@ export type Props = {
 const GenerateWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
 
+  // form meta state:
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // form fields:
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [isDirty, setIsDirty] = useState(false);
+
+  const fields = [displayName, password, passwordConfirm];
 
   useEffect(() => {
-    if (!isDirty && (displayName || password || passwordConfirm)) {
+    if (!isDirty && fields.some(Boolean)) {
       setIsDirty(true);
     }
-  }, [displayName, password, passwordConfirm, isDirty]);
+  }, [isDirty, fields]);
 
   const {
     mutateAsync: generateWalletAsync,
@@ -80,7 +85,11 @@ const GenerateWallet: FC<Props> = (props) => {
       return { message: "Display name is too long", field: "displayName" };
     }
 
-    if (password.length < 8) {
+    if (!password) {
+      return { message: "Password is required", field: "password" };
+    }
+
+    if (password && password.length < 8) {
       return { message: "Password is too short", field: "password" };
     }
 

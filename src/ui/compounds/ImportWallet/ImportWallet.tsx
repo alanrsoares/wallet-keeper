@@ -15,20 +15,24 @@ export type Props = {
 const ImportWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
 
+  // form meta state:
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // form fields:
   const [displayName, setDisplayName] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [progress, setProgress] = useState(0);
-  const [isDirty, setIsDirty] = useState(false);
+  const fields = [displayName, privateKey, password, passwordConfirm];
 
   useEffect(() => {
-    if (!isDirty && (displayName || privateKey)) {
+    if (!isDirty && fields.some(Boolean)) {
       setIsDirty(true);
     }
-  }, [displayName, privateKey, isDirty]);
+  }, [isDirty, fields]);
 
   const {
     mutateAsync: importWalletAsync,
@@ -84,6 +88,10 @@ const ImportWallet: FC<Props> = (props) => {
 
     if (!privateKey) {
       return { message: "Private key is required", field: "privateKey" };
+    }
+
+    if (!password) {
+      return { message: "Password is required", field: "password" };
     }
 
     if (password && password.length < 8) {
