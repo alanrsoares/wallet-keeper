@@ -57,6 +57,10 @@ pnpm build
 - From chrome/brave, go to [chrome extensions](chrome://extensions/) or [brave extensions](brave://extensions)
 - click on `Load unpacked` and select the `out/` folder located at `path/to/wallet-keeper/out`
 
+And you should see the extension:
+![Screenshot from 2022-11-30 09-01-51](https://user-images.githubusercontent.com/273334/204653736-aa2f2d46-cdfb-4332-9bf6-b28b283eac70.png)
+
+
 ## Other commands
 
 - lint - validate application with [`rome`](https://rome.tools)
