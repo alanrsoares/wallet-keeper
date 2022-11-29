@@ -30,6 +30,13 @@ export type CreateWalletInput = {
   onProgress?: ProgressCallback;
 };
 
+export type ImportWalletInput = {
+  displayName: string;
+  privateKey: string;
+  password: string;
+  onProgress?: ProgressCallback;
+};
+
 export type UnlockWalletInput = {
   address: string;
   password: string;
@@ -72,6 +79,38 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           }
 
           const wallet = Wallet.createRandom();
+          const encryptedJson = await wallet.encrypt(
+            input.password,
+            {},
+            input.onProgress
+          );
+
+          setState((state) => ({
+            ...state,
+            accountsByAddress: {
+              ...state.accountsByAddress,
+              [wallet.address]: {
+                address: wallet.address,
+                encryptedJson,
+                displayName: input.displayName,
+              },
+            },
+          }));
+
+          return wallet;
+        }),
+      importWallet: () =>
+        useMutation(async (input: ImportWalletInput) => {
+          const existingWallet = Object.values(state.accountsByAddress).find(
+            (account) => account.displayName === input.displayName
+          );
+
+          if (existingWallet) {
+            throw new Error("Wallet with that name already exists");
+          }
+
+          const wallet = new Wallet(input.privateKey);
+
           const encryptedJson = await wallet.encrypt(
             input.password,
             {},

@@ -12,7 +12,7 @@ export type Props = {
   className?: string;
 };
 
-const GenerateWallet: FC<Props> = (props) => {
+const ImportWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
 
   const defaultExpanded = useMemo(() => {
@@ -21,27 +21,28 @@ const GenerateWallet: FC<Props> = (props) => {
 
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [displayName, setDisplayName] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+
   const [progress, setProgress] = useState(0);
   const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
-    if (!isDirty && (displayName || password || passwordConfirm)) {
+    if (!isDirty && (displayName || privateKey)) {
       setIsDirty(true);
     }
-  }, [displayName, password, passwordConfirm, isDirty]);
+  }, [displayName, privateKey, isDirty]);
 
   const {
-    mutateAsync: generateWalletAsync,
+    mutateAsync: importWalletAsync,
     isLoading,
     error,
-  } = walletKeeper.mutations.createWallet();
+  } = walletKeeper.mutations.importWallet();
 
   const handleReset = useCallback(() => {
     setDisplayName("");
-    setPassword("");
-    setPasswordConfirm("");
+    setPrivateKey("");
     setProgress(0);
     setIsExpanded(false);
   }, []);
@@ -51,9 +52,10 @@ const GenerateWallet: FC<Props> = (props) => {
       event.preventDefault();
 
       try {
-        await generateWalletAsync({
+        await importWalletAsync({
           displayName,
           password,
+          privateKey,
           onProgress: setProgress,
         });
       } catch (error) {
@@ -64,7 +66,7 @@ const GenerateWallet: FC<Props> = (props) => {
         }
       }
     },
-    [displayName, password]
+    [displayName, privateKey]
   );
 
   const validationError = useMemo(() => {
@@ -84,16 +86,20 @@ const GenerateWallet: FC<Props> = (props) => {
       return { message: "Display name is too long", field: "displayName" };
     }
 
-    if (password.length < 8) {
+    if (!privateKey) {
+      return { message: "Private key is required", field: "privateKey" };
+    }
+
+    if (password && password.length < 8) {
       return { message: "Password is too short", field: "password" };
     }
 
-    if (password !== passwordConfirm) {
+    if (passwordConfirm && password !== passwordConfirm) {
       return { message: "Passwords do not match", field: "passwordConfirm" };
     }
 
     return null;
-  }, [displayName, password, passwordConfirm, isDirty]);
+  }, [displayName, privateKey, password, passwordConfirm, isDirty]);
 
   const isValid = !validationError && isDirty;
 
@@ -105,7 +111,7 @@ const GenerateWallet: FC<Props> = (props) => {
         onClick={setIsExpanded.bind(null, true)}
       >
         <PlusIcon className="w-4 h-4 mr-2" />
-        Generate new wallet
+        Import wallet
       </Button>
     );
   }
@@ -147,6 +153,21 @@ const GenerateWallet: FC<Props> = (props) => {
           }
         />
         <Field
+          label="Private Key"
+          name="privateKey"
+          type="password"
+          value={privateKey}
+          onChange={(e) => setPrivateKey(e.target.value)}
+          validation={
+            validationError?.field === "privateKey"
+              ? {
+                  message: validationError.message,
+                  status: "error",
+                }
+              : undefined
+          }
+        />
+        <Field
           label="Password"
           name="password"
           type="password"
@@ -177,18 +198,18 @@ const GenerateWallet: FC<Props> = (props) => {
           }
         />
         <Button
-          data-testid="generate-wallet-button-expanded"
+          data-testid="import-wallet-button-expanded"
           variant="primary"
           disabled={!isValid}
           loading={isLoading}
           progress={progress}
           type="submit"
         >
-          {isLoading ? "Generating wallet..." : "Generate new wallet"}
+          {isLoading ? "Importing wallet..." : "Import new wallet"}
         </Button>
       </form>
     </Card>
   );
 };
 
-export default GenerateWallet;
+export default ImportWallet;

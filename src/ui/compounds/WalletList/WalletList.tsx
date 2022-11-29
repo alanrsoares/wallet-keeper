@@ -10,6 +10,7 @@ import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import GenerateWallet from "../GenerateWallet";
+import ImportWallet from "../ImportWallet";
 import WalletDetails from "../WalletDetails";
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
@@ -40,6 +41,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
         </div>
         <GenerateWallet />
+        <ImportWallet />
       </>
     );
   }
@@ -76,6 +78,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           ))}
       </ul>
       <GenerateWallet className="bg-base-300!" />
+      <ImportWallet className="bg-base-300!" />
     </Card>
   );
 };
