@@ -106,7 +106,7 @@ const ImportWallet: FC<Props> = (props) => {
   if (!isExpanded) {
     return (
       <Button
-        data-testid="generate-wallet-button-collapsed"
+        data-testid="import-wallet-button-collapsed"
         variant="primary"
         onClick={setIsExpanded.bind(null, true)}
       >
@@ -119,7 +119,7 @@ const ImportWallet: FC<Props> = (props) => {
   return (
     <Card
       className={clsx("card-compact bg-base-300 relative", props.className)}
-      testId="generate-wallet-card"
+      testId="import-wallet-card"
     >
       <Button
         shape="circle"
@@ -137,7 +137,7 @@ const ImportWallet: FC<Props> = (props) => {
             {(error as Error).message}
           </Alert>
         )}
-        <h2 className="card-title">Generate new wallet</h2>
+        <h2 className="card-title">Import wallet</h2>
         <Field
           label="Display Name"
           name="displayName"
