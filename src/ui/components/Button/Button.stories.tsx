@@ -14,6 +14,10 @@ const withProps = (args: Props) => {
   return Cmp;
 };
 
+export const Default = withProps({
+  children: "Default",
+});
+
 export const Primary = withProps({
   children: "Primary",
   variant: "primary",

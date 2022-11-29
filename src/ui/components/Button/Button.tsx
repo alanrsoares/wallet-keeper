@@ -41,6 +41,7 @@ const Button = ({
   children,
   loading,
   progress,
+  responsive,
   ...props
 }: Props) => {
   const content: ReactNode =
@@ -82,7 +83,7 @@ const Button = ({
         // loading
         loading: loading,
         // responsive
-        "btn-sm md:btn-md": props.responsive,
+        "btn-sm md:btn-md": responsive,
       })}
       {...props}
     >
