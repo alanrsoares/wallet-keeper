@@ -9,8 +9,6 @@ import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
-import GenerateWallet from "../GenerateWallet";
-import ImportWallet from "../ImportWallet";
 import WalletDetails from "../WalletDetails";
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
@@ -40,8 +38,6 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           </small>
           <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
         </div>
-        <GenerateWallet />
-        <ImportWallet />
       </>
     );
   }
@@ -52,24 +48,24 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
       bodyClassName="grid gap-4"
       testId="wallet-list-container"
     >
+      <h2 className="card-title flex justify-between">
+        <span>
+          Wallets <span className="opacity-80">({walletCount})</span>
+        </span>
+        <Button
+          size="sm"
+          shape="circle"
+          className={clsx("swap swap-rotate", {
+            "swap-active": isExpanded,
+          })}
+          onClick={() => setIsExpanded(!isExpanded)}
+          data-testid="wallet-list-toggle"
+        >
+          <MinusIcon className="h-4 w-4 swap-on" />
+          <PlusIcon className="h-4 w-4 swap-off" />
+        </Button>
+      </h2>
       <ul className="grid gap-4">
-        <h2 className="card-title flex justify-between">
-          <span>
-            Wallets <span className="opacity-80">({walletCount})</span>
-          </span>
-          <Button
-            size="sm"
-            shape="circle"
-            className={clsx("swap swap-rotate", {
-              "swap-active": isExpanded,
-            })}
-            onClick={() => setIsExpanded(!isExpanded)}
-            data-testid="wallet-list-toggle"
-          >
-            <MinusIcon className="h-4 w-4 swap-on" />
-            <PlusIcon className="h-4 w-4 swap-off" />
-          </Button>
-        </h2>
         {isExpanded &&
           state.accountList.map(({ address }) => (
             <li key={address} className="card bg-base-300">
@@ -77,8 +73,6 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
             </li>
           ))}
       </ul>
-      <GenerateWallet className="bg-base-300!" />
-      <ImportWallet className="bg-base-300!" />
     </Card>
   );
 };

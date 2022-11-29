@@ -15,11 +15,7 @@ export type Props = {
 const GenerateWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
 
-  const defaultExpanded = useMemo(() => {
-    return !Object.keys(walletKeeper.state.accountsByAddress).length;
-  }, [walletKeeper.state.accountsByAddress]);
-
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
