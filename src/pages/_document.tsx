@@ -1,11 +1,13 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
+import { APP_NAME } from "~/lib/constants";
+
 const Document = () => (
   <Html lang="en">
     <Head>
       <meta
         name="description"
-        content="Walletkeeper, your secure wallet manager"
+        content={`${APP_NAME}, your secure wallet manager`}
       />
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       <link rel="icon" type="image/png" href="/favicon.png" />
