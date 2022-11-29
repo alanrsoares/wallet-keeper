@@ -33,6 +33,7 @@ export type Props = JSX.IntrinsicElements["button"] & {
   shape?: ButtonShape;
   loading?: boolean;
   progress?: number;
+  responsive?: boolean;
 };
 
 const Button = ({
@@ -63,7 +64,7 @@ const Button = ({
         "btn-accent": props.variant === "accent",
         "btn-info": props.variant === "info",
         "btn-warning": props.variant === "warning",
-        "btn-danger": props.variant === "danger",
+        "btn-error": props.variant === "danger",
         "btn-success": props.variant === "success",
         "btn-ghost": props.variant === "ghost",
         // sizes
@@ -80,6 +81,8 @@ const Button = ({
         "btn-square": props.shape === "square",
         // loading
         loading: loading,
+        // responsive
+        "btn-sm md:btn-md": props.responsive,
       })}
       {...props}
     >
@@ -88,8 +91,6 @@ const Button = ({
   );
 };
 
-Button.defaultProps = {
-  size: "md",
-};
+Button.defaultProps = {};
 
 export default Button;

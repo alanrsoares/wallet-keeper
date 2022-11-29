@@ -108,6 +108,7 @@ const GenerateWallet: FC<Props> = (props) => {
       <Button
         data-testid="generate-wallet-button-collapsed"
         variant="primary"
+        responsive={true}
         onClick={() => {
           setIsExpanded(true);
           // scroll to element:
@@ -195,6 +196,7 @@ const GenerateWallet: FC<Props> = (props) => {
           }
         />
         <Button
+          responsive={true}
           data-testid="generate-wallet-button-expanded"
           variant="primary"
           disabled={!isValid}

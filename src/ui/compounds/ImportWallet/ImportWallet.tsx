@@ -113,6 +113,7 @@ const ImportWallet: FC<Props> = (props) => {
       <Button
         data-testid="import-wallet-button-collapsed"
         variant="accent"
+        responsive={true}
         onClick={() => {
           setIsExpanded(true);
           // scroll to element:
@@ -219,6 +220,7 @@ const ImportWallet: FC<Props> = (props) => {
         <Button
           data-testid="import-wallet-button-expanded"
           variant="accent"
+          responsive={true}
           disabled={!isValid}
           loading={isLoading}
           progress={progress}

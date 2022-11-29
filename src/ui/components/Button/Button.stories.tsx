@@ -1,120 +1,91 @@
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
 import Button, { Props } from "./Button";
 
 export default {
   title: "Button",
   component: Button,
+} as ComponentMeta<typeof Button>;
+
+const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+
+const withProps = (args: Props) => {
+  const Cmp = Template.bind({});
+  Cmp.args = args;
+  return Cmp;
 };
 
-const Template = (args: Props) => <Button {...args} />;
+export const Primary = withProps({
+  children: "Primary",
+  variant: "primary",
+});
 
-export const Primary = Template.bind(
-  {},
-  {
-    children: "Primary",
-    variant: "primary",
-  }
-);
+export const Secondary = withProps({
+  children: "Secondary",
+  variant: "secondary",
+});
 
-export const Secondary = Template.bind(
-  {},
-  {
-    children: "Secondary",
-    variant: "secondary",
-  }
-);
+export const Accent = withProps({
+  children: "Accent",
+  variant: "accent",
+});
 
-export const Accent = Template.bind(
-  {},
-  {
-    children: "Accent",
-    variant: "accent",
-  }
-);
+export const Info = withProps({
+  children: "Info",
+  variant: "info",
+});
 
-export const Info = Template.bind(
-  {},
-  {
-    children: "Info",
-    variant: "info",
-  }
-);
+export const Warning = withProps({
+  children: "Warning",
+  variant: "warning",
+});
 
-export const Warning = Template.bind(
-  {},
-  {
-    children: "Warning",
-    variant: "warning",
-  }
-);
+export const Danger = withProps({
+  children: "Danger",
+  variant: "danger",
+});
 
-export const Danger = Template.bind(
-  {},
-  {
-    children: "Danger",
-    variant: "danger",
-  }
-);
+export const Success = withProps({
+  children: "Success",
+  variant: "success",
+});
 
-export const Success = Template.bind(
-  {},
-  {
-    children: "Success",
-    variant: "success",
-  }
-);
+export const Ghost = withProps({
+  children: "Ghost",
+  variant: "ghost",
+});
 
-export const Ghost = Template.bind(
-  {},
-  {
-    children: "Ghost",
-    variant: "ghost",
-  }
-);
+export const ExtraSmall = withProps({
+  children: "Extra Small",
+  size: "xs",
+});
 
-export const ExtraSmall = Template.bind(
-  {},
-  {
-    children: "Xs",
-    size: "xs",
-  }
-);
+export const Small = withProps({
+  children: "Small",
+  size: "sm",
+});
 
-export const Small = Template.bind(
-  {},
-  {
-    children: "Small",
-    size: "sm",
-  }
-);
+export const Large = withProps({
+  children: "Large",
+  size: "lg",
+});
 
-export const Large = Template.bind(
-  {},
-  {
-    children: "Large",
-    size: "lg",
-  }
-);
+export const ExtraLarge = withProps({
+  children: "Extra Large",
+  size: "xl",
+});
 
-export const ExtraLarge = Template.bind(
-  {},
-  {
-    children: "Xl",
-    size: "xl",
-  }
-);
+export const Wide = withProps({
+  children: "Wide",
+  length: "wide",
+});
 
-export const Wide = Template.bind(
-  {},
-  {
-    children: "Wide",
-    length: "wide",
-  }
-);
+export const Block = withProps({
+  children: "Block",
+  length: "block",
+});
 
-export const Block = Template.bind(
-  {},
-  {
-    children: "Block",
-    length: "block",
-  }
-);
+export const Responsive_Block = withProps({
+  children: "Responsive Block",
+  responsive: true,
+  length: "block",
+});
