@@ -14,9 +14,10 @@ export type Props = PropsWithChildren<{
   variant?: AlertVariant;
   hideIcon?: boolean;
   prefix?: string;
+  shadow?: "sm" | "md" | "lg" | "xl" | "2xl";
 }>;
 
-const VARIANT_ICONS = {
+export const VARIANT_ICONS = {
   success: CheckCircleIcon,
   error: XCircleIcon,
   warning: ExclamationCircleIcon,
@@ -36,12 +37,23 @@ const Alert: FC<Props> = (props) => {
           "alert-error": props.variant === "error",
           "alert-warning": props.variant === "warning",
           "alert-info": props.variant === "info",
+          "shadow-sm": props.shadow === "sm",
+          shadow: props.shadow === "md",
+          "shadow-lg": props.shadow === "lg",
+          "shadow-xl": props.shadow === "xl",
+          "shadow-2xl": props.shadow === "2xl",
         },
         props.className
       )}
     >
       <div>
-        {!props.hideIcon && <Icon className="h-6 w-6 mr-1 lg:mr-2" />}
+        {!props.hideIcon && (
+          <Icon
+            className={clsx("h-6 w-6 mr-1 lg:mr-2 flex-shrink-0", {
+              "stroke-info": !props.variant,
+            })}
+          />
+        )}
         <span className="grid md:flex md:items-center">
           {props.prefix && (
             <strong className="font-bold text-sm md:text-base mr-1 lg:mr-2 whitespace-nowrap">
