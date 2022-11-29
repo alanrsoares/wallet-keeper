@@ -10,10 +10,9 @@ A minimalistic web3 wallet built for educational purposes
 
 ## Lighthouse score 🤩
 
-
 [![lightouse-score](/lighthouse/full-100-score.png)](/lighthouse/walletkeeper-lighthouse-report.pdf)
 
-## Getting Started  :rocket:
+## Getting Started :rocket:
 
 📇 Clone this repo
 
@@ -23,7 +22,7 @@ git clone git@github.com:alanrsoares/wallet-keeper.git
 
 🏗️ Install dependencies
 
-```bash 
+```bash
 pnpm i
 ```
 
@@ -36,14 +35,27 @@ pnpm dev
 ## Running tests 🧪
 
 - test - run ui / unit tests with [`vitest`](https://vitest.dev/)
+
 ```bash
 pnpm test
 ```
 
 - test:e2e - run end to end tests with [`playwright`](https://playwright.dev/)
+
 ```bash
 pnpm test:e2e
 ```
+
+## Running as a [`Manifest V3`](https://developer.chrome.com/docs/extensions/mv3/intro/) browser extension
+
+- build
+
+```
+pnpm build
+```
+
+- From chrome/brave, go to [chrome extensions](chrome://extensions/) or [brave extensions](brave://extensions)
+- click on `Load unpacked` and select the `out/` folder located at `path/to/wallet-keeper/out`
 
 ## Other commands
 
@@ -53,7 +65,7 @@ pnpm test:e2e
 pnpm lint
 ```
 
--------
+---
 
 ## Built with :hammer:
 
