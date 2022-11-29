@@ -1,24 +1,22 @@
-import { execSync } from "child_process";
+import { exec } from "child_process";
 import { writeFile, readFile } from "fs/promises";
 
-import pkg from "../package.json" assert { type: "json" };
-import currentManifest from "../out/manifest.json" assert { type: "json" };
+import packageJson from "../package.json" assert { type: "json" };
+import manifestJson from "../out/manifest.json" assert { type: "json" };
 
 async function main() {
-  const version = pkg.version;
+  const version = packageJson.version;
   const indexHtml = await readFile("./out/index.html", "utf-8");
-
-  execSync("mv out/_next out/next");
 
   const nextIndexHtml = indexHtml.replace(/\_next\//g, "next/");
 
-  const nextManifest = {
-    ...currentManifest,
-    version,
-  };
+  const manifest = { ...manifestJson, version };
 
-  await writeFile("./out/index.html", nextIndexHtml);
-  await writeFile("./out/manifest.json", JSON.stringify(nextManifest, null, 2));
+  await Promise.all([
+    exec("mv out/_next out/next"),
+    writeFile("./out/index.html", nextIndexHtml),
+    writeFile("./out/manifest.json", JSON.stringify(manifest, null, 2)),
+  ]);
 }
 
 main();
