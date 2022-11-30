@@ -2,6 +2,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   LockClosedIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
@@ -15,27 +16,26 @@ import Field from "~/ui/components/Field";
 import Identicon from "~/ui/components/Identicon";
 import Tooltip from "~/ui/components/Tooltip";
 
-type Props = {
+export type Props = {
   address: string;
 };
 
-const WalletDetails = (props: Props) => {
+const WalletDetails = ({ address }: Props) => {
   const { state, mutations, queries } = useWalletKeeper();
   const {
     mutateAsync: unlockWalletAsync,
     isLoading: isUnlocking,
     error: unlockError,
   } = mutations.unlockWallet();
-  const { data: balance } = queries.getBalance({
-    address: props.address,
-  });
+
+  const { data: balance } = queries.getBalance({ address });
 
   const [progress, setProgress] = useState(0);
   const [password, setPassword] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const account = state.accountsByAddress[props.address];
+  const account = state.accountsByAddress[address];
 
   const handleUnlock = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,18 +56,16 @@ const WalletDetails = (props: Props) => {
         }
       }
     },
-    [props.address, password]
+    [address, password]
   );
 
   if (!account) {
     return (
       <Alert variant="error" prefix="Wallet not found:">
-        {props.address}
+        {address}
       </Alert>
     );
   }
-
-  const { displayName, address } = account;
 
   return (
     <Card>
@@ -78,7 +76,9 @@ const WalletDetails = (props: Props) => {
               <Identicon address={address} diameter={48} />
             </div>
             <div className="grid gap-1">
-              <span className="font-semibold font-mono">{displayName}</span>
+              <span className="font-semibold font-mono">
+                {account.displayName}
+              </span>
               <Tooltip
                 tip="ETH balance"
                 className="font-mono text-sm text-left whitespace-nowrap"
@@ -91,15 +91,17 @@ const WalletDetails = (props: Props) => {
           </div>
           <CopyToClipboard
             className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
+            checkmarkClassname="top-0"
             content={address}
           >
             {maskAddress(address)}
           </CopyToClipboard>
         </div>
-        <div className="w-full grid md:place-items-end md:justify-end-end">
+        <div className="w-full grid gap-2 md:place-items-end md:justify-end-end">
           <Button
             onClick={() => setIsExpanded(!isExpanded)}
             className="w-full md:w-auto"
+            size="sm"
           >
             {isExpanded ? (
               <>
@@ -112,6 +114,14 @@ const WalletDetails = (props: Props) => {
             )}{" "}
             private key
           </Button>
+          <Button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full md:w-auto"
+            variant="danger"
+            size="sm"
+          >
+            <TrashIcon className="h-5 w-5 mr-2" /> Remove wallet
+          </Button>
         </div>
       </div>
       {isExpanded && (
@@ -123,7 +133,10 @@ const WalletDetails = (props: Props) => {
           )}
           {privateKey ? (
             <Alert variant="success" prefix="Private key:">
-              <CopyToClipboard className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm">
+              <CopyToClipboard
+                className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm"
+                checkmarkClassname="text-green-900 lg:text-success md:-right-10"
+              >
                 {privateKey}
               </CopyToClipboard>
             </Alert>

@@ -39,7 +39,7 @@ const CopyToClipboard: FC<Props> = (props) => {
       {copied && (
         <span
           className={clsx(
-            "-tracking-[.4em] text-sm ml-1 text-success absolute -right-3.5 md:-right-8",
+            "-tracking-[.4em] text-sm ml-1 text-success absolute -right-4 md:-right-8",
             props.checkmarkClassname
           )}
         >
