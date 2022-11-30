@@ -4,10 +4,11 @@ import Input from "../Input";
 
 type Props = {
   label?: string;
+  placeholder?: string;
   type?: "text" | "password";
   name: string;
-  value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   validation?: {
     message: string;
     status: "error" | "warning" | "info" | "success";
@@ -21,7 +22,7 @@ const Field: FC<Props> = (props) => (
       type={props.type}
       name={props.name}
       value={props.value}
-      placeholder={props.label}
+      placeholder={props.placeholder ?? props.label}
       onChange={props.onChange}
     />
     {props.validation && (
