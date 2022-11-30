@@ -12,9 +12,9 @@ import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
-
 import Identicon from "~/ui/components/Identicon";
 import Tooltip from "~/ui/components/Tooltip";
+
 import DeleteWalletForm from "./DeleteWalletForm";
 import ExportWalletForm from "./ExportWalletForm";
 
