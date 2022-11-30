@@ -2,6 +2,7 @@
   "theme_color": "#f69435",
   "background_color": "#a8deff",
   "display": "standalone",
+  "orientation": "portrait",
   "start_url": "/",
   "name": "WalletKeeper",
   "short_name": "WalletKeeper",
