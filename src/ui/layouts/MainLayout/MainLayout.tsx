@@ -9,7 +9,7 @@ type Props = PropsWithChildren<{}>;
 const MainLayout = ({ children }: Props) => {
   return (
     <WalletKeeperProvider>
-      <div className="min-h-screen flex flex-col gap-4">
+      <div className="h-screen flex flex-col gap-4 no-scrollbar">
         <Header />
         <main className="flex-1 container-narrow mx-auto px-2 lg:px-0">
           {children}

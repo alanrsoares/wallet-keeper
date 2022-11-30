@@ -1,6 +1,6 @@
 {
   "name": "Wallet Keeper",
-  "description": "A simple wallet keeper",
+  "description": "WalletKeeper, a minimal, non-custodial web3 wallet for EVM chains",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
