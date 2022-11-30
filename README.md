@@ -46,7 +46,7 @@ pnpm test
 pnpm test:e2e
 ```
 
-## Running as a [`Manifest V3`](https://developer.chrome.com/docs/extensions/mv3/intro/) browser extension
+## Running as a [`Manifest V3`](https://developer.chrome.com/docs/extensions/mv3/intro/) browser extension 🧩
 
 - build
 
@@ -60,6 +60,14 @@ pnpm build
 And you should see the extension:
 ![Screenshot from 2022-11-30 09-01-51](https://user-images.githubusercontent.com/273334/204653736-aa2f2d46-cdfb-4332-9bf6-b28b283eac70.png)
 
+
+## Running Storybook 🎨
+
+This will start storybook on https://localhost:6006
+
+```
+pnpm storybook
+```
 
 ## Other commands
 
