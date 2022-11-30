@@ -43,6 +43,12 @@ export type UnlockWalletInput = {
   onProgress?: ProgressCallback;
 };
 
+export type DeleteWalletInput = {
+  address: string;
+  password: string;
+  onProgress?: ProgressCallback;
+};
+
 export type WalletKeeperState = {
   /**
    * Accounts, indexed by address
@@ -146,6 +152,28 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           );
 
           return wallet;
+        }),
+
+      deleteWallet: () =>
+        useMutation(async (input: DeleteWalletInput) => {
+          const account = state.accountsByAddress[input.address];
+
+          // password is needed to decrypt the wallet
+          // so we can delete it from the state
+          await Wallet.fromEncryptedJson(
+            account.encryptedJson,
+            input.password,
+            input.onProgress
+          );
+
+          setState((state) => ({
+            ...state,
+            accountsByAddress: Object.fromEntries(
+              Object.entries(state.accountsByAddress).filter(
+                ([key]) => key !== input.address
+              )
+            ),
+          }));
         }),
     };
 
