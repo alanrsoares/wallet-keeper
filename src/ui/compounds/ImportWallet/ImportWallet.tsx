@@ -112,7 +112,7 @@ const ImportWallet: FC<Props> = (props) => {
     return (
       <Button
         data-testid="import-wallet-button-collapsed"
-        variant="accent"
+        variant="secondary"
         responsive={true}
         onClick={() => {
           setIsExpanded(true);
@@ -219,7 +219,7 @@ const ImportWallet: FC<Props> = (props) => {
         />
         <Button
           data-testid="import-wallet-button-expanded"
-          variant="accent"
+          variant="secondary"
           responsive={true}
           disabled={!isValid}
           loading={isLoading}
