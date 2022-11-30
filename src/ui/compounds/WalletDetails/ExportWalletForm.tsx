@@ -1,4 +1,5 @@
 import { LockClosedIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 import { useCallback, useState } from "react";
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Alert from "~/ui/components/Alert";
@@ -9,6 +10,24 @@ import Field from "~/ui/components/Field";
 export type Props = {
   address: string;
 };
+
+type TabKind = "privateKey" | "mnemonic";
+
+type Tab = {
+  value: TabKind;
+  label: string;
+};
+
+const TABS: Tab[] = [
+  {
+    label: "Private Key",
+    value: "privateKey",
+  },
+  {
+    label: "Mnemonic",
+    value: "mnemonic",
+  },
+];
 
 const ExportWalletForm = ({ address }: Props) => {
   const { mutations } = useWalletKeeper();
@@ -22,6 +41,8 @@ const ExportWalletForm = ({ address }: Props) => {
   const [progress, setProgress] = useState(0);
   const [password, setPassword] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [mnemonic, setMnemonic] = useState("");
+  const [tab, setTab] = useState<TabKind>("privateKey");
 
   const handleUnlock = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +55,7 @@ const ExportWalletForm = ({ address }: Props) => {
         });
 
         setPrivateKey(wallet.privateKey);
+        setMnemonic(wallet.mnemonic.phrase);
       } catch (error) {
         if (error instanceof Error) {
           console.warn({
@@ -52,15 +74,33 @@ const ExportWalletForm = ({ address }: Props) => {
           {(unlockError as Error).message}
         </Alert>
       )}
-      {privateKey ? (
-        <Alert variant="success" prefix="Private key:">
-          <CopyToClipboard
-            className="overflow-x-clip text-sm max-w-[60vw] md:max-w-sm"
-            checkmarkClassname="text-green-900 lg:text-success md:-right-10"
+      {privateKey && mnemonic ? (
+        <>
+          <div className="tabs tabs-boxed">
+            {TABS.map(({ label, value }) => (
+              <button
+                className={clsx("tab", {
+                  "tab-active": tab === value,
+                })}
+                key={value}
+                onClick={() => setTab(value)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <Alert
+            variant="success"
+            prefix={tab === "privateKey" ? "Private key:" : "Mnemonic phrase:"}
           >
-            {privateKey}
-          </CopyToClipboard>
-        </Alert>
+            <CopyToClipboard
+              className="overflow-x-clip text-sm max-w-[60vw] md:max-w-xs"
+              checkmarkClassname="text-green-900 lg:text-success md:-right-10"
+            >
+              {tab === "privateKey" ? privateKey : mnemonic}
+            </CopyToClipboard>
+          </Alert>
+        </>
       ) : (
         <>
           <Field

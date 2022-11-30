@@ -9,7 +9,7 @@ const Index = () => (
     <Head>
       <title>{APP_NAME}</title>
     </Head>
-    <div className="grid gap-4 border">
+    <div className="grid gap-4">
       <WalletList />
       <GenerateWallet />
       <ImportWallet />
