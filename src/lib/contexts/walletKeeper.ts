@@ -24,6 +24,11 @@ export type AccountEntry = {
   displayName: string;
 };
 
+export type GetBalanceParams = {
+  address: string;
+  provider?: Provider;
+};
+
 export type CreateWalletInput = {
   displayName: string;
   password: string;
@@ -186,20 +191,20 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
     };
 
     const queries = {
-      getBalance: (input: { address: string; provider?: Provider }) =>
+      getBalance: (params: GetBalanceParams) =>
         useQuery(
-          ["eth-balance", input.address],
+          ["eth-balance", params.address, params.provider],
           async () => {
             const provider =
-              input.provider ??
+              params.provider ??
               getDefaultProvider(state.selectedNetwork ?? NETWORKS.goerli, {
                 alchemy: ALCHEMY_API_KEY,
               });
-            const balance = await provider.getBalance(input.address);
+            const balance = await provider.getBalance(params.address);
             return formatEther(balance);
           },
           {
-            enabled: !!input.address,
+            enabled: Boolean(params.address),
           }
         ),
     };
