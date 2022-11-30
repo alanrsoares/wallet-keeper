@@ -115,6 +115,14 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             throw new Error("Wallet with that name already exists");
           }
 
+          if (!input.privateKey.startsWith("0x")) {
+            throw new Error("Private key must start with 0x");
+          }
+
+          if (!input.password.length) {
+            throw new Error("Password must not be empty");
+          }
+
           const wallet = new Wallet(input.privateKey);
 
           const encryptedJson = await wallet.encrypt(
