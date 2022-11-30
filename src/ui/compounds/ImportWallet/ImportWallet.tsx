@@ -67,7 +67,7 @@ const ImportWallet: FC<Props> = (props) => {
         }
       }
     },
-    [displayName, privateKey]
+    [displayName, privateKey, password]
   );
 
   const validationError = useMemo(() => {
