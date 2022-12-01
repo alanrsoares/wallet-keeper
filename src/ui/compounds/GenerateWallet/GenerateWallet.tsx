@@ -13,11 +13,7 @@ import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import Field from "~/ui/components/Field";
 
-export type Props = {
-  className?: string;
-};
-
-const schema = z
+const SCHEMA = z
   .object({
     password: z.string().min(8, "Password is too short"),
     passwordConfirm: z.string().min(8, "Password is too short"),
@@ -36,7 +32,11 @@ const schema = z
     }
   });
 
-export type FormState = z.infer<typeof schema>;
+export type FormState = z.infer<typeof SCHEMA>;
+
+export type Props = {
+  className?: string;
+};
 
 const GenerateWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
@@ -47,7 +47,7 @@ const GenerateWallet: FC<Props> = (props) => {
       passwordConfirm: "",
       displayName: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(SCHEMA),
     mode: "all",
   });
 
@@ -116,6 +116,7 @@ const GenerateWallet: FC<Props> = (props) => {
     <Card
       className={clsx("card-compact bg-base-300 relative", props.className)}
       testId={TEST_IDS.generateWalletCard}
+      as="section"
     >
       <Button
         shape="circle"

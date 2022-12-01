@@ -13,7 +13,7 @@ import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import Field from "~/ui/components/Field";
 
-const schema = z
+const SCHEMA = z
   .object({
     displayName: z
       .string()
@@ -33,7 +33,7 @@ const schema = z
     }
   });
 
-export type FormState = z.infer<typeof schema>;
+export type FormState = z.infer<typeof SCHEMA>;
 
 export type Props = {
   className?: string;
@@ -51,7 +51,7 @@ const ImportWallet: FC<Props> = (props) => {
       passwordConfirm: "",
       displayName: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(SCHEMA),
     mode: "all",
   });
 
@@ -119,6 +119,7 @@ const ImportWallet: FC<Props> = (props) => {
     <Card
       className={clsx("card-compact bg-base-300 relative", props.className)}
       testId="import-wallet-card"
+      as="section"
     >
       <Button
         shape="circle"

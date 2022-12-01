@@ -43,7 +43,7 @@ const WalletDetails = ({ address }: Props) => {
   }
 
   return (
-    <Card>
+    <Card as="article">
       <div className="card-title flex-col items-start md:flex-row justify-between">
         <div className="grid gap-4">
           <div className="flex gap-4 items-center">

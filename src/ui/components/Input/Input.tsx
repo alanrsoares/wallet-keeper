@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { forwardRef } from "react";
+
 import { TestableProps } from "~/lib/test-utils";
 
 type Props = JSX.IntrinsicElements["input"] &
@@ -8,11 +9,11 @@ type Props = JSX.IntrinsicElements["input"] &
   }>;
 
 const Input = forwardRef<HTMLInputElement, Props>(
-  ({ className, ...props }, ref) => (
+  ({ className, testId, ...props }, ref) => (
     <input
-      className={clsx("input", className)}
       {...props}
-      data-testid={props.testId || props["data-testid"]}
+      className={clsx("input", className)}
+      data-testid={testId ?? props["data-testid"]}
       ref={ref}
     />
   )
