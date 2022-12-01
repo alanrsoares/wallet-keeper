@@ -79,7 +79,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
     );
 
     const mutations = {
-      createWallet: () =>
+      generateWallet: () =>
         useMutation(async (input: CreateWalletInput) => {
           const existingWallet = Object.values(state.accountsByAddress).find(
             (account) => account.displayName === input.displayName
@@ -87,6 +87,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
           if (existingWallet) {
             throw new Error("Wallet with that name already exists");
+          }
+
+          if (!input.password.length) {
+            throw new Error("Password must not be empty");
           }
 
           const wallet = Wallet.createRandom();
@@ -110,6 +114,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
           return wallet;
         }),
+
       importWallet: () =>
         useMutation(async (input: ImportWalletInput) => {
           const existingWallet = Object.values(state.accountsByAddress).find(
@@ -118,10 +123,6 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
           if (existingWallet) {
             throw new Error("Wallet with that name already exists");
-          }
-
-          if (!input.privateKey.startsWith("0x")) {
-            throw new Error("Private key must start with 0x");
           }
 
           if (!input.password.length) {

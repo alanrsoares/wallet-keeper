@@ -38,7 +38,7 @@ const GenerateWallet: FC<Props> = (props) => {
     mutateAsync: generateWalletAsync,
     isLoading,
     error,
-  } = walletKeeper.mutations.createWallet();
+  } = walletKeeper.mutations.generateWallet();
 
   const handleReset = useCallback(() => {
     setDisplayName("");

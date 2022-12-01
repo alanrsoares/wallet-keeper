@@ -1,4 +1,4 @@
-import { TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";

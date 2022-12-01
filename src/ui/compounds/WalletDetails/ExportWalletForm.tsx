@@ -55,11 +55,12 @@ const ExportWalletForm = ({ address }: Props) => {
         });
 
         setPrivateKey(wallet.privateKey);
-        setMnemonic(wallet.mnemonic.phrase);
+        setMnemonic(wallet.mnemonic?.phrase ?? "");
       } catch (error) {
         if (error instanceof Error) {
           console.warn({
             message: "Failed to unlock wallet",
+            cause: error,
           });
         }
       }
@@ -74,21 +75,23 @@ const ExportWalletForm = ({ address }: Props) => {
           {(unlockError as Error).message}
         </Alert>
       )}
-      {privateKey && mnemonic ? (
+      {privateKey || mnemonic ? (
         <>
-          <div className="tabs tabs-boxed">
-            {TABS.map(({ label, value }) => (
-              <button
-                className={clsx("tab", {
-                  "tab-active": tab === value,
-                })}
-                key={value}
-                onClick={() => setTab(value)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          {privateKey && mnemonic && (
+            <div className="tabs tabs-boxed">
+              {TABS.map(({ label, value }) => (
+                <button
+                  className={clsx("tab", {
+                    "tab-active": tab === value,
+                  })}
+                  key={value}
+                  onClick={() => setTab(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
           <Alert
             variant="success"
             prefix={tab === "privateKey" ? "Private key:" : "Mnemonic phrase:"}

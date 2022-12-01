@@ -50,7 +50,7 @@ const WalletDetails = ({ address }: Props) => {
               <Identicon address={address} diameter={48} />
             </div>
             <div className="grid gap-1">
-              <span className="font-semibold font-mono">
+              <span className="font-semibold font-mono whitespace-nowrap">
                 {account.displayName}
               </span>
               <Tooltip
