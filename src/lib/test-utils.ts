@@ -10,7 +10,7 @@ export const createTestIds = <T extends Record<string, string>>(
     {} as Readonly<T>
   );
 
-export type TestableProps = {
+export type TestableProps<T extends {} = {}> = {
   "data-testid"?: string;
   testId?: string;
-};
+} & T;

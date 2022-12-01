@@ -6,17 +6,19 @@ import {
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { FC, PropsWithChildren } from "react";
+import { TestableProps } from "~/lib/test-utils";
 
 export type AlertVariant = "success" | "error" | "warning" | "info";
 
-export type Props = PropsWithChildren<{
-  className?: string;
-  variant?: AlertVariant;
-  hideIcon?: boolean;
-  prefix?: string;
-  shadow?: "sm" | "md" | "lg" | "xl" | "2xl";
-  testId?: string;
-}>;
+export type Props = PropsWithChildren<
+  TestableProps<{
+    className?: string;
+    variant?: AlertVariant;
+    hideIcon?: boolean;
+    prefix?: string;
+    shadow?: "sm" | "md" | "lg" | "xl" | "2xl";
+  }>
+>;
 
 export const VARIANT_ICONS = {
   success: CheckCircleIcon,
@@ -46,7 +48,7 @@ const Alert: FC<Props> = (props) => {
         },
         props.className
       )}
-      data-testid={props.testId}
+      data-testid={props.testId || props["data-testid"]}
     >
       <div>
         {!props.hideIcon && (

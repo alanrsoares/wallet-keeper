@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
+import { TestableProps } from "~/lib/test-utils";
 
 import { formatPercentage } from "~/lib/utils";
 
@@ -19,24 +20,23 @@ export type ButtonLength = "wide" | "block";
 
 export type ButtonShape = "circle" | "square";
 
-export type Props = JSX.IntrinsicElements["button"] & {
-  variant?: ButtonVariant;
-  /**
-   * @default "md"
-   */
-  size?: ButtonSize;
-  /**
-   * @description "wide" is only available for "xs" and "sm" sizes
-   * @description "block" is only available for "md", "lg", and "xl" sizes
-   */
-  length?: ButtonLength;
-  shape?: ButtonShape;
-  loading?: boolean;
-  progress?: number;
-  responsive?: boolean;
-  testId?: string;
-  ["data-testid"]?: string;
-};
+export type Props = JSX.IntrinsicElements["button"] &
+  TestableProps<{
+    variant?: ButtonVariant;
+    /**
+     * @default "md"
+     */
+    size?: ButtonSize;
+    /**
+     * @description "wide" is only available for "xs" and "sm" sizes
+     * @description "block" is only available for "md", "lg", and "xl" sizes
+     */
+    length?: ButtonLength;
+    shape?: ButtonShape;
+    loading?: boolean;
+    progress?: number;
+    responsive?: boolean;
+  }>;
 
 const Button = ({
   className,
