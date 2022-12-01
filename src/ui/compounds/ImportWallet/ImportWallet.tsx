@@ -59,6 +59,8 @@ const ImportWallet: FC<Props> = (props) => {
           privateKey,
           onProgress: setProgress,
         });
+
+        handleReset();
       } catch (error) {
         if (error instanceof Error) {
           console.warn({

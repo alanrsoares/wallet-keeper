@@ -58,6 +58,8 @@ const GenerateWallet: FC<Props> = (props) => {
           password,
           onProgress: setProgress,
         });
+
+        handleReset();
       } catch (error) {
         if (error instanceof Error) {
           console.warn({
