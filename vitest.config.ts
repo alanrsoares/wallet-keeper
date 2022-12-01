@@ -8,7 +8,7 @@ import { resolve } from "path";
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: "happy-dom",
+    environment: "jsdom",
     setupFiles: resolve(__dirname, "vitest.setup.ts"),
   },
   resolve: {

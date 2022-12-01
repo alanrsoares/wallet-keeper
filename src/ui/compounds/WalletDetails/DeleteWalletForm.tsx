@@ -11,14 +11,6 @@ export type Props = {
   address: string;
 };
 
-export const TEST_IDS = createTestIds("DeleteWalletForm", {
-  form: "form",
-  formPasswordInput: "form-password",
-  formSubmitButton: "form-submit",
-  resultAlert: "result-alert",
-  errorAlert: "error-alert",
-});
-
 const DeleteWalletForm = ({ address }: Props) => {
   const { mutations } = useWalletKeeper();
 
@@ -41,11 +33,9 @@ const DeleteWalletForm = ({ address }: Props) => {
           onProgress: setProgress,
         });
       } catch (error) {
-        if (error instanceof Error) {
-          console.warn({
-            message: "Failed to delete wallet",
-          });
-        }
+        console.warn({
+          message: "Failed to delete wallet",
+        });
       }
     },
     [address, password]
@@ -89,4 +79,13 @@ const DeleteWalletForm = ({ address }: Props) => {
     </form>
   );
 };
+
 export default DeleteWalletForm;
+
+export const TEST_IDS = createTestIds("DeleteWalletForm", {
+  form: "form",
+  formPasswordInput: "form-password",
+  formSubmitButton: "form-submit",
+  resultAlert: "result-alert",
+  errorAlert: "error-alert",
+});

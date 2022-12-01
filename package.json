@@ -21,6 +21,7 @@
     "@ethersproject/units": "^5.7.0",
     "@ethersproject/wallet": "^5.7.0",
     "@heroicons/react": "^2.0.13",
+    "@hookform/resolvers": "^2.9.10",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
@@ -28,9 +29,11 @@
     "next": "^13.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.40.0",
     "react-jazzicon": "^1.0.4",
     "typescript": "4.9.3",
-    "unstated-next": "^1.1.0"
+    "unstated-next": "^1.1.0",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -57,6 +60,7 @@
     "babel-loader": "^9.1.0",
     "daisyui": "^2.42.1",
     "happy-dom": "^7.7.0",
+    "jsdom": "^20.0.3",
     "next-pwa": "^5.6.0",
     "postcss": "^8.4.19",
     "require-from-string": "^2.0.2",

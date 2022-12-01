@@ -27,14 +27,6 @@ const TABS: Tab[] = [
   },
 ];
 
-export const TEST_IDS = createTestIds("ExportWalletForm", {
-  form: "form",
-  formPasswordInput: "form-password",
-  formSubmitButton: "form-submit",
-  resultAlert: "result-alert",
-  errorAlert: "error-alert",
-});
-
 export type Props = {
   address: string;
 };
@@ -49,10 +41,11 @@ const ExportWalletForm = ({ address }: Props) => {
   } = mutations.unlockWallet();
 
   const [progress, setProgress] = useState(0);
-  const [password, setPassword] = useState("");
-  const [privateKey, setPrivateKey] = useState("");
   const [mnemonic, setMnemonic] = useState("");
   const [tab, setTab] = useState<TabKind>("privateKey");
+  const [privateKey, setPrivateKey] = useState("");
+
+  const [password, setPassword] = useState("");
 
   const handleUnlock = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -67,12 +60,10 @@ const ExportWalletForm = ({ address }: Props) => {
         setPrivateKey(wallet.privateKey);
         setMnemonic(wallet.mnemonic?.phrase ?? "");
       } catch (error) {
-        if (error instanceof Error) {
-          console.warn({
-            message: "Failed to unlock wallet",
-            cause: error,
-          });
-        }
+        console.warn({
+          message: "Failed to unlock wallet",
+          cause: error,
+        });
       }
     },
     [address, password]
@@ -152,3 +143,11 @@ const ExportWalletForm = ({ address }: Props) => {
 };
 
 export default ExportWalletForm;
+
+export const TEST_IDS = createTestIds("ExportWalletForm", {
+  form: "form",
+  formPasswordInput: "form-password",
+  formSubmitButton: "form-submit",
+  resultAlert: "result-alert",
+  errorAlert: "error-alert",
+});

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import { TestableProps } from "~/lib/test-utils";
 
 import Alert from "../Alert";
@@ -14,23 +14,27 @@ type Props = JSX.IntrinsicElements["input"] &
     };
   }>;
 
-const Field: FC<Props> = ({ label, validation, ...props }) => (
-  <label className="grid gap-2">
-    <span className="opacity-80">{label}</span>
-    <Input
-      {...props}
-      placeholder={props.placeholder ?? label}
-      testId={props.testId || props["data-testid"]}
-    />
-    {validation && (
-      <Alert variant={validation.status} className="mt-1">
-        <span className="font-bold mr-2">
-          {validation.status === "error" ? "Error:" : "Warning:"}
-        </span>
-        {validation.message}
-      </Alert>
-    )}
-  </label>
+const Field = forwardRef<HTMLInputElement, Props>(
+  ({ label, validation, ...props }, ref) => (
+    <label className="grid gap-2">
+      <span className="opacity-80">{label}</span>
+      <Input
+        {...props}
+        placeholder={props.placeholder ?? label}
+        testId={props.testId || props["data-testid"]}
+        ref={ref}
+        type={props.type ?? "text"}
+      />
+      {validation && (
+        <Alert variant={validation.status} className="mt-1">
+          <span className="font-bold mr-2">
+            {validation.status === "error" ? "Error:" : "Warning:"}
+          </span>
+          {validation.message}
+        </Alert>
+      )}
+    </label>
+  )
 );
 
 export default Field;

@@ -11,40 +11,17 @@ import {
   WalletKeeperProvider,
   WalletKeeperState,
 } from "~/lib/contexts/walletKeeper";
-import GenerateWallet from "./GenerateWallet";
-
-const queryClient = new QueryClient();
+import GenerateWallet, { TEST_IDS } from "./GenerateWallet";
 
 const renderGenerateWallet = (initialState: WalletKeeperState) => {
   return render(
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={new QueryClient()}>
       <WalletKeeperProvider initialState={initialState}>
         <GenerateWallet />
       </WalletKeeperProvider>
     </QueryClientProvider>
   );
 };
-
-const getters = <T extends HTMLElement>(container: HTMLElement) => ({
-  walletListContainer: () =>
-    findByTestId<T>(container, "wallet-list-container"),
-  generateWalletButtonExpanded: () =>
-    findByTestId<HTMLButtonElement>(
-      container,
-      "generate-wallet-button-expanded"
-    ),
-  generateWalletButtonCollapsed: () =>
-    findByTestId<HTMLButtonElement>(
-      container,
-      "generate-wallet-button-collapsed"
-    ),
-  generateWalletDisplayNameField: () =>
-    container.querySelector<HTMLInputElement>("input[name=displayName]"),
-  generateWalletPasswordField: () =>
-    container.querySelector<HTMLInputElement>("input[name=password]"),
-  generateWalletPasswordConfirmField: () =>
-    container.querySelector<HTMLInputElement>("input[name=passwordConfirm]"),
-});
 
 describe("GenerateWallet", () => {
   /**
@@ -58,15 +35,18 @@ describe("GenerateWallet", () => {
 
   // case 1
   describe("Users would like to click a button to generate a Wallet.", () => {
-    const { container, rerender } = renderGenerateWallet({
+    const { container } = renderGenerateWallet({
       selectedNetwork: "goerli",
       accountsByAddress: {},
     });
 
+    const SAMPLE_PASSWORD = "12345678";
+
     test("'Generate new wallet' button should open expand the form", async () => {
-      const generateWalletButton = await getters(
-        container
-      ).generateWalletButtonCollapsed();
+      const generateWalletButton = await findByTestId(
+        container,
+        TEST_IDS.generateWalletButton
+      );
 
       expect(generateWalletButton).toBeTruthy();
 
@@ -74,17 +54,13 @@ describe("GenerateWallet", () => {
 
       fireEvent.click(generateWalletButton);
 
-      const submitButton = await getters(
-        container
-      ).generateWalletButtonExpanded();
+      const submitButton = await findByTestId(container, TEST_IDS.submitButton);
 
       expect(submitButton).toBeTruthy();
     });
 
     test("submit button should be disabled", async () => {
-      const submitButton = await getters(
-        container
-      ).generateWalletButtonExpanded();
+      const submitButton = await findByTestId(container, TEST_IDS.submitButton);
 
       expect(submitButton).toBeTruthy();
 
@@ -92,7 +68,7 @@ describe("GenerateWallet", () => {
     });
 
     test("type in displayName", async () => {
-      const inputEl = getters(container).generateWalletDisplayNameField();
+      const inputEl = await findByTestId(container, TEST_IDS.displayNameInput);
 
       expect(inputEl).toBeTruthy();
 
@@ -104,45 +80,47 @@ describe("GenerateWallet", () => {
     });
 
     test("type in password", async () => {
-      const inputEl = getters(container).generateWalletPasswordField();
+      const inputEl = await findByTestId(container, TEST_IDS.passwordInput);
 
       expect(inputEl).toBeTruthy();
 
       if (inputEl) {
-        fireEvent.change(inputEl, { target: { value: "password1234" } });
+        fireEvent.change(inputEl, { target: { value: SAMPLE_PASSWORD } });
 
-        expect((inputEl as HTMLInputElement)?.value).toBe("password1234");
+        expect((inputEl as HTMLInputElement)?.value).toBe(SAMPLE_PASSWORD);
       }
     });
 
     test("type in passwordConfirm", async () => {
-      const inputEl = getters(container).generateWalletPasswordConfirmField();
+      const inputEl = await findByTestId(
+        container,
+        TEST_IDS.passwordConfirmInput
+      );
 
       expect(inputEl).toBeTruthy();
 
       if (inputEl) {
-        fireEvent.change(inputEl, { target: { value: "password1234" } });
+        fireEvent.change(inputEl, { target: { value: SAMPLE_PASSWORD } });
 
-        expect((inputEl as HTMLInputElement)?.value).toBe("password1234");
+        expect((inputEl as HTMLInputElement)?.value).toBe(SAMPLE_PASSWORD);
       }
     });
 
     test("submit button should be enabled", async () => {
-      const submitButton = await getters(
-        container
-      ).generateWalletButtonExpanded();
+      const submitButton = await findByTestId(container, TEST_IDS.submitButton);
 
-      expect(submitButton.disabled).toBeFalsy();
+      expect(submitButton).not.toBeDisabled();
 
-      expect(submitButton.innerText).toContain("Generate new wallet");
+      expect(submitButton).toHaveTextContent("Generate new wallet");
     });
 
     test(
       "submit and generate wallet",
       async () => {
-        const submitButton = await getters(
-          container
-        ).generateWalletButtonExpanded();
+        const submitButton = await findByTestId(
+          container,
+          TEST_IDS.submitButton
+        );
 
         fireEvent.submit(submitButton);
 

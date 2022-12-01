@@ -1,9 +1,13 @@
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { Maybe } from "~/lib/monads";
+import { createTestIds } from "~/lib/test-utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
@@ -13,26 +17,43 @@ export type Props = {
   className?: string;
 };
 
+const schema = z
+  .object({
+    password: z.string().min(8, "Password is too short"),
+    passwordConfirm: z.string().min(8, "Password is too short"),
+    displayName: z
+      .string()
+      .min(3, "Display name is too short")
+      .max(32, "Display name is too long"),
+  })
+  .superRefine(({ passwordConfirm, password }, ctx) => {
+    if (passwordConfirm !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ["passwordConfirm"],
+      });
+    }
+  });
+
+export type FormState = z.infer<typeof schema>;
+
 const GenerateWallet: FC<Props> = (props) => {
   const walletKeeper = useWalletKeeper();
 
+  const { register, handleSubmit, formState, reset } = useForm({
+    defaultValues: {
+      password: "",
+      passwordConfirm: "",
+      displayName: "",
+    },
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
+
   // form meta state:
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
   const [progress, setProgress] = useState(0);
-
-  // form fields:
-  const [displayName, setDisplayName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const fields = [displayName, password, passwordConfirm];
-
-  useEffect(() => {
-    if (!isDirty && fields.some(Boolean)) {
-      setIsDirty(true);
-    }
-  }, [isDirty, fields]);
 
   const {
     mutateAsync: generateWalletAsync,
@@ -41,17 +62,13 @@ const GenerateWallet: FC<Props> = (props) => {
   } = walletKeeper.mutations.generateWallet();
 
   const handleReset = useCallback(() => {
-    setDisplayName("");
-    setPassword("");
-    setPasswordConfirm("");
     setProgress(0);
     setIsExpanded(false);
+    reset();
   }, []);
 
-  const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
+  const submitHandler = useCallback<SubmitHandler<FormState>>(
+    async ({ displayName, password }) => {
       try {
         await generateWalletAsync({
           displayName,
@@ -61,54 +78,18 @@ const GenerateWallet: FC<Props> = (props) => {
 
         handleReset();
       } catch (error) {
-        if (error instanceof Error) {
-          console.warn({
-            message: "Failed to generate wallet",
-          });
-        }
+        console.warn({
+          message: "Failed to generate wallet",
+        });
       }
     },
-    [displayName, password]
+    []
   );
-
-  const validationError = useMemo(() => {
-    if (!isDirty) {
-      return null;
-    }
-
-    if (!displayName) {
-      return { message: "Display name is required", field: "displayName" };
-    }
-
-    if (displayName.length < 3) {
-      return { message: "Display name is too short", field: "displayName" };
-    }
-
-    if (displayName.length > 32) {
-      return { message: "Display name is too long", field: "displayName" };
-    }
-
-    if (!password) {
-      return { message: "Password is required", field: "password" };
-    }
-
-    if (password && password.length < 8) {
-      return { message: "Password is too short", field: "password" };
-    }
-
-    if (password !== passwordConfirm) {
-      return { message: "Passwords do not match", field: "passwordConfirm" };
-    }
-
-    return null;
-  }, [displayName, password, passwordConfirm, isDirty]);
-
-  const isValid = !validationError && isDirty;
 
   if (!isExpanded) {
     return (
       <Button
-        data-testid="generate-wallet-button-collapsed"
+        data-testid={TEST_IDS.generateWalletButton}
         variant="primary"
         responsive={true}
         onClick={() => {
@@ -134,7 +115,7 @@ const GenerateWallet: FC<Props> = (props) => {
   return (
     <Card
       className={clsx("card-compact bg-base-300 relative", props.className)}
-      testId="generate-wallet-card"
+      testId={TEST_IDS.generateWalletCard}
     >
       <Button
         shape="circle"
@@ -145,7 +126,7 @@ const GenerateWallet: FC<Props> = (props) => {
       >
         <XMarkIcon className="h-4 w-4" />
       </Button>
-      <form className="grid gap-4" onSubmit={handleSubmit}>
+      <form className="grid gap-4" onSubmit={handleSubmit(submitHandler)}>
         {Boolean(error) && (
           <Alert variant="error">
             <span className="font-bold">Error:</span>
@@ -155,54 +136,54 @@ const GenerateWallet: FC<Props> = (props) => {
         <h2 className="card-title">Generate new wallet</h2>
         <Field
           label="Display Name"
-          name="displayName"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
+          {...register("displayName")}
           validation={
-            validationError?.field === "displayName"
+            formState.errors.displayName?.message
               ? {
-                  message: validationError.message,
                   status: "error",
+                  message: formState.errors.displayName.message,
                 }
               : undefined
           }
+          testId={TEST_IDS.displayNameInput}
         />
+        {formState.errors?.displayName?.message && (
+          <p>{formState.errors?.displayName.message}</p>
+        )}
         <Field
           label="Password"
-          name="password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
           validation={
-            validationError?.field === "password"
+            formState.errors.password?.message
               ? {
-                  message: validationError.message,
                   status: "error",
+                  message: formState.errors.password.message,
                 }
               : undefined
           }
+          testId={TEST_IDS.passwordInput}
         />
         <Field
           label="Confirm Password"
-          name="passwordConfirm"
           type="password"
-          value={passwordConfirm}
-          onChange={(e) => setPasswordConfirm(e.target.value)}
+          {...register("passwordConfirm")}
           validation={
-            validationError?.field === "passwordConfirm"
+            formState.errors.passwordConfirm?.message
               ? {
-                  message: validationError.message,
                   status: "error",
+                  message: formState.errors.passwordConfirm.message,
                 }
               : undefined
           }
+          testId={TEST_IDS.passwordConfirmInput}
         />
         <Button
           responsive={true}
-          data-testid="generate-wallet-button-expanded"
+          testId={TEST_IDS.submitButton}
           variant="primary"
-          disabled={!isValid}
-          loading={isLoading}
+          disabled={!formState.isValid}
+          loading={isLoading || formState.isSubmitting}
           progress={progress}
           type="submit"
         >
@@ -214,3 +195,12 @@ const GenerateWallet: FC<Props> = (props) => {
 };
 
 export default GenerateWallet;
+
+export const TEST_IDS = createTestIds("GenerateWallet", {
+  displayNameInput: "display-name",
+  passwordInput: "password",
+  passwordConfirmInput: "password-confirm",
+  submitButton: "submit-button",
+  generateWalletButton: "generate-wallet-button",
+  generateWalletCard: "generate-wallet-card",
+});

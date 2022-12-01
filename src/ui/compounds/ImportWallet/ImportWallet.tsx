@@ -1,13 +1,39 @@
 import { ArrowDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { Maybe } from "~/lib/monads";
+import { createTestIds } from "~/lib/test-utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import Field from "~/ui/components/Field";
+
+const schema = z
+  .object({
+    displayName: z
+      .string()
+      .min(3, "Display name is too short")
+      .max(32, "Display name is too long"),
+    privateKey: z.string().min(64, "Private key is too short"),
+    password: z.string().min(8, "Password is too short"),
+    passwordConfirm: z.string().min(8, "Password is too short"),
+  })
+  .superRefine(({ passwordConfirm, password }, ctx) => {
+    if (passwordConfirm !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ["passwordConfirm"],
+      });
+    }
+  });
+
+export type FormState = z.infer<typeof schema>;
 
 export type Props = {
   className?: string;
@@ -16,24 +42,18 @@ export type Props = {
 const ImportWallet: FC<Props> = (props) => {
   const { mutations } = useWalletKeeper();
 
-  // form meta state:
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // form fields:
-  const [displayName, setDisplayName] = useState("");
-  const [privateKey, setPrivateKey] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const fields = [displayName, privateKey, password, passwordConfirm];
-
-  useEffect(() => {
-    if (!isDirty && fields.some(Boolean)) {
-      setIsDirty(true);
-    }
-  }, [isDirty, fields]);
+  const { register, handleSubmit, formState, reset } = useForm<FormState>({
+    defaultValues: {
+      password: "",
+      passwordConfirm: "",
+      displayName: "",
+    },
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
 
   const {
     mutateAsync: importWalletAsync,
@@ -42,16 +62,13 @@ const ImportWallet: FC<Props> = (props) => {
   } = mutations.importWallet();
 
   const handleReset = useCallback(() => {
-    setDisplayName("");
-    setPrivateKey("");
     setProgress(0);
     setIsExpanded(false);
+    reset();
   }, []);
 
-  const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
+  const submitHandler = useCallback<SubmitHandler<FormState>>(
+    async ({ displayName, privateKey, password }) => {
       try {
         await importWalletAsync({
           displayName,
@@ -62,58 +79,18 @@ const ImportWallet: FC<Props> = (props) => {
 
         handleReset();
       } catch (error) {
-        if (error instanceof Error) {
-          console.warn({
-            message: "Failed to generate wallet",
-          });
-        }
+        console.warn({
+          message: "Failed to generate wallet",
+        });
       }
     },
-    [displayName, privateKey, password]
+    []
   );
-
-  const validationError = useMemo(() => {
-    if (!isDirty) {
-      return null;
-    }
-
-    if (!displayName) {
-      return { message: "Display name is required", field: "displayName" };
-    }
-
-    if (displayName.length < 3) {
-      return { message: "Display name is too short", field: "displayName" };
-    }
-
-    if (displayName.length > 32) {
-      return { message: "Display name is too long", field: "displayName" };
-    }
-
-    if (!privateKey) {
-      return { message: "Private key is required", field: "privateKey" };
-    }
-
-    if (!password) {
-      return { message: "Password is required", field: "password" };
-    }
-
-    if (password && password.length < 8) {
-      return { message: "Password is too short", field: "password" };
-    }
-
-    if (passwordConfirm && password !== passwordConfirm) {
-      return { message: "Passwords do not match", field: "passwordConfirm" };
-    }
-
-    return null;
-  }, [displayName, privateKey, password, passwordConfirm, isDirty]);
-
-  const isValid = !validationError && isDirty;
 
   if (!isExpanded) {
     return (
       <Button
-        data-testid="import-wallet-button-collapsed"
+        data-testid={TEST_IDS.importWalletButton}
         variant="secondary"
         responsive={true}
         onClick={() => {
@@ -152,7 +129,11 @@ const ImportWallet: FC<Props> = (props) => {
       >
         <XMarkIcon className="h-4 w-4" />
       </Button>
-      <form className="grid gap-4" onSubmit={handleSubmit}>
+      <form
+        className="grid gap-4"
+        onSubmit={handleSubmit(submitHandler)}
+        data-testid={TEST_IDS.form}
+      >
         {Boolean(error) && (
           <Alert variant="error">
             <span className="font-bold">Error:</span>
@@ -162,68 +143,64 @@ const ImportWallet: FC<Props> = (props) => {
         <h2 className="card-title">Import wallet</h2>
         <Field
           label="Display Name"
-          name="displayName"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
+          {...register("displayName")}
           validation={
-            validationError?.field === "displayName"
+            formState.errors.displayName?.message
               ? {
-                  message: validationError.message,
+                  message: formState.errors.displayName.message,
                   status: "error",
                 }
               : undefined
           }
+          testId={TEST_IDS.displayNameInput}
         />
         <Field
           label="Private Key"
-          name="privateKey"
           type="password"
-          value={privateKey}
-          onChange={(e) => setPrivateKey(e.target.value)}
+          {...register("privateKey")}
           validation={
-            validationError?.field === "privateKey"
+            formState.errors.privateKey?.message
               ? {
-                  message: validationError.message,
+                  message: formState.errors.privateKey.message,
                   status: "error",
                 }
               : undefined
           }
+          testId={TEST_IDS.privateKeyInput}
         />
         <Field
           label="Password"
-          name="password"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
           validation={
-            validationError?.field === "password"
+            formState.errors.password?.message
               ? {
-                  message: validationError.message,
+                  message: formState.errors.password.message,
                   status: "error",
                 }
               : undefined
           }
+          testId={TEST_IDS.passwordInput}
         />
         <Field
           label="Confirm Password"
-          name="passwordConfirm"
           type="password"
-          value={passwordConfirm}
-          onChange={(e) => setPasswordConfirm(e.target.value)}
+          {...register("passwordConfirm")}
           validation={
-            validationError?.field === "passwordConfirm"
+            formState.errors.passwordConfirm?.message
               ? {
-                  message: validationError.message,
+                  message: formState.errors.passwordConfirm.message,
                   status: "error",
                 }
               : undefined
           }
+          testId={TEST_IDS.passwordConfirmInput}
         />
         <Button
-          data-testid="import-wallet-button-expanded"
+          testId={TEST_IDS.submitButton}
           variant="secondary"
           responsive={true}
-          disabled={!isValid}
+          disabled={!formState.isValid}
           loading={isLoading}
           progress={progress}
           type="submit"
@@ -236,3 +213,13 @@ const ImportWallet: FC<Props> = (props) => {
 };
 
 export default ImportWallet;
+
+export const TEST_IDS = createTestIds("ImportWallet", {
+  importWalletButton: "import-wallet-button",
+  form: "form",
+  displayNameInput: "display-name-input",
+  submitButton: "submit-button",
+  privateKeyInput: "private-key-input",
+  passwordInput: "password-input",
+  passwordConfirmInput: "password-confirm-input",
+});

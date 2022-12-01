@@ -19,12 +19,6 @@ import Tooltip from "~/ui/components/Tooltip";
 import DeleteWalletForm from "./DeleteWalletForm";
 import ExportWalletForm from "./ExportWalletForm";
 
-export const TEST_IDS = createTestIds("WalletDetails", {
-  walletLabel: "wallet-label",
-  walletAddress: "wallet-address",
-  exportToggle: "export-toggle",
-});
-
 export type Props = {
   address: string;
 };
@@ -53,7 +47,7 @@ const WalletDetails = ({ address }: Props) => {
       <div className="card-title flex-col items-start md:flex-row justify-between">
         <div className="grid gap-4">
           <div className="flex gap-4 items-center">
-            <div className="ring ring-black/20 rounded-full h-12 w-12 shadow-md">
+            <div className="ring-4 ring-black/20 hover:ring-primary/30 rounded-full h-12 w-12 shadow-md transition-all">
               <Identicon address={address} diameter={48} />
             </div>
             <div className="grid gap-1">
@@ -127,3 +121,9 @@ const WalletDetails = ({ address }: Props) => {
 };
 
 export default WalletDetails;
+
+export const TEST_IDS = createTestIds("WalletDetails", {
+  walletLabel: "wallet-label",
+  walletAddress: "wallet-address",
+  exportToggle: "export-toggle",
+});
