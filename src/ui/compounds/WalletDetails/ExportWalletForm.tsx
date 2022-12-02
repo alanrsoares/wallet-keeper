@@ -1,6 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { useCallback, useState } from "react";
+
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
