@@ -2,6 +2,7 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { createTestIds } from "~/lib/test-utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import Field from "~/ui/components/Field";
@@ -9,6 +10,14 @@ import Field from "~/ui/components/Field";
 export type Props = {
   address: string;
 };
+
+export const TEST_IDS = createTestIds("DeleteWalletForm", {
+  form: "form",
+  formPasswordInput: "form-password",
+  formSubmitButton: "form-submit",
+  resultAlert: "result-alert",
+  errorAlert: "error-alert",
+});
 
 const DeleteWalletForm = ({ address }: Props) => {
   const { mutations } = useWalletKeeper();
@@ -46,10 +55,10 @@ const DeleteWalletForm = ({ address }: Props) => {
     <form
       onSubmit={handleDelete}
       className="grid gap-4"
-      data-testid="delete-wallet-form"
+      data-testid={TEST_IDS.form}
     >
       {Boolean(deleteError) && (
-        <Alert variant="error" prefix="Error:">
+        <Alert variant="error" prefix="Error:" testId={TEST_IDS.errorAlert}>
           {(deleteError as Error).message}
         </Alert>
       )}
@@ -59,6 +68,7 @@ const DeleteWalletForm = ({ address }: Props) => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        data-testid={TEST_IDS.formPasswordInput}
       />
       <Button
         type="submit"
@@ -66,6 +76,7 @@ const DeleteWalletForm = ({ address }: Props) => {
         disabled={password.length < 3}
         loading={isDeleting}
         progress={progress}
+        data-testid={TEST_IDS.formSubmitButton}
       >
         {isDeleting ? (
           <>Deleting wallet...</>

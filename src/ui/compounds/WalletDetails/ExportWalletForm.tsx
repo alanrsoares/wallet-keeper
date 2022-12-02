@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { createTestIds } from "~/lib/test-utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
@@ -26,13 +27,13 @@ const TABS: Tab[] = [
   },
 ];
 
-export const TEST_IDS = {
-  form: "export-wallet-form",
-  formPasswordInput: "export-wallet-form-password",
-  formSubmitButton: "export-wallet-form-submit",
-  resultAlert: "export-wallet-result-alert",
-  errorAlert: "export-wallet-error-alert",
-};
+export const TEST_IDS = createTestIds("ExportWalletForm", {
+  form: "form",
+  formPasswordInput: "form-password",
+  formSubmitButton: "form-submit",
+  resultAlert: "result-alert",
+  errorAlert: "error-alert",
+});
 
 export type Props = {
   address: string;

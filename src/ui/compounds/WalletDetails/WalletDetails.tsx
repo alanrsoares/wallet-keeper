@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { createTestIds } from "~/lib/test-utils";
 import { maskAddress } from "~/lib/utils";
 import Alert from "~/ui/components/Alert";
 import Button from "~/ui/components/Button";
@@ -18,10 +19,11 @@ import Tooltip from "~/ui/components/Tooltip";
 import DeleteWalletForm from "./DeleteWalletForm";
 import ExportWalletForm from "./ExportWalletForm";
 
-export const TEST_IDS = {
+export const TEST_IDS = createTestIds("WalletDetails", {
   walletLabel: "wallet-label",
   walletAddress: "wallet-address",
-};
+  exportToggle: "export-toggle",
+});
 
 export type Props = {
   address: string;
@@ -85,7 +87,7 @@ const WalletDetails = ({ address }: Props) => {
             onClick={() => setAction(action === "lock" ? "export" : "lock")}
             className="w-full md:w-auto"
             size="sm"
-            data-testid="wallet-export-toggle"
+            data-testid={TEST_IDS.exportToggle}
           >
             {action === "export" ? (
               <>

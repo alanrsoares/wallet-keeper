@@ -13,7 +13,10 @@ import {
   WalletKeeperState,
 } from "~/lib/contexts/walletKeeper";
 
-import WalletDetails from "./WalletDetails";
+import WalletDetails, { TEST_IDS as WALLET_DETAILS } from "./WalletDetails";
+
+import { TEST_IDS as EXPORT_WALLET } from "./ExportWalletForm";
+// import { TEST_IDS as DELETE_WALLET } from "./DeleteWalletForm";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +38,10 @@ describe("WalletDetails", async () => {
   const { container, ...fd } = renderWalletDetails(initialState);
 
   it("should render the correct wallet label", async () => {
-    const walletName = await findByTestId(container, "wallet-label");
+    const walletName = await findByTestId(
+      container,
+      WALLET_DETAILS.walletLabel
+    );
 
     expect(walletName).toHaveTextContent("Test1");
   });
@@ -43,13 +49,13 @@ describe("WalletDetails", async () => {
   it(
     "should be able to export the private key by entering a password",
     async () => {
-      const toggle = await findByTestId(container, "wallet-export-toggle");
+      const toggle = await findByTestId(container, WALLET_DETAILS.exportToggle);
 
       expect(toggle).toHaveTextContent("Show private key");
 
       fireEvent.click(toggle);
 
-      const form = await findByTestId(container, "export-wallet-form");
+      const form = await findByTestId(container, EXPORT_WALLET.form);
 
       expect(form).toBeTruthy();
 
@@ -57,11 +63,12 @@ describe("WalletDetails", async () => {
 
       const passwordInput = await findByTestId(
         container,
-        "export-wallet-form-password"
+        EXPORT_WALLET.formPasswordInput
       );
+
       const submitButton = await findByTestId(
         container,
-        "export-wallet-form-submit"
+        EXPORT_WALLET.formSubmitButton
       );
 
       expect(submitButton).toBeDisabled();
@@ -89,7 +96,7 @@ describe("WalletDetails", async () => {
 
       const privateKey = await findByTestId(
         container,
-        "export-wallet-result-alert"
+        EXPORT_WALLET.resultAlert
       );
 
       expect(privateKey).toHaveTextContent("Private key:");

@@ -1,12 +1,16 @@
 export const createTestIds = <T extends Record<string, string>>(
   prefix: string,
   testIds: T
-) => {
-  return Object.entries(testIds).reduce(
+) =>
+  Object.entries(testIds).reduce(
     (acc, [key, value]) => ({
       ...acc,
       [key]: `${prefix}/${value}`,
     }),
-    {} as T
+    {} as Readonly<T>
   );
+
+export type TestableProps = {
+  "data-testid"?: string;
+  testId?: string;
 };
