@@ -8,10 +8,6 @@ import Button from "~/ui/components/Button";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
 import Field from "~/ui/components/Field";
 
-export type Props = {
-  address: string;
-};
-
 type TabKind = "privateKey" | "mnemonic";
 
 type Tab = {
@@ -29,6 +25,18 @@ const TABS: Tab[] = [
     value: "mnemonic",
   },
 ];
+
+export const TEST_IDS = {
+  form: "export-wallet-form",
+  formPasswordInput: "export-wallet-form-password",
+  formSubmitButton: "export-wallet-form-submit",
+  resultAlert: "export-wallet-result-alert",
+  errorAlert: "export-wallet-error-alert",
+};
+
+export type Props = {
+  address: string;
+};
 
 const ExportWalletForm = ({ address }: Props) => {
   const { mutations } = useWalletKeeper();
@@ -73,10 +81,10 @@ const ExportWalletForm = ({ address }: Props) => {
     <form
       onSubmit={handleUnlock}
       className="grid gap-4"
-      data-testid="export-wallet-form"
+      data-testid={TEST_IDS.form}
     >
       {Boolean(unlockError) && (
-        <Alert variant="error" prefix="Error:">
+        <Alert variant="error" prefix="Error:" testId={TEST_IDS.errorAlert}>
           {(unlockError as Error).message}
         </Alert>
       )}
@@ -100,7 +108,7 @@ const ExportWalletForm = ({ address }: Props) => {
           <Alert
             variant="success"
             prefix={tab === "privateKey" ? "Private key:" : "Mnemonic phrase:"}
-            testId="export-wallet-result-alert"
+            testId={TEST_IDS.resultAlert}
           >
             <CopyToClipboard
               className="overflow-x-clip text-sm max-w-[60vw] md:max-w-xs"
@@ -118,7 +126,7 @@ const ExportWalletForm = ({ address }: Props) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            data-testid="export-wallet-form-password"
+            data-testid={TEST_IDS.formPasswordInput}
           />
           <Button
             type="submit"
@@ -126,7 +134,7 @@ const ExportWalletForm = ({ address }: Props) => {
             disabled={password.length < 3}
             loading={isUnlocking}
             progress={progress}
-            data-testid="export-wallet-form-submit"
+            data-testid={TEST_IDS.formSubmitButton}
           >
             {isUnlocking ? (
               "Unlocking..."

@@ -18,6 +18,11 @@ import Tooltip from "~/ui/components/Tooltip";
 import DeleteWalletForm from "./DeleteWalletForm";
 import ExportWalletForm from "./ExportWalletForm";
 
+export const TEST_IDS = {
+  walletLabel: "wallet-label",
+  walletAddress: "wallet-address",
+};
+
 export type Props = {
   address: string;
 };
@@ -52,7 +57,7 @@ const WalletDetails = ({ address }: Props) => {
             <div className="grid gap-1">
               <span
                 className="font-semibold font-mono whitespace-nowrap"
-                data-testid="wallet-label"
+                data-testid={TEST_IDS.walletLabel}
               >
                 {account.displayName}
               </span>
@@ -70,6 +75,7 @@ const WalletDetails = ({ address }: Props) => {
             className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
             checkmarkClassname="top-0"
             content={address}
+            testId={TEST_IDS.walletAddress}
           >
             {maskAddress(address)}
           </CopyToClipboard>

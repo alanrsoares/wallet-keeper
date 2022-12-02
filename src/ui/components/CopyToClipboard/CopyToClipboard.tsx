@@ -9,6 +9,7 @@ export type Props = PropsWithChildren<{
   tooltip?: string;
   dismissDelay?: number;
   checkmarkClassname?: string;
+  testId?: string;
 }>;
 
 const CopyToClipboard: FC<Props> = (props) => {
@@ -33,6 +34,7 @@ const CopyToClipboard: FC<Props> = (props) => {
           props.className
         )}
         onClick={handleCopy}
+        data-testid={props.testId}
       >
         {props.children}{" "}
       </button>

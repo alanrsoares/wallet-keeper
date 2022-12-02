@@ -34,6 +34,8 @@ export type Props = JSX.IntrinsicElements["button"] & {
   loading?: boolean;
   progress?: number;
   responsive?: boolean;
+  testId?: string;
+  ["data-testid"]?: string;
 };
 
 const Button = ({
@@ -42,6 +44,7 @@ const Button = ({
   loading,
   progress,
   responsive,
+  testId,
   ...props
 }: Props) => {
   const content: ReactNode =
@@ -86,6 +89,7 @@ const Button = ({
         "btn-sm md:btn-md": responsive,
       })}
       {...props}
+      data-testid={testId ?? props["data-testid"]}
     >
       {content}
     </button>
