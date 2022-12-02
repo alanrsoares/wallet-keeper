@@ -99,6 +99,7 @@ const ExportWalletForm = ({ address }: Props) => {
           <Alert
             variant="success"
             prefix={tab === "privateKey" ? "Private key:" : "Mnemonic phrase:"}
+            testId="export-wallet-result-alert"
           >
             <CopyToClipboard
               className="overflow-x-clip text-sm max-w-[60vw] md:max-w-xs"
@@ -116,6 +117,7 @@ const ExportWalletForm = ({ address }: Props) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            data-testid="export-wallet-form-password"
           />
           <Button
             type="submit"
@@ -123,6 +125,7 @@ const ExportWalletForm = ({ address }: Props) => {
             disabled={password.length < 3}
             loading={isUnlocking}
             progress={progress}
+            data-testid="export-wallet-form-submit"
           >
             {isUnlocking ? (
               "Unlocking..."

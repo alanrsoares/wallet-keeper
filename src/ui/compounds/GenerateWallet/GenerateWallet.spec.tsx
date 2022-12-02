@@ -148,7 +148,7 @@ describe("GenerateWallet", () => {
 
         await waitFor(
           () => {
-            expect(submitButton.innerText).toContain("Generating wallet...");
+            expect(submitButton).toHaveTextContent("Generating wallet...");
           },
           {
             timeout: 1000,
@@ -157,9 +157,7 @@ describe("GenerateWallet", () => {
 
         await waitFor(
           () => {
-            expect((submitButton as HTMLButtonElement)?.innerText).toContain(
-              "100%"
-            );
+            expect(submitButton).toHaveTextContent("100%");
           },
           {
             timeout: 9000,

@@ -15,6 +15,7 @@ export type Props = PropsWithChildren<{
   hideIcon?: boolean;
   prefix?: string;
   shadow?: "sm" | "md" | "lg" | "xl" | "2xl";
+  testId?: string;
 }>;
 
 export const VARIANT_ICONS = {
@@ -45,6 +46,7 @@ const Alert: FC<Props> = (props) => {
         },
         props.className
       )}
+      data-testid={props.testId}
     >
       <div>
         {!props.hideIcon && (

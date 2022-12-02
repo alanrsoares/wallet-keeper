@@ -1,5 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { findByTestId, fireEvent, render } from "@testing-library/react";
+import {
+  findByTestId,
+  fireEvent,
+  render,
+  waitFor,
+} from "@testing-library/react";
 import { readFile } from "fs/promises";
 import { describe, expect, it } from "vitest";
 
@@ -35,17 +40,62 @@ describe("WalletDetails", async () => {
     expect(walletName).toHaveTextContent("Test1");
   });
 
-  it("should be able to toggle the export wallet form", async () => {
-    const toggle = await findByTestId(container, "wallet-export-toggle");
+  it(
+    "should be able to export the private key by entering a password",
+    async () => {
+      const toggle = await findByTestId(container, "wallet-export-toggle");
 
-    expect(toggle).toHaveTextContent("Show private key");
+      expect(toggle).toHaveTextContent("Show private key");
 
-    fireEvent.click(toggle);
+      fireEvent.click(toggle);
 
-    const form = await findByTestId(container, "export-wallet-form");
+      const form = await findByTestId(container, "export-wallet-form");
 
-    expect(form).toBeTruthy();
+      expect(form).toBeTruthy();
 
-    expect(toggle).toHaveTextContent("Hide private key");
-  });
+      expect(toggle).toHaveTextContent("Hide private key");
+
+      const passwordInput = await findByTestId(
+        container,
+        "export-wallet-form-password"
+      );
+      const submitButton = await findByTestId(
+        container,
+        "export-wallet-form-submit"
+      );
+
+      expect(submitButton).toBeDisabled();
+
+      fireEvent.change(passwordInput, { target: { value: "12345678" } });
+
+      expect(submitButton).not.toBeDisabled();
+
+      expect(submitButton).toHaveTextContent("Unlock");
+
+      fireEvent.submit(submitButton);
+
+      await waitFor(() => {
+        expect(submitButton).toHaveTextContent("Unlocking...");
+      });
+
+      await waitFor(
+        () => {
+          expect(submitButton).toHaveTextContent("100%");
+        },
+        {
+          timeout: 5000,
+        }
+      );
+
+      const privateKey = await findByTestId(
+        container,
+        "export-wallet-result-alert"
+      );
+
+      expect(privateKey).toHaveTextContent("Private key:");
+    },
+    {
+      timeout: 10000,
+    }
+  );
 });
