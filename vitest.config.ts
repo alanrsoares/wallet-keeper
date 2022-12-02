@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "happy-dom",
+    setupFiles: resolve(__dirname, "vitest.setup.ts"),
   },
   resolve: {
     alias: {
