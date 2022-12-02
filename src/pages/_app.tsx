@@ -9,13 +9,17 @@ import { FC, useState } from "react";
 import MainLayout from "~/ui/layouts/MainLayout/MainLayout";
 import "~/styles/globals.css";
 
-const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
+type Props = AppProps<{
+  dehydratedState: unknown;
+}>;
+
+const MyApp: FC<Props> = ({ Component, pageProps }) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
       <MainLayout>
-        <Hydrate state={(pageProps as any)?.dehydratedState}>
+        <Hydrate state={pageProps?.dehydratedState}>
           <Component {...pageProps} />
         </Hydrate>
       </MainLayout>
