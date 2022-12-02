@@ -48,7 +48,10 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
     >
       <h2 className="card-title flex justify-between">
         <span>
-          Wallets <span className="opacity-80">({walletCount})</span>
+          Wallets{" "}
+          <span className="opacity-80" data-testid="wallet-count">
+            ({walletCount})
+          </span>
         </span>
         <Button
           size="sm"
@@ -63,14 +66,15 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           <PlusIcon className="h-4 w-4 swap-off" />
         </Button>
       </h2>
-      <ul className="grid gap-4">
-        {isExpanded &&
-          state.accountList.map(({ address }) => (
+      {isExpanded && (
+        <ul className="grid gap-4" data-testid="wallet-list">
+          {state.accountList.map(({ address }) => (
             <li key={address} className="card bg-base-300">
               <WalletDetails address={address} />
             </li>
           ))}
-      </ul>
+        </ul>
+      )}
     </Card>
   );
 };

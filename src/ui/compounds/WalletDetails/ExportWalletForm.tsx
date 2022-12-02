@@ -69,7 +69,11 @@ const ExportWalletForm = ({ address }: Props) => {
   );
 
   return (
-    <form onSubmit={handleUnlock} className="grid gap-4">
+    <form
+      onSubmit={handleUnlock}
+      className="grid gap-4"
+      data-testid="export-wallet-form"
+    >
       {Boolean(unlockError) && (
         <Alert variant="error" prefix="Error:">
           {(unlockError as Error).message}

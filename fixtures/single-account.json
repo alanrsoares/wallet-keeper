@@ -1,0 +1,10 @@
+{
+  "accountsByAddress": {
+    "0x96643b828715ECBEe289d7A09F0A4454919AA188": {
+      "address": "0x96643b828715ECBEe289d7A09F0A4454919AA188",
+      "encryptedJson": "{\"address\":\"96643b828715ecbee289d7a09f0a4454919aa188\",\"id\":\"eb07f892-9240-4a06-adc9-e4f01a229458\",\"version\":3,\"crypto\":{\"cipher\":\"aes-128-ctr\",\"cipherparams\":{\"iv\":\"42e04e37f7f5e400a94694221af466b4\"},\"ciphertext\":\"e5f4b74fea2b9111090830442bc04c74367b9a8e81b4cffc5d3641541584f1a3\",\"kdf\":\"scrypt\",\"kdfparams\":{\"salt\":\"05bc95d5cfccd2017d9429c22c31e96001764a43101cee8184c2cddc5c167847\",\"n\":131072,\"dklen\":32,\"p\":1,\"r\":8},\"mac\":\"92451fb73c45b91bc066c781adab94c23528d63330a6b3741f9d5612eb5d6579\"},\"x-ethers\":{\"client\":\"ethers.js\",\"gethFilename\":\"UTC--2022-12-02T00-36-09.0Z--96643b828715ecbee289d7a09f0a4454919aa188\",\"mnemonicCounter\":\"6332db364d3df70cf1153fa424ea718c\",\"mnemonicCiphertext\":\"4df564ed5d737929e84381a2df5a91ec\",\"path\":\"m/44'/60'/0'/0/0\",\"locale\":\"en\",\"version\":\"0.1\"}}",
+      "displayName": "Test1"
+    }
+  },
+  "selectedNetwork": "goerli"
+}

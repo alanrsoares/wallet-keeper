@@ -43,7 +43,11 @@ const DeleteWalletForm = ({ address }: Props) => {
   );
 
   return (
-    <form onSubmit={handleDelete} className="grid gap-4">
+    <form
+      onSubmit={handleDelete}
+      className="grid gap-4"
+      data-testid="delete-wallet-form"
+    >
       {Boolean(deleteError) && (
         <Alert variant="error" prefix="Error:">
           {(deleteError as Error).message}
