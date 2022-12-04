@@ -16,7 +16,6 @@ import {
 import WalletDetails, { TEST_IDS as WALLET_DETAILS } from "./WalletDetails";
 
 import { TEST_IDS as EXPORT_WALLET } from "./ExportWalletForm";
-// import { TEST_IDS as DELETE_WALLET } from "./DeleteWalletForm";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +34,7 @@ const renderWalletDetails = (initialState: WalletKeeperState) => {
 describe("WalletDetails", async () => {
   const fixture = await readFile("fixtures/single-account.json", "utf-8");
   const initialState = JSON.parse(fixture) as WalletKeeperState;
-  const { container, ...fd } = renderWalletDetails(initialState);
+  const { container } = renderWalletDetails(initialState);
 
   it("should render the correct wallet label", async () => {
     const walletName = await findByTestId(
@@ -43,7 +42,7 @@ describe("WalletDetails", async () => {
       WALLET_DETAILS.walletLabel
     );
 
-    expect(walletName).toHaveTextContent("Test1");
+    expect(walletName).toHaveValue("Test1");
   });
 
   it(
