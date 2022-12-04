@@ -42,6 +42,11 @@ export type ImportWalletInput = {
   onProgress?: ProgressCallback;
 };
 
+export type RenameWalletInput = {
+  displayName: string;
+  address: string;
+};
+
 export type UnlockWalletInput = {
   address: string;
   password: string;
@@ -115,13 +120,42 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           return wallet;
         }),
 
-      importWallet: () =>
-        useMutation(async (input: ImportWalletInput) => {
-          const existingWallet = Object.values(state.accountsByAddress).find(
+      renameWallet: () =>
+        useMutation(async (input: RenameWalletInput) => {
+          const sameNameAccount = Object.values(state.accountsByAddress).find(
             (account) => account.displayName === input.displayName
           );
 
-          if (existingWallet) {
+          if (sameNameAccount) {
+            throw new Error("Wallet with that name already exists");
+          }
+
+          const account = state.accountsByAddress[input.address];
+
+          const nextAccount = {
+            ...account,
+            displayName: input.displayName,
+          };
+
+          setState((state) => ({
+            ...state,
+            accountsByAddress: {
+              ...state.accountsByAddress,
+              [account.address]: nextAccount,
+            },
+          }));
+
+          return nextAccount;
+        }),
+
+      importWallet: () =>
+        useMutation(async (input: ImportWalletInput) => {
+          const account = Object.values(state.accountsByAddress);
+          const sameNameAccount = account.find(
+            (account) => account.displayName === input.displayName
+          );
+
+          if (sameNameAccount) {
             throw new Error("Wallet with that name already exists");
           }
 
@@ -151,6 +185,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
           return wallet;
         }),
+
       unlockWallet: () =>
         useMutation(async (input: UnlockWalletInput) => {
           const account = state.accountsByAddress[input.address];

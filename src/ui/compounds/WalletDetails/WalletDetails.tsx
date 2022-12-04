@@ -26,13 +26,16 @@ export type Props = {
 type WalletAction = "delete" | "export" | "lock";
 
 const WalletDetails = ({ address }: Props) => {
-  const { state, queries } = useWalletKeeper();
+  const { state, queries, mutations } = useWalletKeeper();
 
   const [action, setAction] = useState<WalletAction>("lock");
 
   const { data: balance } = queries.getBalance({ address });
 
   const account = state.accountsByAddress[address];
+
+  const { mutateAsync: renameWallet, isLoading: isRenamingWallet } =
+    mutations.renameWallet();
 
   if (!account) {
     return (
@@ -41,6 +44,20 @@ const WalletDetails = ({ address }: Props) => {
       </Alert>
     );
   }
+
+  const handleRenameWallet = async (displayName: string) => {
+    try {
+      await renameWallet({
+        address,
+        displayName: displayName.slice(0, Math.min(displayName.length, 32)),
+      });
+    } catch (error) {
+      console.warn({
+        message: "Failed to rename wallet",
+        error,
+      });
+    }
+  };
 
   return (
     <Card as="article">
@@ -54,6 +71,12 @@ const WalletDetails = ({ address }: Props) => {
               <span
                 className="font-semibold font-mono whitespace-nowrap"
                 data-testid={TEST_IDS.walletLabel}
+                contentEditable={true}
+                onInput={(e) => {
+                  const label = (e.target as HTMLInputElement).innerText;
+                  handleRenameWallet(label);
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
               >
                 {account.displayName}
               </span>
@@ -76,42 +99,44 @@ const WalletDetails = ({ address }: Props) => {
             {maskAddress(address)}
           </CopyToClipboard>
         </div>
-        <div className="w-full grid gap-2 md:place-items-end md:justify-end-end">
-          <Button
-            onClick={() => setAction(action === "lock" ? "export" : "lock")}
-            className="w-full md:w-auto"
-            size="sm"
-            data-testid={TEST_IDS.exportToggle}
-          >
-            {action === "export" ? (
-              <>
-                <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
-              </>
-            ) : (
-              <>
-                <EyeIcon className="h-5 w-5 mr-2" /> Show
-              </>
-            )}{" "}
-            private key
-          </Button>
-          <Button
-            onClick={() => setAction(action === "lock" ? "delete" : "lock")}
-            className="w-full md:w-auto"
-            variant="danger"
-            size="sm"
-          >
-            {action === "delete" ? (
-              <>
-                <XCircleIcon className="h-5 w-5 mr-2" />
-                Cancel
-              </>
-            ) : (
-              <>
-                <TrashIcon className="h-5 w-5 mr-2" />
-                Delete wallet
-              </>
-            )}
-          </Button>
+        <div className="w-full grid md:place-items-end md:justify-end-end">
+          <div className="grid gap-2">
+            <Button
+              onClick={() => setAction(action === "lock" ? "export" : "lock")}
+              className="w-full md:w-auto"
+              size="sm"
+              data-testid={TEST_IDS.exportToggle}
+            >
+              {action === "export" ? (
+                <>
+                  <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
+                </>
+              ) : (
+                <>
+                  <EyeIcon className="h-5 w-5 mr-2" /> Show
+                </>
+              )}{" "}
+              private key
+            </Button>
+            <Button
+              onClick={() => setAction(action === "lock" ? "delete" : "lock")}
+              className="w-full md:w-auto"
+              variant="danger"
+              size="sm"
+            >
+              {action === "delete" ? (
+                <>
+                  <XCircleIcon className="h-5 w-5 mr-2" />
+                  Cancel
+                </>
+              ) : (
+                <>
+                  <TrashIcon className="h-5 w-5 mr-2" />
+                  Delete wallet
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
       {action === "export" && <ExportWalletForm address={address} />}
