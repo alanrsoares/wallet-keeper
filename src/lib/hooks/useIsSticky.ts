@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import useScroll from "./useScroll";
 
 /**
  * useIsSticky
@@ -7,19 +7,7 @@ import { useEffect, useState } from "react";
  * @returns {boolean} - Whether the element is sticky or not
  */
 export default function useIsSticky(offset: number = 0): boolean {
-  const [isSticky, setIsSticky] = useState(false);
+  const { y } = useScroll();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > offset);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return isSticky;
+  return y > offset;
 }
