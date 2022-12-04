@@ -4,7 +4,7 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
@@ -34,8 +34,7 @@ const WalletDetails = ({ address }: Props) => {
 
   const account = state.accountsByAddress[address];
 
-  const { mutateAsync: renameWallet, isLoading: isRenamingWallet } =
-    mutations.renameWallet();
+  const { mutateAsync: renameWallet } = mutations.renameWallet();
 
   if (!account) {
     return (
@@ -45,19 +44,26 @@ const WalletDetails = ({ address }: Props) => {
     );
   }
 
-  const handleRenameWallet = async (displayName: string) => {
-    try {
-      await renameWallet({
-        address,
-        displayName: displayName.slice(0, Math.min(displayName.length, 32)),
-      });
-    } catch (error) {
-      console.warn({
-        message: "Failed to rename wallet",
-        error,
-      });
-    }
-  };
+  const handleRenameWallet = useCallback(
+    async (e: FormEvent<HTMLInputElement>) => {
+      e.persist();
+
+      const { value: displayName } = e.currentTarget;
+
+      try {
+        await renameWallet({
+          address,
+          displayName: displayName.slice(0, Math.min(displayName.length, 32)),
+        });
+      } catch (error) {
+        console.warn({
+          message: "Failed to rename wallet",
+          error,
+        });
+      }
+    },
+    []
+  );
 
   return (
     <Card as="article">
@@ -68,18 +74,13 @@ const WalletDetails = ({ address }: Props) => {
               <Identicon address={address} diameter={48} />
             </div>
             <div className="grid gap-1">
-              <span
-                className="font-semibold font-mono whitespace-nowrap"
+              <input
+                className="font-semibold font-mono whitespace-nowrap bg-transparent flex flex-shrink-0 overflow-hidden overflow-ellipsis"
                 data-testid={TEST_IDS.walletLabel}
                 contentEditable={true}
-                onInput={(e) => {
-                  const label = (e.target as HTMLInputElement).innerText;
-                  handleRenameWallet(label);
-                }}
-                onMouseDown={(e) => e.stopPropagation()}
-              >
-                {account.displayName}
-              </span>
+                onInput={handleRenameWallet}
+                value={account.displayName}
+              />
               <Tooltip
                 tip="ETH balance"
                 className="font-mono text-sm text-left whitespace-nowrap"

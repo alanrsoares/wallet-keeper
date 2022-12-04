@@ -4,10 +4,12 @@ import { getDefaultProvider, Provider } from "@ethersproject/providers";
 import { formatEther } from "@ethersproject/units";
 import { Wallet } from "@ethersproject/wallet";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { getAddress } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { createContainer } from "unstated-next";
 
 import usePersistedState from "~/lib/hooks/usePersistedState";
+import { isValidBIP32Address, sanitizeWalletName } from "../utils";
 
 export const STORAGE_KEY = "@walletkeeper/state/v1";
 
@@ -112,7 +114,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
               [wallet.address]: {
                 address: wallet.address,
                 encryptedJson,
-                displayName: input.displayName,
+                displayName: sanitizeWalletName(input.displayName),
               },
             },
           }));
@@ -134,7 +136,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
           const nextAccount = {
             ...account,
-            displayName: input.displayName,
+            displayName: sanitizeWalletName(input.displayName),
           };
 
           setState((state) => ({
@@ -205,7 +207,8 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
       deleteWallet: () =>
         useMutation(async (input: DeleteWalletInput) => {
-          const account = state.accountsByAddress[input.address];
+          const sanitizedAddress = getAddress(input.address);
+          const account = state.accountsByAddress[sanitizedAddress];
 
           // password is needed to decrypt the wallet
           // so we can delete it from the state
@@ -219,7 +222,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             ...state,
             accountsByAddress: Object.fromEntries(
               Object.entries(state.accountsByAddress).filter(
-                ([key]) => key !== input.address
+                ([key]) => key !== sanitizedAddress
               )
             ),
           }));
@@ -240,7 +243,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             return formatEther(balance);
           },
           {
-            enabled: Boolean(params.address),
+            enabled: isValidBIP32Address(params.address),
           }
         ),
     };
