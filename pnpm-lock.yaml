@@ -40,7 +40,6 @@ specifiers:
   babel-loader: ^9.1.0
   class-variance-authority: ^0.3.0
   clsx: ^1.2.1
-  cva: ^0.0.0
   daisyui: ^2.42.1
   ethers: ^5.7.2
   happy-dom: ^7.7.0
@@ -53,6 +52,7 @@ specifiers:
   react-jazzicon: ^1.0.4
   require-from-string: ^2.0.2
   rome: ^10.0.1
+  tailwind-styled-components: 2.1.6
   tailwindcss: ^3.2.4
   tsconfig-paths-webpack-plugin: ^4.0.0
   typescript: 4.9.3
@@ -75,13 +75,13 @@ dependencies:
   '@types/react-dom': 18.0.9
   class-variance-authority: 0.3.0_typescript@4.9.3
   clsx: 1.2.1
-  cva: 0.0.0
   ethers: 5.7.2
   next: 13.0.6_672uxklweod7ene3nqtsh262ca
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.40.0_react@18.2.0
   react-jazzicon: 1.0.4_biqbaboplfbrettd7655fr4n2y
+  tailwind-styled-components: 2.1.6_biqbaboplfbrettd7655fr4n2y
   typescript: 4.9.3
   unstated-next: 1.1.0
   zod: 3.19.1
@@ -6359,10 +6359,6 @@ packages:
     dev: true
     optional: true
 
-  /cva/0.0.0:
-    resolution: {integrity: sha512-KPdxLxXhIzmCNtGpqdONKC1JwEx0cDH8cnYh7KYFxO7JYf4DqqtcLg6g+1QA0SlIdME18n9m337DOxIlrsSF5Q==}
-    dev: false
-
   /cyclist/1.0.1:
     resolution: {integrity: sha512-NJGVKPS81XejHcLhaLJS7plab0fK3slPh11mESeeDq2W4ZI5kUKK/LRRdVDvjJseojbPB7ZwjnyOybg3Igea/A==}
     dev: true
@@ -12149,6 +12145,21 @@ packages:
   /synchronous-promise/2.0.16:
     resolution: {integrity: sha512-qImOD23aDfnIDNqlG1NOehdB9IYsn1V9oByPjKY1nakv2MQYCEMyX033/q+aEtYCpmYK1cv2+NTmlH+ra6GA5A==}
     dev: true
+
+  /tailwind-merge/1.8.0:
+    resolution: {integrity: sha512-tER/2SbYRdfPYg6m4pDWZSlbymLTmDi+dx4iCsJmgmz4UDGzgnVelOvBe3GNtGCw9Bmc4MiObfJJbKeVL+KnMQ==}
+    dev: false
+
+  /tailwind-styled-components/2.1.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-qqZXvwMYrZoLS75eyxeU+XgrwBmrcJA7568Jj+RWsah0EswKzLc0vkaHtLQFYiHbWy8lDwKVMRFsUWQ4GBpHzA==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tailwind-merge: 1.8.0
+    dev: false
 
   /tailwindcss/3.2.4_postcss@8.4.19:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}

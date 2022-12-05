@@ -107,3 +107,8 @@ export const Circle = withProps({
   children: <PlusIcon className="h-6 w-6" />,
   shape: "circle",
 });
+
+export const Square = withProps({
+  children: <PlusIcon className="h-6 w-6" />,
+  shape: "square",
+});

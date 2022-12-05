@@ -5,11 +5,19 @@ import {
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
+import tw from "tailwind-styled-components";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import WalletDetails from "../WalletDetails";
+
+const EmptyStateContainer = tw.section`
+  group p-8 w-full 
+  grid place-items-center
+  gap-4 xl:gap-8 
+  text-white/60 text-center
+`;
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
   const { state } = useWalletKeeper();
@@ -28,7 +36,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
 
   if (!(walletCount || isExpanded)) {
     return (
-      <div className="p-8 w-full grid place-items-center gap-4 xl:gap-8 group text-white/60 text-center">
+      <EmptyStateContainer>
         <div className="font-display text-xl lg:text-2xl xl:text-4xl">
           Oh noes, no wallet yet?
         </div>
@@ -36,7 +44,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           Don't panic! You can create a new wallet below
         </small>
         <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
-      </div>
+      </EmptyStateContainer>
     );
   }
 
