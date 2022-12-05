@@ -5,6 +5,14 @@ import Button, { Props } from "./Button";
 export default {
   title: "components/Button",
   component: Button,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Buttons are used to trigger actions or submit forms. They are used to indicate the next step in a process.",
+      },
+    },
+  },
 } as ComponentMeta<typeof Button>;
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;

@@ -5,6 +5,14 @@ import Alert, { Props } from "./Alert";
 export default {
   title: "components/Alert",
   component: Alert,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Alerts are used to display important information to the user.",
+      },
+    },
+  },
 } as ComponentMeta<typeof Alert>;
 
 const Template: ComponentStory<typeof Alert> = (args) => <Alert {...args} />;
