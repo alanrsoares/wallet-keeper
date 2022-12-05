@@ -50,7 +50,7 @@ describe("GenerateWallet", () => {
 
       expect(generateWalletButton).toBeTruthy();
 
-      expect((generateWalletButton as HTMLButtonElement)?.disabled).toBe(false);
+      expect(generateWalletButton).not.toBeDisabled();
 
       fireEvent.click(generateWalletButton);
 
@@ -64,7 +64,7 @@ describe("GenerateWallet", () => {
 
       expect(submitButton).toBeTruthy();
 
-      expect((submitButton as HTMLButtonElement)?.disabled).toBe(true);
+      expect(submitButton).toBeDisabled();
     });
 
     test("type in displayName", async () => {
@@ -72,11 +72,9 @@ describe("GenerateWallet", () => {
 
       expect(inputEl).toBeTruthy();
 
-      if (inputEl) {
-        fireEvent.change(inputEl, { target: { value: "displayName" } });
+      fireEvent.change(inputEl, { target: { value: "displayName" } });
 
-        expect((inputEl as HTMLInputElement)?.value).toBe("displayName");
-      }
+      expect(inputEl).toHaveValue("displayName");
     });
 
     test("type in password", async () => {
@@ -84,11 +82,13 @@ describe("GenerateWallet", () => {
 
       expect(inputEl).toBeTruthy();
 
-      if (inputEl) {
-        fireEvent.change(inputEl, { target: { value: SAMPLE_PASSWORD } });
+      fireEvent.change(inputEl, {
+        target: {
+          value: SAMPLE_PASSWORD,
+        },
+      });
 
-        expect((inputEl as HTMLInputElement)?.value).toBe(SAMPLE_PASSWORD);
-      }
+      expect(inputEl).toHaveValue(SAMPLE_PASSWORD);
     });
 
     test("type in passwordConfirm", async () => {
@@ -99,11 +99,13 @@ describe("GenerateWallet", () => {
 
       expect(inputEl).toBeTruthy();
 
-      if (inputEl) {
-        fireEvent.change(inputEl, { target: { value: SAMPLE_PASSWORD } });
+      fireEvent.change(inputEl, {
+        target: {
+          value: SAMPLE_PASSWORD,
+        },
+      });
 
-        expect((inputEl as HTMLInputElement)?.value).toBe(SAMPLE_PASSWORD);
-      }
+      expect(inputEl).toHaveValue(SAMPLE_PASSWORD);
     });
 
     test("submit button should be enabled", async () => {
