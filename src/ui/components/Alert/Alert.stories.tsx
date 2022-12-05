@@ -3,7 +3,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 import Alert, { Props } from "./Alert";
 
 export default {
-  title: "Alert",
+  title: "components/Alert",
   component: Alert,
 } as ComponentMeta<typeof Alert>;
 

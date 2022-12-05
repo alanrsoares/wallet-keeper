@@ -6,7 +6,7 @@ import Field from "../Field";
 import CopyToClipboard from "./CopyToClipboard";
 
 export default {
-  title: "CopyToClipboard",
+  title: "components/CopyToClipboard",
   component: CopyToClipboard,
 } as ComponentMeta<typeof CopyToClipboard>;
 
