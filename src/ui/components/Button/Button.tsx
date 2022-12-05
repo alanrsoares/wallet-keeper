@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 
 import { TestableProps } from "~/lib/test-utils";
@@ -54,7 +54,7 @@ export type ButtonShape = NonNullable<VProps["shape"]>;
 
 export type Props = TestableProps<JSX.IntrinsicElements["button"] & VProps>;
 
-const Button = ({
+const Button: FC<Props> = ({
   className,
   children,
   loading,
@@ -66,7 +66,7 @@ const Button = ({
   testId,
   shape,
   ...props
-}: Props) => {
+}) => {
   const content: ReactNode =
     progress && loading ? (
       <>

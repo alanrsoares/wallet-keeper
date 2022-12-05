@@ -3,15 +3,15 @@ import { TestableProps } from "~/lib/test-utils";
 
 type ElementKind = keyof JSX.IntrinsicElements;
 
-type Props<T extends ElementKind> = JSX.IntrinsicElements[T] &
-  TestableProps<{
+type Props<T extends ElementKind> = TestableProps<
+  JSX.IntrinsicElements[T] & {
     className?: string;
     bodyClassName?: string;
     title?: string;
     titleClassName?: string;
-    testId?: string;
     as?: ElementKind;
-  }>;
+  }
+>;
 
 const Card = <T extends ElementKind = "div">(props: Props<T>) => {
   const Tag = props.as || "div";

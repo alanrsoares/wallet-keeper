@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { FC } from "react";
 import { TestableProps } from "~/lib/test-utils";
 
 type Props = JSX.IntrinsicElements["div"] &
@@ -6,7 +7,7 @@ type Props = JSX.IntrinsicElements["div"] &
     tip: string;
   }>;
 
-const Tooltip = ({ tip, className, children, ...props }: Props) => (
+const Tooltip: FC<Props> = ({ tip, className, children, ...props }) => (
   <div
     {...props}
     className={clsx("tooltip", className)}
