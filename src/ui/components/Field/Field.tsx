@@ -1,6 +1,6 @@
-import { FC, forwardRef } from "react";
-import { TestableProps } from "~/lib/test-utils";
+import { forwardRef } from "react";
 
+import { TestableProps } from "~/lib/test-utils";
 import Alert from "../Alert";
 import Input from "../Input";
 

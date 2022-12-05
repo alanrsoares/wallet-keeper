@@ -4,21 +4,11 @@ import {
   InformationCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 import { FC, PropsWithChildren } from "react";
+
 import { TestableProps } from "~/lib/test-utils";
-
-export type AlertVariant = "success" | "error" | "warning" | "info";
-
-export type Props = PropsWithChildren<
-  TestableProps<{
-    className?: string;
-    variant?: AlertVariant;
-    hideIcon?: boolean;
-    prefix?: string;
-    shadow?: "sm" | "md" | "lg" | "xl" | "2xl";
-  }>
->;
 
 export const VARIANT_ICONS = {
   success: CheckCircleIcon,
@@ -27,27 +17,45 @@ export const VARIANT_ICONS = {
   info: InformationCircleIcon,
 };
 
+const applyClassNames = cva("alert", {
+  variants: {
+    variant: {
+      success: "alert-success",
+      error: "alert-error",
+      warning: "alert-warning",
+      info: "alert-info",
+    },
+    shadow: {
+      sm: "shadow-sm",
+      md: "shadow",
+      lg: "shadow-lg",
+      xl: "shadow-xl",
+      "2xl": "shadow-2xl",
+    },
+  },
+});
+
+type VProps = VariantProps<typeof applyClassNames> & {
+  className?: string;
+  hideIcon?: boolean;
+  prefix?: string;
+};
+
+export type AlertVariant = NonNullable<VProps["variant"]>;
+
+export type Props = PropsWithChildren<TestableProps<VProps>>;
+
 const Alert: FC<Props> = (props) => {
   const Icon = VARIANT_ICONS[props.variant ?? "info"];
 
   return (
     <div
       role="alert"
-      className={clsx(
-        "alert",
-        {
-          "alert-success": props.variant === "success",
-          "alert-error": props.variant === "error",
-          "alert-warning": props.variant === "warning",
-          "alert-info": props.variant === "info",
-          "shadow-sm": props.shadow === "sm",
-          shadow: props.shadow === "md",
-          "shadow-lg": props.shadow === "lg",
-          "shadow-xl": props.shadow === "xl",
-          "shadow-2xl": props.shadow === "2xl",
-        },
-        props.className
-      )}
+      className={applyClassNames({
+        className: props.className,
+        variant: props.variant,
+        shadow: props.shadow,
+      })}
       data-testid={props.testId || props["data-testid"]}
     >
       <div>

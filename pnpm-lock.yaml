@@ -38,7 +38,9 @@ specifiers:
   '@vitejs/plugin-react': ^2.2.0
   autoprefixer: ^10.4.13
   babel-loader: ^9.1.0
+  class-variance-authority: ^0.3.0
   clsx: ^1.2.1
+  cva: ^0.0.0
   daisyui: ^2.42.1
   ethers: ^5.7.2
   happy-dom: ^7.7.0
@@ -71,7 +73,9 @@ dependencies:
   '@types/node': 18.11.9
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
+  class-variance-authority: 0.3.0_typescript@4.9.3
   clsx: 1.2.1
+  cva: 0.0.0
   ethers: 5.7.2
   next: 13.0.6_672uxklweod7ene3nqtsh262ca
   react: 18.2.0
@@ -5722,6 +5726,17 @@ packages:
       static-extend: 0.1.2
     dev: true
 
+  /class-variance-authority/0.3.0_typescript@4.9.3:
+    resolution: {integrity: sha512-TFO+pzY9Gedqv8crPhprd647wxhvfpKevPPjiMcteEWsnkHX9yZrD1xMY3ZhRZnLwHUHCCP0LYO6KZIVag/5wQ==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 4.9.3
+    dev: false
+
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
@@ -6222,6 +6237,10 @@ packages:
       array-find-index: 1.0.2
     dev: true
     optional: true
+
+  /cva/0.0.0:
+    resolution: {integrity: sha512-KPdxLxXhIzmCNtGpqdONKC1JwEx0cDH8cnYh7KYFxO7JYf4DqqtcLg6g+1QA0SlIdME18n9m337DOxIlrsSF5Q==}
+    dev: false
 
   /cyclist/1.0.1:
     resolution: {integrity: sha512-NJGVKPS81XejHcLhaLJS7plab0fK3slPh11mESeeDq2W4ZI5kUKK/LRRdVDvjJseojbPB7ZwjnyOybg3Igea/A==}

@@ -1,42 +1,58 @@
-import clsx from "clsx";
 import { ReactNode } from "react";
-import { TestableProps } from "~/lib/test-utils";
+import { cva, VariantProps } from "class-variance-authority";
 
+import { TestableProps } from "~/lib/test-utils";
 import { formatPercentage } from "~/lib/utils";
 
-export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "info"
-  | "warning"
-  | "danger"
-  | "success"
-  | "ghost";
+const applyClassNames = cva("btn", {
+  variants: {
+    variant: {
+      primary: "btn-primary",
+      secondary: "btn-secondary",
+      accent: "btn-accent",
+      info: "btn-info",
+      warning: "btn-warning",
+      danger: "btn-error",
+      success: "btn-success",
+      ghost: "btn-ghost",
+    },
+    size: {
+      xs: "btn-xs",
+      sm: "btn-sm",
+      md: "btn-md",
+      lg: "btn-lg",
+      xl: "btn-xl",
+    },
+    length: {
+      wide: "btn-wide",
+      block: "btn-block",
+    },
+    shape: {
+      circle: "btn-circle",
+      square: "btn-square",
+    },
+    loading: {
+      true: "loading",
+    },
+    responsive: {
+      true: "btn-sm md:btn-md",
+    },
+  },
+});
 
-export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+type VProps = VariantProps<typeof applyClassNames> & {
+  progress?: number;
+};
 
-export type ButtonLength = "wide" | "block";
+export type ButtonVariant = NonNullable<VProps["variant"]>;
 
-export type ButtonShape = "circle" | "square";
+export type ButtonSize = NonNullable<VProps["size"]>;
 
-export type Props = JSX.IntrinsicElements["button"] &
-  TestableProps<{
-    variant?: ButtonVariant;
-    /**
-     * @default "md"
-     */
-    size?: ButtonSize;
-    /**
-     * @description "wide" is only available for "xs" and "sm" sizes
-     * @description "block" is only available for "md", "lg", and "xl" sizes
-     */
-    length?: ButtonLength;
-    shape?: ButtonShape;
-    loading?: boolean;
-    progress?: number;
-    responsive?: boolean;
-  }>;
+export type ButtonLength = NonNullable<VProps["length"]>;
+
+export type ButtonShape = NonNullable<VProps["shape"]>;
+
+export type Props = TestableProps<JSX.IntrinsicElements["button"] & VProps>;
 
 const Button = ({
   className,
@@ -44,6 +60,9 @@ const Button = ({
   loading,
   progress,
   responsive,
+  variant,
+  size,
+  length,
   testId,
   ...props
 }: Props) => {
@@ -61,32 +80,12 @@ const Button = ({
 
   return (
     <button
-      className={clsx("btn", className, {
-        // variants
-        "btn-primary": props.variant === "primary",
-        "btn-secondary": props.variant === "secondary",
-        "btn-accent": props.variant === "accent",
-        "btn-info": props.variant === "info",
-        "btn-warning": props.variant === "warning",
-        "btn-error": props.variant === "danger",
-        "btn-success": props.variant === "success",
-        "btn-ghost": props.variant === "ghost",
-        // sizes
-        "btn-xs": props.size === "xs",
-        "btn-sm": props.size === "sm",
-        "btn-md": props.size === "md",
-        "btn-lg": props.size === "lg",
-        "btn-xl": props.size === "xl",
-        // lengths
-        "btn-wide": props.length === "wide",
-        "btn-block": props.length === "block",
-        // shapes
-        "btn-circle": props.shape === "circle",
-        "btn-square": props.shape === "square",
-        // loading
-        loading: loading,
-        // responsive
-        "btn-sm md:btn-md": responsive,
+      className={applyClassNames({
+        className,
+        variant,
+        size,
+        length,
+        responsive,
       })}
       {...props}
       data-testid={testId ?? props["data-testid"]}
