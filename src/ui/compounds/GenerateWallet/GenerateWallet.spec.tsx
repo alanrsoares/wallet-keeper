@@ -23,17 +23,16 @@ const renderGenerateWallet = (initialState: WalletKeeperState) => {
   );
 };
 
-describe("GenerateWallet", () => {
-  /**
-   * Functional requirements:
-   *
-   * 1 - Users would like to click a button to generate a Wallet.
-   * 2 - Users would like to see a list of generated wallets.
-   * 3 - Users would like to see their private keys by entering their password.
-   * 4 - Users would like to see their balance in testnet networks
-   */
+/**
+ * Functional requirements:
+ *
+ * 1 - Users would like to click a button to generate a Wallet. (done)
+ * 2 - Users would like to see a list of generated wallets.
+ * 3 - Users would like to see their private keys by entering their password.
+ * 4 - Users would like to see their balance in testnet networks
+ */
 
-  // case 1
+describe("GenerateWallet", () => {
   describe("Users would like to click a button to generate a Wallet.", () => {
     const { container } = renderGenerateWallet({
       selectedNetwork: "goerli",
