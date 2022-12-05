@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { findByTestId, fireEvent, render } from "@testing-library/react";
-import { readFile } from "fs/promises";
 import { describe, expect, it } from "vitest";
+
+import { readSingleAccountFixture } from "fixtures";
 
 import {
   WalletKeeperProvider,
@@ -23,8 +24,7 @@ const renderWalletList = (initialState: WalletKeeperState) => {
 
 describe("WalletList", () => {
   describe("Single wallet", async () => {
-    const fixture = await readFile("fixtures/single-account.json", "utf-8");
-    const initialState = JSON.parse(fixture) as WalletKeeperState;
+    const initialState = await readSingleAccountFixture();
     const { container } = renderWalletList(initialState);
 
     it("should render the correct wallet count", async () => {
