@@ -8,16 +8,10 @@ import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
+import { createTestIds } from "~/lib/test-utils";
 import Button from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import WalletDetails from "../WalletDetails";
-
-const EmptyStateContainer = tw.section`
-  group p-8 w-full 
-  grid place-items-center
-  gap-4 xl:gap-8 
-  text-white/60 text-center
-`;
 
 const WalletList: FC<PropsWithChildren> = (_props) => {
   const { state } = useWalletKeeper();
@@ -35,47 +29,29 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   }, [walletCount]);
 
   if (!(walletCount || isExpanded)) {
-    return (
-      <EmptyStateContainer>
-        <div className="font-display text-xl lg:text-2xl xl:text-4xl">
-          Oh noes, no wallet yet?
-        </div>
-        <small className="text-base lg:text-lg opacity-90 -mt-2 xl:-mt-4">
-          Don't panic! You can create a new wallet below
-        </small>
-        <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
-      </EmptyStateContainer>
-    );
+    return <EmptyState />;
   }
 
   return (
     <Card
       className="card card-compact md:card-normal md:bg-base-200 -mx-2"
       bodyClassName="grid gap-4"
-      testId="wallet-list-container"
+      testId={TEST_IDS.container}
     >
       <h2 className="card-title flex justify-between">
         <span>
           Wallets{" "}
-          <span className="opacity-80" data-testid="wallet-count">
+          <span className="opacity-80" data-testid={TEST_IDS.walletCount}>
             ({walletCount})
           </span>
         </span>
-        <Button
-          size="sm"
-          shape="circle"
-          className={clsx("swap swap-rotate", {
-            "swap-active": isExpanded,
-          })}
-          onClick={() => setIsExpanded(!isExpanded)}
-          data-testid="wallet-list-toggle"
-        >
-          <MinusIcon className="h-4 w-4 swap-on" />
-          <PlusIcon className="h-4 w-4 swap-off" />
-        </Button>
+        <ToggleButton
+          isActive={isExpanded}
+          onClick={() => setIsExpanded((x) => !x)}
+        />
       </h2>
       {isExpanded && (
-        <ul className="grid gap-4" data-testid="wallet-list">
+        <ul className="grid gap-4" data-testid={TEST_IDS.walletList}>
           {state.accountList.map(({ address }) => (
             <li key={address} className="card bg-base-300">
               <WalletDetails address={address} />
@@ -88,3 +64,45 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
 };
 
 export default WalletList;
+
+const ToggleButton = ({ isActive = false, onClick = () => {} }) => (
+  <Button
+    size="sm"
+    shape="circle"
+    className={clsx("swap swap-rotate", {
+      "swap-active": isActive,
+    })}
+    onClick={onClick}
+    data-testid={TEST_IDS.toggleButton}
+  >
+    <MinusIcon className="h-4 w-4 swap-on" />
+    <PlusIcon className="h-4 w-4 swap-off" />
+  </Button>
+);
+
+const EmptyState = () => (
+  <EmptyStateContainer data-testid={TEST_IDS.emptyState}>
+    <div className="font-display text-xl lg:text-2xl xl:text-4xl">
+      Oh noes, no wallet yet?
+    </div>
+    <small className="text-base lg:text-lg opacity-90 -mt-2 xl:-mt-4">
+      Don't panic! You can create a new wallet below
+    </small>
+    <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
+  </EmptyStateContainer>
+);
+
+const EmptyStateContainer = tw.section`
+  group p-8 w-full 
+  grid place-items-center
+  gap-4 xl:gap-8 
+  text-white/60 text-center
+`;
+
+export const TEST_IDS = createTestIds("WalletList", {
+  container: "container",
+  emptyState: "empty-state",
+  toggleButton: "toggle-button",
+  walletCount: "wallet-count",
+  walletList: "wallet-list",
+});

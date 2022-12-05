@@ -7,7 +7,7 @@ import {
   WalletKeeperProvider,
   WalletKeeperState,
 } from "~/lib/contexts/walletKeeper";
-import WalletList from "./WalletList";
+import WalletList, { TEST_IDS } from "./WalletList";
 
 const queryClient = new QueryClient();
 
@@ -28,18 +28,18 @@ describe("WalletList", () => {
     const { container } = renderWalletList(initialState);
 
     it("should render the correct wallet count", async () => {
-      const walletCount = await findByTestId(container, "wallet-count");
+      const walletCount = await findByTestId(container, TEST_IDS.walletCount);
       expect(walletCount.textContent).toBe("(1)");
     });
 
     it("should be expanded by default", async () => {
-      const walletList = await findByTestId(container, "wallet-list");
+      const walletList = await findByTestId(container, TEST_IDS.walletList);
 
       expect(walletList).toBeTruthy();
     });
 
     it("should collapse the list when the toggle is clicked", async () => {
-      const toggle = await findByTestId(container, "wallet-list-toggle");
+      const toggle = await findByTestId(container, TEST_IDS.toggleButton);
 
       expect(toggle.classList.contains("swap-active")).toBe(true);
 
