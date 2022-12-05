@@ -64,6 +64,7 @@ const Button = ({
   size,
   length,
   testId,
+  shape,
   ...props
 }: Props) => {
   const content: ReactNode =
@@ -86,6 +87,7 @@ const Button = ({
         size,
         length,
         responsive,
+        shape,
       })}
       {...props}
       data-testid={testId ?? props["data-testid"]}

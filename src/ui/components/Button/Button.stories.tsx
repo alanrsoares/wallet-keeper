@@ -1,3 +1,4 @@
+import { PlusIcon } from "@heroicons/react/24/outline";
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
 import Button, { Props } from "./Button";
 
@@ -92,4 +93,9 @@ export const Responsive_Block = withProps({
   children: "Responsive Block",
   responsive: true,
   length: "block",
+});
+
+export const Circle = withProps({
+  children: <PlusIcon className="h-6 w-6" />,
+  shape: "circle",
 });
