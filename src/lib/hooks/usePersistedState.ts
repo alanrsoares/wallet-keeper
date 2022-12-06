@@ -18,11 +18,7 @@ export default function usePersistedState<T extends NonNullable<any>>(
   useEffect(() => {
     const stored = localStorage.getItem(key);
 
-    Maybe.of(stored).map((stored) => {
-      const parsed = JSON.parse(stored);
-
-      _setState(parsed);
-    });
+    Maybe.of(stored).map(JSON.parse).map(_setState);
   }, []);
 
   const setState = (payload: SetStateAction<T>) => {
@@ -34,7 +30,9 @@ export default function usePersistedState<T extends NonNullable<any>>(
       return;
     }
 
-    localStorage.setItem(key, JSON.stringify(nextState ?? initialState));
+    Maybe.of(nextState ?? initialState)
+      .map(JSON.stringify)
+      .map((x) => localStorage.setItem(key, x));
 
     _setState(nextState);
   };
