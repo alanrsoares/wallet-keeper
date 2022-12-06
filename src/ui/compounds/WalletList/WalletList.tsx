@@ -82,21 +82,30 @@ const ToggleButton = ({ isActive = false, onClick = () => {} }) => (
 
 const EmptyState = () => (
   <EmptyStateContainer data-testid={TEST_IDS.emptyState}>
-    <div className="font-display text-xl lg:text-2xl xl:text-4xl">
-      Oh noes, no wallet yet?
-    </div>
-    <small className="text-base lg:text-lg opacity-90 -mt-2 xl:-mt-4">
-      Don't panic! You can create a new wallet below
-    </small>
-    <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
+    <EmptyStateContent>
+      <h2 className="font-display text-xl lg:text-3xl xl:text-4xl">
+        Oh noes, no wallet yet?
+      </h2>
+      <small className="text-base lg:text-lg opacity-90 -mt-2 xl:-mt-4">
+        Don't panic! You can create a new wallet below
+      </small>
+      <ArrowDownIcon className="h-12 w-12 group-hover:animate-bounce" />
+    </EmptyStateContent>
   </EmptyStateContainer>
 );
 
 const EmptyStateContainer = tw.section`
-  group p-8 w-full 
-  grid place-items-center
-  gap-4 xl:gap-8 
-  text-white/60 text-center
+  hero
+  group
+  py-6 md:py-8
+`;
+
+const EmptyStateContent = tw.div`
+  hero-content 
+  text-center 
+  grid place-items-center 
+  gap-5 md:gap-8
+  max-w-lg
 `;
 
 export const TEST_IDS = createTestIds("WalletList", {
