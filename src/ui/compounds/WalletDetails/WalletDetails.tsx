@@ -4,13 +4,21 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { FormEvent, useCallback, useState } from "react";
+import clsx from "clsx";
+import {
+  FC,
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+  useCallback,
+  useState,
+} from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
 import { maskAddress } from "~/lib/utils";
 import Alert from "~/ui/components/Alert";
-import Button from "~/ui/components/Button";
+import Button, { ButtonProps } from "~/ui/components/Button";
 import Card from "~/ui/components/Card";
 import CopyToClipboard from "~/ui/components/CopyToClipboard";
 import Identicon from "~/ui/components/Identicon";
@@ -102,41 +110,43 @@ const WalletDetails = ({ address }: Props) => {
         </div>
         <div className="w-full grid md:place-items-end md:justify-end-end">
           <div className="grid gap-2">
-            <Button
-              onClick={() => setAction(action === "lock" ? "export" : "lock")}
-              className="w-full md:w-auto"
-              size="sm"
-              data-testid={TEST_IDS.exportToggle}
+            <ToggleButton
+              isActive={action === "export"}
+              onClick={(isActive) => setAction(isActive ? "lock" : "export")}
+              testId={TEST_IDS.exportToggle}
             >
-              {action === "export" ? (
-                <>
-                  <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide
-                </>
-              ) : (
-                <>
-                  <EyeIcon className="h-5 w-5 mr-2" /> Show
-                </>
-              )}{" "}
-              private key
-            </Button>
-            <Button
-              onClick={() => setAction(action === "lock" ? "delete" : "lock")}
-              className="w-full md:w-auto"
+              {(isActive) =>
+                isActive ? (
+                  <>
+                    <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide private key
+                  </>
+                ) : (
+                  <>
+                    <EyeIcon className="h-5 w-5 mr-2" /> Show private key
+                  </>
+                )
+              }
+            </ToggleButton>
+            <ToggleButton
+              isActive={action === "delete"}
+              onClick={(isActive) => setAction(isActive ? "lock" : "delete")}
               variant="danger"
-              size="sm"
+              testId={TEST_IDS.deleteToggle}
             >
-              {action === "delete" ? (
-                <>
-                  <XCircleIcon className="h-5 w-5 mr-2" />
-                  Cancel
-                </>
-              ) : (
-                <>
-                  <TrashIcon className="h-5 w-5 mr-2" />
-                  Delete wallet
-                </>
-              )}
-            </Button>
+              {(isActive) =>
+                isActive ? (
+                  <>
+                    <XCircleIcon className="h-5 w-5 mr-2" />
+                    Cancel
+                  </>
+                ) : (
+                  <>
+                    <TrashIcon className="h-5 w-5 mr-2" />
+                    Delete wallet
+                  </>
+                )
+              }
+            </ToggleButton>
           </div>
         </div>
       </div>
@@ -148,8 +158,39 @@ const WalletDetails = ({ address }: Props) => {
 
 export default WalletDetails;
 
+type ToggleButtonProps = Omit<ButtonProps, "children" | "onClick"> & {
+  isActive: boolean;
+  children?: ((isActive: boolean) => ReactNode) | ReactNode;
+  onClick?: (
+    isActive: boolean,
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => void;
+};
+
+const ToggleButton: FC<ToggleButtonProps> = ({
+  isActive,
+  className,
+  children,
+  onClick,
+  ...props
+}) => (
+  <Button
+    className={clsx("w-full md:w-auto", className)}
+    variant={props.variant}
+    {...props}
+    onClick={(e) => onClick?.(isActive, e)}
+  >
+    {typeof children === "function" ? children(isActive) : children}
+  </Button>
+);
+
+ToggleButton.defaultProps = {
+  size: "sm",
+};
+
 export const TEST_IDS = createTestIds("WalletDetails", {
   walletLabel: "wallet-label",
   walletAddress: "wallet-address",
   exportToggle: "export-toggle",
+  deleteToggle: "delete-toggle",
 });
