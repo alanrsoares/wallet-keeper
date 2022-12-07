@@ -1,16 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  findByTestId,
-  fireEvent,
-  render,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import {
-  WalletKeeperProvider,
-  WalletKeeperState,
-} from "~/lib/contexts/walletKeeper";
+import { WalletKeeperProvider } from "~/lib/contexts/walletKeeper";
 
 import { readSingleAccountFixture } from "fixtures";
 
@@ -19,27 +11,23 @@ import { TEST_IDS as EXPORT_WALLET } from "./ExportWalletForm";
 
 const queryClient = new QueryClient();
 
-const renderWalletDetails = (initialState: WalletKeeperState) => {
-  const firstAddress = Object.keys(initialState.accountsByAddress)[0];
+const SAMPLE_PASSWORD = "12345678";
 
-  return render(
+describe("WalletDetails", async () => {
+  const singleAccountState = await readSingleAccountFixture();
+
+  const [firstAddress] = Object.keys(singleAccountState.accountsByAddress);
+
+  render(
     <QueryClientProvider client={queryClient}>
-      <WalletKeeperProvider initialState={initialState}>
+      <WalletKeeperProvider initialState={singleAccountState}>
         <WalletDetails address={firstAddress} />
       </WalletKeeperProvider>
     </QueryClientProvider>
   );
-};
-
-describe("WalletDetails", async () => {
-  const initialState = await readSingleAccountFixture();
-  const { container } = renderWalletDetails(initialState);
 
   it("should render the correct wallet label", async () => {
-    const walletName = await findByTestId(
-      container,
-      WALLET_DETAILS.walletLabel
-    );
+    const walletName = await screen.findByTestId(WALLET_DETAILS.walletLabel);
 
     expect(walletName).toHaveValue("Test1");
   });
@@ -47,31 +35,33 @@ describe("WalletDetails", async () => {
   it(
     "should be able to export the private key by entering a password",
     async () => {
-      const toggle = await findByTestId(container, WALLET_DETAILS.exportToggle);
+      const toggle = await screen.findByTestId(WALLET_DETAILS.exportToggle);
 
       expect(toggle).toHaveTextContent("Show private key");
 
       fireEvent.click(toggle);
 
-      const form = await findByTestId(container, EXPORT_WALLET.form);
+      const form = await screen.findByTestId(EXPORT_WALLET.form);
 
-      expect(form).toBeTruthy();
+      expect(form).toBeVisible();
 
       expect(toggle).toHaveTextContent("Hide private key");
 
-      const passwordInput = await findByTestId(
-        container,
+      const passwordInput = await screen.findByTestId(
         EXPORT_WALLET.formPasswordInput
       );
 
-      const submitButton = await findByTestId(
-        container,
+      const submitButton = await screen.findByTestId(
         EXPORT_WALLET.formSubmitButton
       );
 
       expect(submitButton).toBeDisabled();
 
-      fireEvent.change(passwordInput, { target: { value: "12345678" } });
+      fireEvent.change(passwordInput, {
+        target: {
+          value: SAMPLE_PASSWORD,
+        },
+      });
 
       expect(submitButton).not.toBeDisabled();
 
@@ -92,10 +82,7 @@ describe("WalletDetails", async () => {
         }
       );
 
-      const privateKey = await findByTestId(
-        container,
-        EXPORT_WALLET.resultAlert
-      );
+      const privateKey = await screen.findByTestId(EXPORT_WALLET.resultAlert);
 
       expect(privateKey).toHaveTextContent("Private key:");
     },

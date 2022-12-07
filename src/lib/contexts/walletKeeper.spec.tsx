@@ -8,7 +8,7 @@ import { readSingleAccountFixture } from "fixtures";
 import { useWalletKeeper, WalletKeeperProvider } from "./walletKeeper";
 
 test("should generate a new wallet", async () => {
-  const initialState = await readSingleAccountFixture();
+  const singleAccountState = await readSingleAccountFixture();
 
   const { result } = renderHook(
     () => {
@@ -22,7 +22,7 @@ test("should generate a new wallet", async () => {
     {
       wrapper: ({ children }: PropsWithChildren) => (
         <QueryClientProvider client={new QueryClient()}>
-          <WalletKeeperProvider initialState={initialState}>
+          <WalletKeeperProvider initialState={singleAccountState}>
             {children}
           </WalletKeeperProvider>
         </QueryClientProvider>
@@ -39,5 +39,7 @@ test("should generate a new wallet", async () => {
     });
   });
 
-  expect(Object.keys(result.current.state.accountsByAddress).length).toBe(2);
+  const addresses = Object.keys(result.current.state.accountsByAddress);
+
+  expect(addresses).toHaveLength(2);
 });

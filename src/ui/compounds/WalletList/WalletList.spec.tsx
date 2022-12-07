@@ -11,11 +11,11 @@ const queryClient = new QueryClient();
 
 describe("WalletList", () => {
   describe("Single wallet", async () => {
-    const initialState = await readSingleAccountFixture();
+    const singleAccountState = await readSingleAccountFixture();
 
     render(
       <QueryClientProvider client={queryClient}>
-        <WalletKeeperProvider initialState={initialState}>
+        <WalletKeeperProvider initialState={singleAccountState}>
           <WalletList />
         </WalletKeeperProvider>
       </QueryClientProvider>
