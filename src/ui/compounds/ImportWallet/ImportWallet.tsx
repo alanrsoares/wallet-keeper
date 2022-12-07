@@ -215,12 +215,12 @@ const ImportWallet: FC<Props> = (props) => {
 
 export default ImportWallet;
 
-export const TEST_IDS = createTestIds("ImportWallet", {
-  importWalletButton: "import-wallet-button",
-  form: "form",
-  displayNameInput: "display-name-input",
-  submitButton: "submit-button",
-  privateKeyInput: "private-key-input",
-  passwordInput: "password-input",
-  passwordConfirmInput: "password-confirm-input",
-});
+export const TEST_IDS = createTestIds("ImportWallet", [
+  "form",
+  "importWalletButton",
+  "displayNameInput",
+  "submitButton",
+  "privateKeyInput",
+  "passwordInput",
+  "passwordConfirmInput",
+]);

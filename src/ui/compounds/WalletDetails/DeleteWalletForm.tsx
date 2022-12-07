@@ -82,10 +82,10 @@ const DeleteWalletForm = ({ address }: Props) => {
 
 export default DeleteWalletForm;
 
-export const TEST_IDS = createTestIds("DeleteWalletForm", {
-  form: "form",
-  formPasswordInput: "form-password",
-  formSubmitButton: "form-submit",
-  resultAlert: "result-alert",
-  errorAlert: "error-alert",
-});
+export const TEST_IDS = createTestIds("DeleteWalletForm", [
+  "form",
+  "formPasswordInput",
+  "formSubmitButton",
+  "resultAlert",
+  "errorAlert",
+]);

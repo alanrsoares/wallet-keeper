@@ -144,10 +144,10 @@ const ExportWalletForm = ({ address }: Props) => {
 
 export default ExportWalletForm;
 
-export const TEST_IDS = createTestIds("ExportWalletForm", {
-  form: "form",
-  formPasswordInput: "form-password",
-  formSubmitButton: "form-submit",
-  resultAlert: "result-alert",
-  errorAlert: "error-alert",
-});
+export const TEST_IDS = createTestIds("ExportWalletForm", [
+  "form",
+  "formPasswordInput",
+  "formSubmitButton",
+  "resultAlert",
+  "errorAlert",
+]);

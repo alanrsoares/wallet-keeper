@@ -197,11 +197,11 @@ const GenerateWallet: FC<Props> = (props) => {
 
 export default GenerateWallet;
 
-export const TEST_IDS = createTestIds("GenerateWallet", {
-  displayNameInput: "display-name",
-  passwordInput: "password",
-  passwordConfirmInput: "password-confirm",
-  submitButton: "submit-button",
-  generateWalletButton: "generate-wallet-button",
-  generateWalletCard: "generate-wallet-card",
-});
+export const TEST_IDS = createTestIds("GenerateWallet", [
+  "displayNameInput",
+  "passwordInput",
+  "passwordConfirmInput",
+  "submitButton",
+  "generateWalletButton",
+  "generateWalletCard",
+]);

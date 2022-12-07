@@ -108,10 +108,10 @@ const EmptyStateContent = tw.div`
   max-w-lg
 `;
 
-export const TEST_IDS = createTestIds("WalletList", {
-  container: "container",
-  emptyState: "empty-state",
-  toggleButton: "toggle-button",
-  walletCount: "wallet-count",
-  walletList: "wallet-list",
-});
+export const TEST_IDS = createTestIds("WalletList", [
+  "container",
+  "emptyState",
+  "toggleButton",
+  "walletCount",
+  "walletList",
+]);

@@ -188,9 +188,9 @@ ToggleButton.defaultProps = {
   size: "sm",
 };
 
-export const TEST_IDS = createTestIds("WalletDetails", {
-  walletLabel: "wallet-label",
-  walletAddress: "wallet-address",
-  exportToggle: "export-toggle",
-  deleteToggle: "delete-toggle",
-});
+export const TEST_IDS = createTestIds("WalletDetails", [
+  "walletLabel",
+  "walletAddress",
+  "exportToggle",
+  "deleteToggle",
+]);
