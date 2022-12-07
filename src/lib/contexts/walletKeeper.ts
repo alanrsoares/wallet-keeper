@@ -86,8 +86,8 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
     );
 
     const mutations = {
-      generateWallet: () =>
-        useMutation(async (input: CreateWalletInput) => {
+      generateWallet: () => {
+        async function generateWalletMutation(input: CreateWalletInput) {
           const existingWallet = Object.values(state.accountsByAddress).find(
             (account) => account.displayName === input.displayName
           );
@@ -120,10 +120,13 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           }));
 
           return wallet;
-        }),
+        }
 
-      renameWallet: () =>
-        useMutation(async (input: RenameWalletInput) => {
+        return useMutation(generateWalletMutation);
+      },
+
+      renameWallet: () => {
+        async function nenameWalletMutation(input: RenameWalletInput) {
           const sameNameAccount = Object.values(state.accountsByAddress).find(
             (account) => account.displayName === input.displayName
           );
@@ -148,10 +151,12 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           }));
 
           return nextAccount;
-        }),
+        }
+        return useMutation(nenameWalletMutation);
+      },
 
-      importWallet: () =>
-        useMutation(async (input: ImportWalletInput) => {
+      importWallet: () => {
+        async function importWalletMutation(input: ImportWalletInput) {
           const account = Object.values(state.accountsByAddress);
           const sameNameAccount = account.find(
             (account) => account.displayName === input.displayName
@@ -186,10 +191,12 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           }));
 
           return wallet;
-        }),
+        }
+        return useMutation(importWalletMutation);
+      },
 
-      unlockWallet: () =>
-        useMutation(async (input: UnlockWalletInput) => {
+      unlockWallet: () => {
+        async function unlockWalletMutation(input: UnlockWalletInput) {
           const account = state.accountsByAddress[input.address];
 
           if (!account) {
@@ -203,10 +210,12 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
           );
 
           return wallet;
-        }),
+        }
+        return useMutation(unlockWalletMutation);
+      },
 
-      deleteWallet: () =>
-        useMutation(async (input: DeleteWalletInput) => {
+      deleteWallet: () => {
+        async function deleteWalletMutation(input: DeleteWalletInput) {
           const sanitizedAddress = getAddress(input.address);
           const account = state.accountsByAddress[sanitizedAddress];
 
@@ -226,7 +235,9 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
               )
             ),
           }));
-        }),
+        }
+        return useMutation(deleteWalletMutation);
+      },
     };
 
     const queries = {
