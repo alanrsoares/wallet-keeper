@@ -1,6 +1,6 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Alert, { AlertProps } from "./Alert";
+import { Alert, AlertProps } from "./Alert";
 
 export default {
   title: "components/Alert",

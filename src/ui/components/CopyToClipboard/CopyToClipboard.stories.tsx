@@ -1,9 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import Alert from "../Alert";
 
-import Card from "../Card";
-import Field from "../Field";
-import CopyToClipboard from "./CopyToClipboard";
+import { Alert, Card, CopyToClipboard, Field } from "../";
 
 export default {
   title: "components/CopyToClipboard",
