@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Alert, Card, CopyToClipboard, Field } from "../";
+import { Alert, Card, CopyToClipboard, CopyToClipboardProps, Field } from "../";
 
 export default {
   title: "components/CopyToClipboard",
@@ -10,13 +10,13 @@ export default {
 const Template: ComponentStory<typeof CopyToClipboard> = (args) => (
   <Card className="bg-base-300 max-w-md">
     <Alert>
-      <CopyToClipboard>{args.children}</CopyToClipboard>
+      <CopyToClipboard {...args} />
     </Alert>
     <Field name="clipboard-test" placeholder="Paste copied content here" />
   </Card>
 );
 
-const withProps = (args: any) => {
+const withProps = (args: CopyToClipboardProps) => {
   const Cmp = Template.bind({});
   Cmp.args = args;
   return Cmp;
