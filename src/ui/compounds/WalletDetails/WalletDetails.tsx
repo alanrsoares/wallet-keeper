@@ -17,12 +17,15 @@ import {
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
 import { maskAddress } from "~/lib/utils";
-import Alert from "~/ui/components/Alert";
-import Button, { ButtonProps } from "~/ui/components/Button";
-import Card from "~/ui/components/Card";
-import CopyToClipboard from "~/ui/components/CopyToClipboard";
-import Identicon from "~/ui/components/Identicon";
-import Tooltip from "~/ui/components/Tooltip";
+import {
+  Alert,
+  Button,
+  ButtonProps,
+  Card,
+  CopyToClipboard,
+  Identicon,
+  Tooltip,
+} from "~/ui/components";
 
 import DeleteWalletForm from "./DeleteWalletForm";
 import ExportWalletForm from "./ExportWalletForm";

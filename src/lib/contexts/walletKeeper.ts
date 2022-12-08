@@ -85,14 +85,32 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
       initialState
     );
 
-    const mutations = {
-      generateWallet: () => {
-        async function generateWalletMutation(input: CreateWalletInput) {
-          const existingWallet = Object.values(state.accountsByAddress).find(
-            (account) => account.displayName === input.displayName
-          );
+    const accountList = useMemo(
+      () => Object.values(state.accountsByAddress),
+      [state.accountsByAddress]
+    );
 
-          if (existingWallet) {
+    const accountsByDisplayName = useMemo(
+      () =>
+        accountList.reduce(
+          (acc, account) => ({
+            ...acc,
+            [account.displayName]: account,
+          }),
+          {} as Record<string, AccountEntry>
+        ),
+      [accountList]
+    );
+
+    const derivedState = { ...state, accountList, accountsByDisplayName };
+
+    const mutations = {
+      generateWallet() {
+        async function generateWalletMutation(input: CreateWalletInput) {
+          const sameNameAccount =
+            derivedState.accountsByDisplayName[input.displayName];
+
+          if (sameNameAccount) {
             throw new Error("Wallet with that name already exists");
           }
 
@@ -107,10 +125,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             input.onProgress
           );
 
-          setState((state) => ({
-            ...state,
+          setState((prevState) => ({
+            ...prevState,
             accountsByAddress: {
-              ...state.accountsByAddress,
+              ...prevState.accountsByAddress,
               [wallet.address]: {
                 address: wallet.address,
                 encryptedJson,
@@ -124,12 +142,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
 
         return useMutation(generateWalletMutation);
       },
-
-      renameWallet: () => {
+      renameWallet() {
         async function nenameWalletMutation(input: RenameWalletInput) {
-          const sameNameAccount = Object.values(state.accountsByAddress).find(
-            (account) => account.displayName === input.displayName
-          );
+          const sameNameAccount =
+            derivedState.accountsByDisplayName[input.displayName];
 
           if (sameNameAccount) {
             throw new Error("Wallet with that name already exists");
@@ -142,10 +158,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             displayName: sanitizeWalletName(input.displayName),
           };
 
-          setState((state) => ({
-            ...state,
+          setState((prevState) => ({
+            ...prevState,
             accountsByAddress: {
-              ...state.accountsByAddress,
+              ...prevState.accountsByAddress,
               [account.address]: nextAccount,
             },
           }));
@@ -155,12 +171,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
         return useMutation(nenameWalletMutation);
       },
 
-      importWallet: () => {
+      importWallet() {
         async function importWalletMutation(input: ImportWalletInput) {
-          const account = Object.values(state.accountsByAddress);
-          const sameNameAccount = account.find(
-            (account) => account.displayName === input.displayName
-          );
+          const sameNameAccount =
+            derivedState.accountsByDisplayName[input.displayName];
 
           if (sameNameAccount) {
             throw new Error("Wallet with that name already exists");
@@ -178,10 +192,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             input.onProgress
           );
 
-          setState((state) => ({
-            ...state,
+          setState((prevState) => ({
+            ...prevState,
             accountsByAddress: {
-              ...state.accountsByAddress,
+              ...prevState.accountsByAddress,
               [wallet.address]: {
                 address: wallet.address,
                 encryptedJson,
@@ -195,7 +209,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
         return useMutation(importWalletMutation);
       },
 
-      unlockWallet: () => {
+      unlockWallet() {
         async function unlockWalletMutation(input: UnlockWalletInput) {
           const account = state.accountsByAddress[input.address];
 
@@ -214,7 +228,7 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
         return useMutation(unlockWalletMutation);
       },
 
-      deleteWallet: () => {
+      deleteWallet() {
         async function deleteWalletMutation(input: DeleteWalletInput) {
           const sanitizedAddress = getAddress(input.address);
           const account = state.accountsByAddress[sanitizedAddress];
@@ -227,10 +241,10 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
             input.onProgress
           );
 
-          setState((state) => ({
-            ...state,
+          setState((prevState) => ({
+            ...prevState,
             accountsByAddress: Object.fromEntries(
-              Object.entries(state.accountsByAddress).filter(
+              Object.entries(prevState.accountsByAddress).filter(
                 ([key]) => key !== sanitizedAddress
               )
             ),
@@ -259,19 +273,19 @@ const { Provider: WalletKeeperProvider, useContainer: useWalletKeeper } =
         ),
     };
 
-    const accountList = useMemo(
-      () => Object.values(state.accountsByAddress),
-      [state.accountsByAddress]
-    );
-
-    const derivedState = {
-      ...state,
-      accountList,
+    const actions = {
+      selectNetwork(network: Networkish) {
+        setState((prevState) => ({
+          ...prevState,
+          selectedNetwork: network,
+        }));
+      },
     };
 
     return {
       mutations,
       queries,
+      actions,
       state: derivedState,
     };
   });

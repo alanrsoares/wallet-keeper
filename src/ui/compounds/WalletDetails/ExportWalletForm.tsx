@@ -4,10 +4,7 @@ import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
-import Alert from "~/ui/components/Alert";
-import Button from "~/ui/components/Button";
-import CopyToClipboard from "~/ui/components/CopyToClipboard";
-import Field from "~/ui/components/Field";
+import { Alert, Button, CopyToClipboard, Field } from "~/ui/components";
 
 type TabKind = "privateKey" | "mnemonic";
 

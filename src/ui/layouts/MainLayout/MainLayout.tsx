@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import { WalletKeeperProvider } from "~/lib/contexts/walletKeeper";
+import { EnvSwitcher } from "~/ui/compounds";
 
 import Footer from "./_components/Footer";
 import Header from "./_components/Header";
@@ -16,6 +17,7 @@ const MainLayout = ({ children }: Props) => {
         </main>
         <Footer />
       </div>
+      <EnvSwitcher />
     </WalletKeeperProvider>
   );
 };

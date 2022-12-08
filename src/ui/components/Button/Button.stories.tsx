@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
-import Button, { Props } from "./Button";
+import { Button, ButtonProps } from "./Button";
 
 export default {
   title: "components/Button",
@@ -17,7 +17,7 @@ export default {
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
-const withProps = (args: Props) => {
+const withProps = (args: ButtonProps) => {
   const Cmp = Template.bind({});
   Cmp.args = args;
   return Cmp;

@@ -1,6 +1,6 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Alert, { Props } from "./Alert";
+import Alert, { AlertProps } from "./Alert";
 
 export default {
   title: "components/Alert",
@@ -17,7 +17,7 @@ export default {
 
 const Template: ComponentStory<typeof Alert> = (args) => <Alert {...args} />;
 
-const withProps = (args: Props) => {
+const withProps = (args: AlertProps) => {
   const Cmp = Template.bind({});
   Cmp.args = args;
   return Cmp;

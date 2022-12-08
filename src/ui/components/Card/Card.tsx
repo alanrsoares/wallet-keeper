@@ -3,7 +3,7 @@ import { TestableProps } from "~/lib/test-utils";
 
 type ElementKind = keyof JSX.IntrinsicElements;
 
-type Props<T extends ElementKind> = TestableProps<
+export type CardProps<T extends ElementKind> = TestableProps<
   JSX.IntrinsicElements[T] & {
     className?: string;
     bodyClassName?: string;
@@ -13,7 +13,7 @@ type Props<T extends ElementKind> = TestableProps<
   }
 >;
 
-const Card = <T extends ElementKind = "div">(props: Props<T>) => {
+export const Card = <T extends ElementKind = "div">(props: CardProps<T>) => {
   const Tag = props.as || "div";
 
   return (
@@ -30,5 +30,3 @@ const Card = <T extends ElementKind = "div">(props: Props<T>) => {
     </Tag>
   );
 };
-
-export default Card;

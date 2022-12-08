@@ -3,9 +3,7 @@ import { useCallback, useState } from "react";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
-import Alert from "~/ui/components/Alert";
-import Button from "~/ui/components/Button";
-import Field from "~/ui/components/Field";
+import { Alert, Button, Field } from "~/ui/components";
 
 export type Props = {
   address: string;

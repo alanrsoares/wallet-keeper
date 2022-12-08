@@ -3,12 +3,12 @@ import { forwardRef } from "react";
 
 import { TestableProps } from "~/lib/test-utils";
 
-type Props = JSX.IntrinsicElements["input"] &
+export type InputProps = JSX.IntrinsicElements["input"] &
   TestableProps<{
     type: "text" | "password" | "email" | "number" | "tel" | "url";
   }>;
 
-const Input = forwardRef<HTMLInputElement, Props>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, testId, ...props }, ref) => (
     <input
       {...props}

@@ -1,16 +1,14 @@
 import type { FC } from "react";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
-export type Props = {
+export type IdenticonProps = {
   diameter: number;
   address: string;
 };
 
-const Identicon: FC<Props> = (props) => (
+export const Identicon: FC<IdenticonProps> = (props) => (
   <Jazzicon
     diameter={props.diameter}
     seed={jsNumberForAddress(props.address)}
   />
 );
-
-export default Identicon;

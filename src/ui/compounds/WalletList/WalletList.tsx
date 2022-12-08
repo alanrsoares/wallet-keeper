@@ -9,8 +9,8 @@ import tw from "tailwind-styled-components";
 
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { createTestIds } from "~/lib/test-utils";
-import Button from "~/ui/components/Button";
-import Card from "~/ui/components/Card";
+import { Button, Card } from "~/ui/components";
+
 import WalletDetails from "../WalletDetails";
 
 const WalletList: FC<PropsWithChildren> = (_props) => {

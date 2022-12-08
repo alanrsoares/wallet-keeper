@@ -43,9 +43,9 @@ type VProps = VariantProps<typeof applyClassNames> & {
 
 export type AlertVariant = NonNullable<VProps["variant"]>;
 
-export type Props = PropsWithChildren<TestableProps<VProps>>;
+export type AlertProps = PropsWithChildren<TestableProps<VProps>>;
 
-const Alert: FC<Props> = (props) => {
+export const Alert: FC<AlertProps> = (props) => {
   const Icon = VARIANT_ICONS[props.variant ?? "info"];
 
   return (
@@ -78,5 +78,3 @@ const Alert: FC<Props> = (props) => {
     </div>
   );
 };
-
-export default Alert;

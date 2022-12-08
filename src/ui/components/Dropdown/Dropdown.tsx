@@ -1,6 +1,5 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import tw from "tailwind-styled-components";
 
 export type DropdownProps<T extends string> = {
   value: string;

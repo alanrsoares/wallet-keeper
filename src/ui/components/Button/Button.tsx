@@ -52,9 +52,11 @@ export type ButtonLength = NonNullable<VProps["length"]>;
 
 export type ButtonShape = NonNullable<VProps["shape"]>;
 
-export type Props = TestableProps<JSX.IntrinsicElements["button"] & VProps>;
+export type ButtonProps = TestableProps<
+  JSX.IntrinsicElements["button"] & VProps
+>;
 
-const Button: FC<Props> = ({
+export const Button: FC<ButtonProps> = ({
   className,
   children,
   loading,
@@ -98,5 +100,3 @@ const Button: FC<Props> = ({
 };
 
 Button.defaultProps = {};
-
-export default Button;

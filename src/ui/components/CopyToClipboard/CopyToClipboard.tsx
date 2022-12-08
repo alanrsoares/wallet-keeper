@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { FC, PropsWithChildren, useCallback, useState } from "react";
 
-import Tooltip from "../Tooltip";
+import { Tooltip } from "../Tooltip";
 
-export type Props = PropsWithChildren<{
+export type CopyToClipboardProps = PropsWithChildren<{
   className?: string;
   content?: string;
   tooltip?: string;
@@ -12,7 +12,7 @@ export type Props = PropsWithChildren<{
   testId?: string;
 }>;
 
-const CopyToClipboard: FC<Props> = (props) => {
+export const CopyToClipboard: FC<CopyToClipboardProps> = (props) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(() => {
@@ -56,5 +56,3 @@ CopyToClipboard.defaultProps = {
   tooltip: "Copy to clipboard",
   dismissDelay: 1000,
 };
-
-export default CopyToClipboard;

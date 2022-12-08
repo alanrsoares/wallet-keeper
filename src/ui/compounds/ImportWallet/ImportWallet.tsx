@@ -8,10 +8,7 @@ import * as z from "zod";
 import { useWalletKeeper } from "~/lib/contexts/walletKeeper";
 import { Maybe } from "~/lib/monads";
 import { createTestIds } from "~/lib/test-utils";
-import Alert from "~/ui/components/Alert";
-import Button from "~/ui/components/Button";
-import Card from "~/ui/components/Card";
-import Field from "~/ui/components/Field";
+import { Alert, Button, Card, Field } from "~/ui/components";
 
 const SCHEMA = z
   .object({

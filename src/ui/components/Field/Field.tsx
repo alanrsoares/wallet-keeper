@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
 
 import { TestableProps } from "~/lib/test-utils";
-import Alert from "../Alert";
-import Input from "../Input";
+import { Alert } from "../Alert";
+import { Input } from "../Input";
 
-type Props = JSX.IntrinsicElements["input"] &
+export type FieldProps = JSX.IntrinsicElements["input"] &
   TestableProps<{
     label?: string;
     type?: "text" | "password";
@@ -14,7 +14,7 @@ type Props = JSX.IntrinsicElements["input"] &
     };
   }>;
 
-const Field = forwardRef<HTMLInputElement, Props>(
+export const Field = forwardRef<HTMLInputElement, FieldProps>(
   ({ label, validation, ...props }, ref) => (
     <label className="grid gap-2">
       <span className="opacity-80">{label}</span>
@@ -36,5 +36,3 @@ const Field = forwardRef<HTMLInputElement, Props>(
     </label>
   )
 );
-
-export default Field;
