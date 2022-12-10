@@ -37,6 +37,9 @@ const applyClassNames = cva("btn", {
     responsive: {
       true: "btn-sm md:btn-md",
     },
+    outline: {
+      true: "btn-outline",
+    },
   },
 });
 
@@ -67,6 +70,7 @@ export const Button: FC<ButtonProps> = ({
   length,
   testId,
   shape,
+  outline,
   ...props
 }) => {
   const content: ReactNode =
@@ -90,6 +94,7 @@ export const Button: FC<ButtonProps> = ({
         length,
         responsive,
         shape,
+        outline,
       })}
       {...props}
       data-testid={testId ?? props["data-testid"]}

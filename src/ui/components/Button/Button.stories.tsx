@@ -27,6 +27,11 @@ export const Default = withProps({
   children: "Default",
 });
 
+export const Outline = withProps({
+  children: "Outline",
+  outline: true,
+});
+
 export const Primary = withProps({
   children: "Primary",
   variant: "primary",
