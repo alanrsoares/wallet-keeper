@@ -16,7 +16,10 @@ export const Dropdown = <T extends string>({
 
   return (
     <div className="dropdown dropdown-bottom dropdown-end">
-      <label tabIndex={0} className={clsx("btn m-1 uppercase", className)}>
+      <label
+        tabIndex={0}
+        className={clsx("btn btn-sm m-1 uppercase", className)}
+      >
         {selectedOption?.label}
       </label>
       <ul

@@ -25,7 +25,7 @@ export const EnvSwitcher: FC<EnvSwitcherProps> = (props) => {
   }, [networkEnv]);
 
   return (
-    <div className="fixed inline-block top-1 right-1 z-20">
+    <div className="fixed inline-block top-2 md:top-3 right-1 z-20">
       <Dropdown
         value={network}
         options={ENV_OPTIONS}
