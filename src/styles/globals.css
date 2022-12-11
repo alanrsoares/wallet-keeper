@@ -21,11 +21,13 @@
 
 @layer base {
   ::-webkit-scrollbar {
-    width: 9px;
+    @apply w-1.5 lg:w-2 hidden md:block;
   }
+
   ::-webkit-scrollbar-thumb {
     @apply rounded bg-gray-600;
   }
+
   ::-webkit-scrollbar-track {
     @apply rounded bg-transparent;
   }
