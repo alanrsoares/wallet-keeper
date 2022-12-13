@@ -17,7 +17,7 @@ export const VARIANT_ICONS = {
   info: InformationCircleIcon,
 };
 
-const applyClassNames = cva("alert", {
+const variance = cva("alert", {
   variants: {
     variant: {
       success: "alert-success",
@@ -35,7 +35,7 @@ const applyClassNames = cva("alert", {
   },
 });
 
-type VProps = VariantProps<typeof applyClassNames> & {
+type VProps = VariantProps<typeof variance> & {
   className?: string;
   hideIcon?: boolean;
   prefix?: string;
@@ -51,7 +51,7 @@ export const Alert: FC<AlertProps> = (props) => {
   return (
     <div
       role="alert"
-      className={applyClassNames({
+      className={variance({
         className: props.className,
         variant: props.variant,
         shadow: props.shadow,

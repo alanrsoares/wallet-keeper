@@ -6,10 +6,7 @@ import { WalletKeeperState } from "~/lib/contexts/walletKeeper";
 export const readFixtureAsJson = async <T extends {}>(name: string) => {
   const fileName = name.endsWith(".json") ? name : `${name}.json`;
 
-  const raw = await readFile(
-    path.join(__dirname, "fixtures", fileName),
-    "utf-8"
-  );
+  const raw = await readFile(path.join(__dirname, fileName), "utf-8");
 
   return JSON.parse(raw) as T;
 };

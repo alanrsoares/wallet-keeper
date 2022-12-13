@@ -4,7 +4,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { TestableProps } from "~/lib/test-utils";
 import { formatPercentage } from "~/lib/utils";
 
-const applyClassNames = cva("btn", {
+const variance = cva("btn", {
   variants: {
     variant: {
       primary: "btn-primary",
@@ -43,7 +43,7 @@ const applyClassNames = cva("btn", {
   },
 });
 
-type VProps = VariantProps<typeof applyClassNames> & {
+type VProps = VariantProps<typeof variance> & {
   progress?: number;
 };
 
@@ -87,7 +87,7 @@ export const Button: FC<ButtonProps> = ({
 
   return (
     <button
-      className={applyClassNames({
+      className={variance({
         className,
         variant,
         size,
