@@ -29,6 +29,7 @@ export const EnvSwitcher: FC<EnvSwitcherProps> = (_props) => {
       <Dropdown
         value={network}
         options={ENV_OPTIONS}
+        align="end"
         triggerClassName={clsx({
           "bg-primary": network === "mainnet",
           "bg-secondary": network === "testnet",
