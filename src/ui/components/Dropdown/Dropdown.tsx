@@ -1,26 +1,56 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
+import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 
-export type DropdownProps<T extends string> = {
+const variance = cva("dropdown", {
+  variants: {
+    placement: {
+      left: "dropdown-left",
+      right: "dropdown-right",
+      bottom: "dropdown-bottom",
+      top: "dropdown-top",
+    },
+    hover: {
+      true: "dropdown-hover",
+    },
+    align: {
+      end: "dropdown-end",
+      start: "dropdown-start",
+    },
+  },
+});
+
+type VProps = VariantProps<typeof variance>;
+
+export type DropdownProps<T extends string> = VProps & {
   value: string;
-  options: ReadonlyArray<{ value: T; label: string; url: string }>;
-  className?: string;
+  options: ReadonlyArray<{ value: T; label: string }>;
+  triggerClassName?: string;
   onChange?: (value: T) => void;
 };
 
 export const Dropdown = <T extends string>({
   value,
   options,
-  className,
+  triggerClassName,
   onChange,
+  placement,
+  hover,
+  align,
 }: DropdownProps<T>) => {
   const selectedOption = options.find((option) => option.value === value);
 
   return (
-    <div className="dropdown dropdown-bottom dropdown-end">
+    <div
+      className={variance({
+        placement,
+        hover,
+        align,
+      })}
+    >
       <label
         tabIndex={0}
-        className={clsx("btn btn-sm m-1 uppercase", className)}
+        className={clsx("btn btn-sm m-1 uppercase", triggerClassName)}
       >
         {selectedOption?.label}
       </label>

@@ -1,23 +1,65 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
-
-import { Dropdown } from "./Dropdown";
+import clsx from "clsx";
+import { useState } from "react";
+import { Dropdown, DropdownProps } from "./Dropdown";
 
 export default {
   title: "components/Dropdown",
   component: Dropdown,
-  docs: {
-    description: {
-      component:
-        "Dropdown, Dropdown, does whatever a Dropdown do.",
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Dropdown is used to select one of the options from a list of options.",
+      },
     },
   },
 } as ComponentMeta<typeof Dropdown>;
 
-const Template: ComponentStory<typeof Dropdown> = (args) => {
-  return <Dropdown {...args} />;
+const DEFAULT_OPTIONS = [
+  { value: "default", label: "Default" },
+  { value: "outline", label: "Outline" },
+  { value: "primary", label: "Primary" },
+  { value: "secondary", label: "Secondary" },
+];
+
+type TemplateProps = Omit<
+  DropdownProps<string>,
+  "value" | "options" | "onChange"
+> & {
+  wraperClassName?: string;
 };
 
-export const Default = Template.bind({});
+const InnerTemplate = (args: TemplateProps) => {
+  const [value, setValue] = useState(DEFAULT_OPTIONS[0]?.value);
 
-Default.args = {};
+  return (
+    <section className={clsx("grid w-full ", args.wraperClassName)}>
+      <Dropdown
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={DEFAULT_OPTIONS}
+      />
+    </section>
+  );
+};
 
+const Template: ComponentStory<typeof InnerTemplate> = InnerTemplate;
+
+const withProps = (args: TemplateProps) => {
+  const Cmp = Template.bind({});
+  Cmp.args = args;
+  return Cmp;
+};
+
+export const Default = withProps({});
+
+export const DropdownWithHover = withProps({
+  hover: true,
+});
+
+export const DropdownWithPlacement = withProps({
+  placement: "left",
+  wraperClassName: "place-items-end",
+});
