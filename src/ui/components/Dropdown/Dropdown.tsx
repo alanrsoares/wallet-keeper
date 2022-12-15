@@ -1,6 +1,6 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { cva, VariantProps } from "class-variance-authority";
-import clsx from "clsx";
+
 import { Button, ButtonProps } from "../Button";
 
 const variance = cva("dropdown", {
