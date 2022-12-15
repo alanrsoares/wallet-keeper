@@ -1,6 +1,11 @@
-import { writeFile, readFile } from "fs/promises";
+#!/usr/bin/env node
 
-console.log("\nRunning 'postbuild' script");
+import { writeFile, readFile } from "fs/promises";
+import { rainbow } from "./lib.mjs";
+
+const scriptName = rainbow("postbuild");
+
+console.log(`\nRunning ${scriptName} script...`);
 
 const { version } = await readFile("./package.json", "utf-8").then(JSON.parse);
 const manifestJson = await readFile("./public/manifest.json", "utf-8").then(
@@ -11,4 +16,4 @@ const nextManifestJson = JSON.stringify({ ...manifestJson, version }, null, 2);
 
 await writeFile("./public/manifest.json", nextManifestJson);
 
-console.log("\n'postbuild' script finished");
+console.log(`\nFinished ${scriptName} script!`);

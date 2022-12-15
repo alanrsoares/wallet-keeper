@@ -1,7 +1,12 @@
+#!/usr/bin/env node
+
 import { exec } from "child_process";
 import { writeFile, readFile } from "fs/promises";
+import { rainbow } from "./lib.mjs";
 
-console.log("\nRunning 'postexport' script");
+const scriptName = rainbow("postexport");
+
+console.log(`\nRunning ${scriptName} script...`);
 
 const nextIndexHtml = await readFile("./out/index.html", "utf-8").then((x) =>
   x.replace(/\_next\//g, "next/")
@@ -12,4 +17,4 @@ await Promise.all([
   writeFile("./out/index.html", nextIndexHtml),
 ]);
 
-console.log("\n'postexport' script finished");
+console.log(`\nFinished ${scriptName} script!`);
