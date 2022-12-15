@@ -24,7 +24,7 @@ const variance = cva("dropdown", {
 type VProps = VariantProps<typeof variance>;
 
 export type DropdownProps<T extends string> = VProps &
-  ButtonProps & {
+  Omit<ButtonProps, "onChange"> & {
     value: string;
     options: ReadonlyArray<{ value: T; label: string }>;
     onChange?: (value: T) => void;
