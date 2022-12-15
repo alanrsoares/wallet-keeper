@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { writeFile, readFile } from "fs/promises";
 
-console.log("\nRunning postbuild script");
+console.log("\nRunning 'postexport' script");
 
 const nextIndexHtml = await readFile("./out/index.html", "utf-8").then((x) =>
   x.replace(/\_next\//g, "next/")
@@ -12,4 +12,4 @@ await Promise.all([
   writeFile("./out/index.html", nextIndexHtml),
 ]);
 
-console.log("\nPost build script finished");
+console.log("\n'postexport' script finished");
