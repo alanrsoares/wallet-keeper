@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:extenstion": "next build && next export && node ./scripts/postbuild.mjs",
+    "build": "next build && node ./scripts/postbuild.mjs",
+    "build:extenstion": "pnpm run build && next export && node ./scripts/postexport.mjs",
     "start": "next start",
     "lint": "rome check src",
     "lint:fix": "rome check --apply src",
