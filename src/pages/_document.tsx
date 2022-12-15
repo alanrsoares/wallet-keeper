@@ -18,7 +18,7 @@ const Document = () => (
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta
         name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=5, viewport-fit=cover"
       />
       <meta
         name="description"
@@ -27,7 +27,7 @@ const Document = () => (
       <meta name="keywords" content="web3, wallet, non-custodial, secure" />
 
       <link rel="manifest" href="/manifest.webmanifest" />
-      <link rel="apple-touch-icon" href="/apple-icon.png"></link>
+      <link rel="apple-touch-icon" href="/apple-icon.png" />
       <meta name="theme-color" content="#317EFB" />
 
       <link
