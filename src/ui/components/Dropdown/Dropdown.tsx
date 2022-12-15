@@ -1,6 +1,7 @@
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
+import { Button, ButtonProps } from "../Button";
 
 const variance = cva("dropdown", {
   variants: {
@@ -22,21 +23,21 @@ const variance = cva("dropdown", {
 
 type VProps = VariantProps<typeof variance>;
 
-export type DropdownProps<T extends string> = VProps & {
-  value: string;
-  options: ReadonlyArray<{ value: T; label: string }>;
-  triggerClassName?: string;
-  onChange?: (value: T) => void;
-};
+export type DropdownProps<T extends string> = VProps &
+  ButtonProps & {
+    value: string;
+    options: ReadonlyArray<{ value: T; label: string }>;
+    onChange?: (value: T) => void;
+  };
 
 export const Dropdown = <T extends string>({
   value,
   options,
-  triggerClassName,
   onChange,
   placement,
   hover,
   align,
+  ...props
 }: DropdownProps<T>) => {
   const selectedOption = options.find((option) => option.value === value);
 
@@ -48,12 +49,9 @@ export const Dropdown = <T extends string>({
         align,
       })}
     >
-      <label
-        tabIndex={0}
-        className={clsx("btn btn-sm m-1 uppercase", triggerClassName)}
-      >
+      <Button tabIndex={0} size="sm" {...props}>
         {selectedOption?.label}
-      </label>
+      </Button>
       <ul
         tabIndex={0}
         className="dropdown-content menu p-2 shadow bg-base-300 rounded-box w-40 grid gap-1"

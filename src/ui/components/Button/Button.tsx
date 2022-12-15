@@ -4,11 +4,11 @@ import { cva, VariantProps } from "class-variance-authority";
 import { TestableProps } from "~/lib/test-utils";
 import { formatPercentage } from "~/lib/utils";
 
-const variance = cva("btn", {
+const variance = cva("btn font-black", {
   variants: {
     variant: {
       primary: "btn-primary",
-      secondary: "btn-secondary",
+      secondary: "btn-secondary text-black",
       accent: "btn-accent",
       info: "btn-info",
       warning: "btn-warning",
@@ -68,9 +68,9 @@ export const Button: FC<ButtonProps> = ({
   variant,
   size,
   length,
-  testId,
   shape,
   outline,
+  testId,
   ...props
 }) => {
   const content: ReactNode =

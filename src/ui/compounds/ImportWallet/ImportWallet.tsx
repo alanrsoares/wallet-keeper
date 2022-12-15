@@ -18,7 +18,7 @@ const SCHEMA = z
       .max(32, "Display name is too long"),
     privateKey: z.string().min(64, "Private key is too short"),
     password: z.string().min(8, "Password is too short"),
-    passwordConfirm: z.string().min(8, "Password is too short"),
+    passwordConfirm: z.string().min(8, "Confirm Password is too short"),
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
     if (passwordConfirm !== password) {
@@ -88,7 +88,7 @@ const ImportWallet: FC<Props> = (props) => {
     return (
       <Button
         data-testid={TEST_IDS.importWalletButton}
-        variant="secondary"
+        variant="info"
         responsive={true}
         onClick={() => {
           setIsExpanded(true);
@@ -196,7 +196,7 @@ const ImportWallet: FC<Props> = (props) => {
         />
         <Button
           testId={TEST_IDS.submitButton}
-          variant="secondary"
+          variant="info"
           responsive={true}
           disabled={!formState.isValid}
           loading={isLoading}

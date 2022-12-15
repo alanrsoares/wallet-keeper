@@ -30,10 +30,7 @@ export const EnvSwitcher: FC<EnvSwitcherProps> = (_props) => {
         value={network}
         options={ENV_OPTIONS}
         align="end"
-        triggerClassName={clsx({
-          "bg-primary": network === "mainnet",
-          "bg-secondary": network === "testnet",
-        })}
+        variant={network === "mainnet" ? "primary" : "info"}
         onChange={(value) => {
           actions.selectNetwork(value === "mainnet" ? "homestead" : "goerli");
         }}
