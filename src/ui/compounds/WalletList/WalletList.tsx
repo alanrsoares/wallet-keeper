@@ -34,11 +34,11 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
 
   return (
     <Card
-      className="card card-compact md:card-normal md:bg-base-200 -mx-2"
+      className="card-compact md:card-normal md:bg-base-200 -mx-2"
       bodyClassName="grid gap-4"
       testId={TEST_IDS.container}
     >
-      <h2 className="card-title flex justify-between">
+      <Card.Title $as="h2" className="flex justify-between">
         <span>
           Wallets{" "}
           <span className="opacity-80" data-testid={TEST_IDS.walletCount}>
@@ -49,7 +49,7 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
           isActive={isExpanded}
           onClick={() => setIsExpanded((x) => !x)}
         />
-      </h2>
+      </Card.Title>
       {isExpanded && (
         <ul className="grid gap-4" data-testid={TEST_IDS.walletList}>
           {state.accountList.map(({ address }) => (
