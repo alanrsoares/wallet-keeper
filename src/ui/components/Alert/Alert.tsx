@@ -45,24 +45,31 @@ export type AlertVariant = NonNullable<VProps["variant"]>;
 
 export type AlertProps = PropsWithChildren<TestableProps<VProps>>;
 
-export const Alert: FC<AlertProps> = (props) => {
-  const Icon = VARIANT_ICONS[props.variant ?? "info"];
+export const Alert: FC<AlertProps> = ({
+  className,
+  variant,
+  shadow,
+  testId,
+  ...props
+}) => {
+  const Icon = VARIANT_ICONS[variant ?? "info"];
 
   return (
     <div
       role="alert"
       className={variance({
-        className: props.className,
-        variant: props.variant,
-        shadow: props.shadow,
+        className: className,
+        variant: variant,
+        shadow: shadow,
       })}
-      data-testid={props.testId || props["data-testid"]}
+      data-testid={testId || props["data-testid"]}
+      {...props}
     >
       <div>
         {!props.hideIcon && (
           <Icon
             className={clsx("h-6 w-6 mr-1 lg:mr-2 flex-shrink-0", {
-              "stroke-info": !props.variant,
+              "stroke-info": !variant,
             })}
           />
         )}
