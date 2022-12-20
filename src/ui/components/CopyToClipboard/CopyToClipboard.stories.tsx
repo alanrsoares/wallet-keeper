@@ -9,10 +9,12 @@ export default {
 
 const Template: ComponentStory<typeof CopyToClipboard> = (args) => (
   <Card className="bg-base-300 max-w-md">
-    <Alert>
-      <CopyToClipboard {...args} />
-    </Alert>
-    <Field name="clipboard-test" placeholder="Paste copied content here" />
+    <Card.Body>
+      <Alert>
+        <CopyToClipboard {...args} />
+      </Alert>
+      <Field name="clipboard-test" placeholder="Paste copied content here" />
+    </Card.Body>
   </Card>
 );
 

@@ -16,7 +16,13 @@ export default {
 
 const Template: ComponentStory<typeof Card> = (args) => (
   // @ts-ignore
-  <Card {...args} />
+  <Card {...args}>
+    {typeof args.children === "string" ? (
+      <Card.Body>{args.children}</Card.Body>
+    ) : (
+      args.children
+    )}
+  </Card>
 );
 
 const withProps = <T extends keyof JSX.IntrinsicElements>(
@@ -33,16 +39,17 @@ export const Default = withProps({
 });
 
 export const CardWithTitle = withProps({
-  children: "Card with Title",
-  title: "Card Title",
+  children: (
+    <Card.Body>
+      <Card.Title>Card Title</Card.Title>
+    </Card.Body>
+  ),
   className: "bg-base-300",
 });
 
 export const CardWithCustomClasses = withProps({
   children: "Card with Custom Classes",
   className: "bg-base-300",
-  titleClassName: "border border-red-800",
-  bodyClassName: "custom-body-class",
 });
 
 export const CardWithCustomTag = withProps({

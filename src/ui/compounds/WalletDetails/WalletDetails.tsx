@@ -78,83 +78,85 @@ const WalletDetails = ({ address }: Props) => {
 
   return (
     <Card as="article">
-      <div className="card-title flex-col items-start md:flex-row justify-between">
-        <div className="grid gap-4">
-          <div className="flex gap-4 items-center">
-            <div className="ring-4 ring-black/20 hover:ring-primary/30 rounded-full h-12 w-12 shadow-md transition-all">
-              <Identicon address={address} diameter={48} />
+      <Card.Body>
+        <div className="card-title flex-col items-start md:flex-row justify-between">
+          <div className="grid gap-4">
+            <div className="flex gap-4 items-center">
+              <div className="ring-4 ring-black/20 hover:ring-primary/30 rounded-full h-12 w-12 shadow-md transition-all">
+                <Identicon address={address} diameter={48} />
+              </div>
+              <div className="grid gap-1">
+                <input
+                  className="font-semibold font-mono whitespace-nowrap bg-transparent flex flex-shrink-0 overflow-hidden overflow-ellipsis"
+                  data-testid={TEST_IDS.walletLabel}
+                  contentEditable={true}
+                  onInput={handleRenameWallet}
+                  value={account.displayName}
+                />
+                <Tooltip
+                  tip="ETH balance"
+                  className="font-mono text-sm text-left whitespace-nowrap"
+                >
+                  <span className="whitespace-nowrap">
+                    {balance ?? "..."} ETH
+                  </span>
+                </Tooltip>
+              </div>
             </div>
-            <div className="grid gap-1">
-              <input
-                className="font-semibold font-mono whitespace-nowrap bg-transparent flex flex-shrink-0 overflow-hidden overflow-ellipsis"
-                data-testid={TEST_IDS.walletLabel}
-                contentEditable={true}
-                onInput={handleRenameWallet}
-                value={account.displayName}
-              />
-              <Tooltip
-                tip="ETH balance"
-                className="font-mono text-sm text-left whitespace-nowrap"
+            <CopyToClipboard
+              className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
+              checkmarkClassname="top-0"
+              content={address}
+              testId={TEST_IDS.walletAddress}
+            >
+              {maskAddress(address)}
+            </CopyToClipboard>
+          </div>
+          <div className="w-full grid md:place-items-end md:justify-end-end">
+            <div className="grid gap-2">
+              <ToggleButton
+                isActive={action === "export"}
+                onClick={(isActive) => setAction(isActive ? "lock" : "export")}
+                testId={TEST_IDS.exportToggle}
               >
-                <span className="whitespace-nowrap">
-                  {balance ?? "..."} ETH
-                </span>
-              </Tooltip>
+                {(isActive) =>
+                  isActive ? (
+                    <>
+                      <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide private key
+                    </>
+                  ) : (
+                    <>
+                      <EyeIcon className="h-5 w-5 mr-2" /> Show private key
+                    </>
+                  )
+                }
+              </ToggleButton>
+              <ToggleButton
+                isActive={action === "delete"}
+                onClick={(isActive) => setAction(isActive ? "lock" : "delete")}
+                variant="danger"
+                testId={TEST_IDS.deleteToggle}
+              >
+                {(isActive) =>
+                  isActive ? (
+                    <>
+                      <XCircleIcon className="h-5 w-5 mr-2" />
+                      Cancel
+                    </>
+                  ) : (
+                    <>
+                      <TrashIcon className="h-5 w-5 mr-2" />
+                      Delete wallet
+                    </>
+                  )
+                }
+              </ToggleButton>
             </div>
           </div>
-          <CopyToClipboard
-            className="flex badge font-mono hover:scale-125 hover:shadow-md transition-all"
-            checkmarkClassname="top-0"
-            content={address}
-            testId={TEST_IDS.walletAddress}
-          >
-            {maskAddress(address)}
-          </CopyToClipboard>
         </div>
-        <div className="w-full grid md:place-items-end md:justify-end-end">
-          <div className="grid gap-2">
-            <ToggleButton
-              isActive={action === "export"}
-              onClick={(isActive) => setAction(isActive ? "lock" : "export")}
-              testId={TEST_IDS.exportToggle}
-            >
-              {(isActive) =>
-                isActive ? (
-                  <>
-                    <EyeSlashIcon className="h-5 w-5 mr-2" /> Hide private key
-                  </>
-                ) : (
-                  <>
-                    <EyeIcon className="h-5 w-5 mr-2" /> Show private key
-                  </>
-                )
-              }
-            </ToggleButton>
-            <ToggleButton
-              isActive={action === "delete"}
-              onClick={(isActive) => setAction(isActive ? "lock" : "delete")}
-              variant="danger"
-              testId={TEST_IDS.deleteToggle}
-            >
-              {(isActive) =>
-                isActive ? (
-                  <>
-                    <XCircleIcon className="h-5 w-5 mr-2" />
-                    Cancel
-                  </>
-                ) : (
-                  <>
-                    <TrashIcon className="h-5 w-5 mr-2" />
-                    Delete wallet
-                  </>
-                )
-              }
-            </ToggleButton>
-          </div>
-        </div>
-      </div>
-      {action === "export" && <ExportWalletForm address={address} />}
-      {action === "delete" && <DeleteWalletForm address={address} />}
+        {action === "export" && <ExportWalletForm address={address} />}
+        {action === "delete" && <DeleteWalletForm address={address} />}
+      </Card.Body>
     </Card>
   );
 };

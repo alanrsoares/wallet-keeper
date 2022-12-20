@@ -127,85 +127,87 @@ const ImportWallet: FC<Props> = (props) => {
       >
         <XMarkIcon className="h-4 w-4" />
       </Button>
-      <form
-        className="grid gap-4"
-        onSubmit={handleSubmit(submitHandler)}
-        data-testid={TEST_IDS.form}
-      >
-        {Boolean(error) && (
-          <Alert variant="error">
-            <span className="font-bold">Error:</span>
-            {(error as Error).message}
-          </Alert>
-        )}
-        <h2 className="card-title">Import wallet</h2>
-        <Field
-          label="Display Name"
-          {...register("displayName")}
-          validation={
-            formState.errors.displayName?.message
-              ? {
-                  message: formState.errors.displayName.message,
-                  status: "error",
-                }
-              : undefined
-          }
-          testId={TEST_IDS.displayNameInput}
-        />
-        <Field
-          label="Private Key"
-          type="password"
-          {...register("privateKey")}
-          validation={
-            formState.errors.privateKey?.message
-              ? {
-                  message: formState.errors.privateKey.message,
-                  status: "error",
-                }
-              : undefined
-          }
-          testId={TEST_IDS.privateKeyInput}
-        />
-        <Field
-          label="Password"
-          type="password"
-          {...register("password")}
-          validation={
-            formState.errors.password?.message
-              ? {
-                  message: formState.errors.password.message,
-                  status: "error",
-                }
-              : undefined
-          }
-          testId={TEST_IDS.passwordInput}
-        />
-        <Field
-          label="Confirm Password"
-          type="password"
-          {...register("passwordConfirm")}
-          validation={
-            formState.errors.passwordConfirm?.message
-              ? {
-                  message: formState.errors.passwordConfirm.message,
-                  status: "error",
-                }
-              : undefined
-          }
-          testId={TEST_IDS.passwordConfirmInput}
-        />
-        <Button
-          testId={TEST_IDS.submitButton}
-          variant="info"
-          responsive={true}
-          disabled={!formState.isValid}
-          loading={isLoading}
-          progress={progress}
-          type="submit"
+      <Card.Body>
+        <form
+          className="grid gap-4"
+          onSubmit={handleSubmit(submitHandler)}
+          data-testid={TEST_IDS.form}
         >
-          {isLoading ? "Importing wallet..." : "Import existing wallet"}
-        </Button>
-      </form>
+          {Boolean(error) && (
+            <Alert variant="error">
+              <span className="font-bold">Error:</span>
+              {(error as Error).message}
+            </Alert>
+          )}
+          <h2 className="card-title">Import wallet</h2>
+          <Field
+            label="Display Name"
+            {...register("displayName")}
+            validation={
+              formState.errors.displayName?.message
+                ? {
+                    message: formState.errors.displayName.message,
+                    status: "error",
+                  }
+                : undefined
+            }
+            testId={TEST_IDS.displayNameInput}
+          />
+          <Field
+            label="Private Key"
+            type="password"
+            {...register("privateKey")}
+            validation={
+              formState.errors.privateKey?.message
+                ? {
+                    message: formState.errors.privateKey.message,
+                    status: "error",
+                  }
+                : undefined
+            }
+            testId={TEST_IDS.privateKeyInput}
+          />
+          <Field
+            label="Password"
+            type="password"
+            {...register("password")}
+            validation={
+              formState.errors.password?.message
+                ? {
+                    message: formState.errors.password.message,
+                    status: "error",
+                  }
+                : undefined
+            }
+            testId={TEST_IDS.passwordInput}
+          />
+          <Field
+            label="Confirm Password"
+            type="password"
+            {...register("passwordConfirm")}
+            validation={
+              formState.errors.passwordConfirm?.message
+                ? {
+                    message: formState.errors.passwordConfirm.message,
+                    status: "error",
+                  }
+                : undefined
+            }
+            testId={TEST_IDS.passwordConfirmInput}
+          />
+          <Button
+            testId={TEST_IDS.submitButton}
+            variant="info"
+            responsive={true}
+            disabled={!formState.isValid}
+            loading={isLoading}
+            progress={progress}
+            type="submit"
+          >
+            {isLoading ? "Importing wallet..." : "Import existing wallet"}
+          </Button>
+        </form>
+      </Card.Body>
     </Card>
   );
 };

@@ -35,30 +35,31 @@ const WalletList: FC<PropsWithChildren> = (_props) => {
   return (
     <Card
       className="card-compact md:card-normal md:bg-base-200 -mx-2"
-      bodyClassName="grid gap-4"
       testId={TEST_IDS.container}
     >
-      <Card.Title $as="h2" className="flex justify-between">
-        <span>
-          Wallets{" "}
-          <span className="opacity-80" data-testid={TEST_IDS.walletCount}>
-            ({walletCount})
+      <Card.Body className="grid gap-4">
+        <Card.Title $as="h2" className="flex justify-between">
+          <span>
+            Wallets{" "}
+            <span className="opacity-80" data-testid={TEST_IDS.walletCount}>
+              ({walletCount})
+            </span>
           </span>
-        </span>
-        <ToggleButton
-          isActive={isExpanded}
-          onClick={() => setIsExpanded((x) => !x)}
-        />
-      </Card.Title>
-      {isExpanded && (
-        <ul className="grid gap-4" data-testid={TEST_IDS.walletList}>
-          {state.accountList.map(({ address }) => (
-            <li key={address} className="card bg-base-300">
-              <WalletDetails address={address} />
-            </li>
-          ))}
-        </ul>
-      )}
+          <ToggleButton
+            isActive={isExpanded}
+            onClick={() => setIsExpanded((x) => !x)}
+          />
+        </Card.Title>
+        {isExpanded && (
+          <ul className="grid gap-4" data-testid={TEST_IDS.walletList}>
+            {state.accountList.map(({ address }) => (
+              <li key={address} className="card bg-base-300">
+                <WalletDetails address={address} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card.Body>
     </Card>
   );
 };
