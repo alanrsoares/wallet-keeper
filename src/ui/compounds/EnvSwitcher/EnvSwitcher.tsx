@@ -24,16 +24,26 @@ export const EnvSwitcher: FC<EnvSwitcherProps> = (_props) => {
   }, [networkEnv]);
 
   return (
-    <div className="fixed inline-block top-2 md:top-3 right-1 z-20">
+    <div className="fixed inline-block top-2 md:top-3 right-1 md:right-2 z-20">
       <Dropdown
         value={network}
-        options={ENV_OPTIONS}
         align="end"
-        variant={network === "mainnet" ? "primary" : "info"}
         onChange={(value) => {
           actions.selectNetwork(value === "mainnet" ? "homestead" : "goerli");
         }}
-      />
+      >
+        <Dropdown.Trigger variant={network === "mainnet" ? "primary" : "info"}>
+          {network === "mainnet" ? "Mainnet" : "Testnet"}
+        </Dropdown.Trigger>
+
+        <Dropdown.Content>
+          {ENV_OPTIONS.map((option) => (
+            <Dropdown.Item key={option.value} value={option.value}>
+              {option.label}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Content>
+      </Dropdown>
     </div>
   );
 };

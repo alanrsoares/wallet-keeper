@@ -35,12 +35,16 @@ const InnerTemplate = (args: TemplateProps) => {
 
   return (
     <section className={clsx("grid w-full ", args.wraperClassName)}>
-      <Dropdown
-        {...args}
-        value={value}
-        onChange={setValue}
-        options={DEFAULT_OPTIONS}
-      />
+      <Dropdown {...args} value={value} onChange={setValue}>
+        <Dropdown.Trigger>Dropdown</Dropdown.Trigger>
+        <Dropdown.Content>
+          {DEFAULT_OPTIONS.map((option) => (
+            <Dropdown.Item key={option.value} value={option.value}>
+              {option.label}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Content>
+      </Dropdown>
     </section>
   );
 };
