@@ -4,11 +4,11 @@ import { cva, VariantProps } from "class-variance-authority";
 import { TestableProps } from "~/lib/test-utils";
 import { formatPercentage } from "~/lib/utils";
 
-const variance = cva("btn font-black", {
+const variance = cva("btn", {
   variants: {
     variant: {
       primary: "btn-primary",
-      secondary: "btn-secondary text-black",
+      secondary: "btn-secondary",
       accent: "btn-accent",
       info: "btn-info",
       warning: "btn-warning",
